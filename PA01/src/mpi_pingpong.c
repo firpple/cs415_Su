@@ -16,7 +16,7 @@ int main (int argc, char *argv[])
 int   numtasks, taskid, len;
 char hostname[MPI_MAX_PROCESSOR_NAME];
 int number;
-int iterations = 0;
+int iteration = 0;
 float averageTime = 0;
 struct timeval startTime, endTime, diffTime, totalTime;
 //preprocessing
@@ -44,7 +44,7 @@ if (taskid == MASTER)
 	timeradd(&diffTime, &totalTime, &totalTime); //acculmate diff time
 	iteration += 2;//increment number of iterations
 	averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)/iteration;
-	printf("average travel time %f microseconds\n"); //average printout
+	printf("average travel time %f microseconds\n", averageTime); //average printout
 	//printf("got reply\n");
 }
 else
