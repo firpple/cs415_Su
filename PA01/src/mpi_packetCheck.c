@@ -42,9 +42,10 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 
 	if (taskid == MASTER)
 	{
-		gettimeofday(&startTime, NULL); //start clock
+		
 		for(index = 0; index < iteration ; index++)
 		{
+			gettimeofday(&startTime, NULL); //start clock
 			MPI_Send(numberArray, indexS, MPI_INT, 1, 0, MPI_COMM_WORLD);
 			MPI_Recv(numberArray, indexS, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			gettimeofday(&endTime, NULL); //end clock
