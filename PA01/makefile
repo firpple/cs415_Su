@@ -3,7 +3,7 @@ CC=mpicc
 CXXFLAGS=-Wall
 LIBS=-lpmi
 # feel free to either add files here (for more compilcated src's), or create more vars, or just manually type them in. Up to you.
-FILE=../src/mpi_pingpong.c
+FILE= src/mpi_pingpong.c
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
 OUTPUT=mpi_pingpong
