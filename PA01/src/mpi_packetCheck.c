@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #define  MASTER		0
 #define  SLAVE      1
-#define ARRAYSIZE   10
+#define ARRAYSIZE   100
 
 int main (int argc, char *argv[])
 {
@@ -55,7 +55,7 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 		}
 		averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)/ (iteration*2);
 		//printf("total iterations:%d",iteration *2);
-		printf("Time: %f microseconds for %d\n", averageTime, indexS); //average printout
+		printf("Time: %10.0f microseconds for %d\n", averageTime, indexS); //average printout
 	}
 	else
 	{
