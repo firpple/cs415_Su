@@ -6,6 +6,7 @@
 * LAST REVISED: 03/05/10
 ******************************************************************************/
 #include "mpi.h"
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define  MASTER		0
