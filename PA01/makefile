@@ -16,6 +16,7 @@ $(OUTPUT): $(FILE)
 # use this to run
 run: $(OUTPUT)
 	srun -n2 -N1 $(OUTPUT)
+	srun -n2 -N2 $(OUTPUT)
 
 clean:
 	-@if rm $(OUTPUT) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
