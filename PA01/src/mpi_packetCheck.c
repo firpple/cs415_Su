@@ -45,8 +45,8 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 		gettimeofday(&startTime, NULL); //start clock
 		for(index = 0; index < iteration ; index++)
 		{
-			MPI_Send(numberArray, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
-			MPI_Recv(numberArray, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Send(numberArray, indexS, MPI_INT, 1, 0, MPI_COMM_WORLD);
+			MPI_Recv(numberArray, indexS, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			gettimeofday(&endTime, NULL); //end clock
 
 			timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -55,14 +55,14 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 		}
 		averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)/ (iteration*2);
 		//printf("total iterations:%d",iteration *2);
-		printf("Time: %f microseconds\n", averageTime); //average printout
+		printf("Time: %f microseconds for %d\n", averageTime, indexS); //average printout
 	}
 	else
 	{
 		for(index = 0; index < iteration ; index++)
 		{
-			MPI_Recv(numberArray, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-			MPI_Send(numberArray, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+			MPI_Recv(numberArray, indexS, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Send(numberArray, indexS, MPI_INT, 0, 0, MPI_COMM_WORLD);
 		}
 	}
 }
