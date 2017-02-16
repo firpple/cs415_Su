@@ -53,7 +53,7 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 
 			timersub(&endTime, &startTime, &diffTime); //calc diff time
 			timeradd(&diffTime, &totalTime, &totalTime); //acculmate diff time
-			elapsedTime = (diffTime.tv_sec * 1000000 + diffTime.tv_usec)
+			elapsedTime = (diffTime.tv_sec * 1000000 + diffTime.tv_usec);
 			printf("%f,",elapsedTime );
 
 		}
@@ -65,7 +65,7 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 	}
 	else
 	{
-		for(index = 0; index < iteration ; index++)
+		for(index = 0; index < ITERATIONS ; index++)
 		{
 			MPI_Recv(numberArray, indexS, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			MPI_Send(numberArray, indexS, MPI_INT, 0, 0, MPI_COMM_WORLD);
