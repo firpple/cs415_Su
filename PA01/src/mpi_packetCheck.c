@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #define  MASTER		0
 #define  SLAVE      1
-#define ARRAYSIZE   300
+#define ARRAYSIZE   10000
+#define ITERATIONS  50
 
 int main (int argc, char *argv[])
 {
@@ -19,9 +20,9 @@ int   numtasks, taskid, len;
 char hostname[MPI_MAX_PROCESSOR_NAME];
 int number;
 int numberArray[ARRAYSIZE];
-int iteration = 25;
 int index,indexS;
 float averageTime = 0;
+float elapsedTime = 0;
 struct timeval startTime, endTime, diffTime, totalTime;
 //preprocessing
 timerclear(&totalTime);
@@ -43,7 +44,7 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 	if (taskid == MASTER)
 	{
 		
-		for(index = 0; index < iteration ; index++)
+		for(index = 0; index < ITERATIONS ; index++)
 		{
 			gettimeofday(&startTime, NULL); //start clock
 			MPI_Send(numberArray, indexS, MPI_INT, 1, 0, MPI_COMM_WORLD);
@@ -52,12 +53,15 @@ for(indexS = 0; indexS < ARRAYSIZE; indexS++)
 
 			timersub(&endTime, &startTime, &diffTime); //calc diff time
 			timeradd(&diffTime, &totalTime, &totalTime); //acculmate diff time
+			elapsedTime = (diffTime.tv_sec * 1000000 + diffTime.tv_usec)
+			printf("%f,",elapsedTime );
 
 		}
-		//averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)/ (iteration*2);
-		averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)
-		//printf("total iterations:%d",iteration *2);
-		printf("Time: %10.0f microseconds for %d\n", averageTime, indexS); //average printout
+		printf("\n");
+		//averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec)/ (ITERATIONS*2);
+		//averageTime = (totalTime.tv_sec * 1000000 + totalTime.tv_usec);
+		//printf("total ITERATIONS:%d",ITERATIONS *2);
+		//printf("Time: %10.0f microseconds for %d\n", averageTime, indexS); //average printout
 	}
 	else
 	{

@@ -32,16 +32,16 @@ MPI_Comm_rank(MPI_COMM_WORLD,&taskid);
 MPI_Get_processor_name(hostname, &len);
 
 
-//printf ("Hello from task %d on %s!\n", taskid, hostname);
+printf ("Hello from task %d on %s!\n", taskid, hostname);
 if (taskid == MASTER)
 {
-	number = -1;
+	
 	gettimeofday(&startTime, NULL); //start clock
 	for(index = 0; index < iteration ; index++)
 	{
-		MPI_Send(&number, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+		MPI_Send(&number, 1, MPI_INT, SLAVE, 0, MPI_COMM_WORLD);
 		//printf("finish send\n");
-		MPI_Recv(&number, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Recv(&number, 1, MPI_INT, SLAVE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 		gettimeofday(&endTime, NULL); //end clock
 
 		timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -57,9 +57,9 @@ else
 {
 	for(index = 0; index < iteration ; index++)
 	{
-		MPI_Recv(&number, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Recv(&number, 1, MPI_INT, MASTER, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 		//printf("recieved packet\n");
-		MPI_Send(&number, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+		MPI_Send(&number, 1, MPI_INT, MASTER, 0, MPI_COMM_WORLD);
 	}
 }
 MPI_Finalize();
