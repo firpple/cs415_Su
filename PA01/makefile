@@ -25,4 +25,4 @@ run: $(OUTPUTPINGPONG) $(OUTPUTTIMING):
     sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTPUTPINGPONG) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTPUTPINGPONG) $(OUTPUTTIMING) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi

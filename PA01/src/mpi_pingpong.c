@@ -5,7 +5,7 @@
 *   send and mpi receive for a single message. The ellapsed time is
 *   measured in microseconds
 * AUTHOR: Evan Su
-* LAST REVISED: 02/15/17
+* LAST REVISED: 02/19/17
 ******************************************************************************/
 #include "mpi.h"
 #include <sys/time.h>
