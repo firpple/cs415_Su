@@ -19,10 +19,10 @@ $(OUTPUTTIMING): $(FILETIMING)
 	$(CC) $(CXXFLAGS) -o $(OUTPUTTIMING) $(FILETIMING) $(LIBS)
 
 # use this to run
-run: $(OUTPUTPINGPONG) $(OUTPUTTIMING):
+run: $(OUTPUTPINGPONG) $(OUTPUTTIMING)
 	sbatch One_box.sh
-    sbatch Two_box.sh
-    sbatch Timing.sh
+	sbatch Two_box.sh
+	sbatch Timing.sh
 
 clean:
 	-@if rm $(OUTPUTPINGPONG) $(OUTPUTTIMING) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
