@@ -4,11 +4,11 @@ CXXFLAGS=-Wall
 LIBS=-lpmi
 # feel free to either add files here (for more compilcated src's), or create more vars, or just manually type them in. Up to you.
 FILEPINGPONG= src/mpi_pingpong.c
-FILETIMING= src/mpi_packetChecker.c
+FILETIMING= src/mpi_packetCheck.c
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
 OUTPUTPINGPONG=mpi_pingpong
-OUTPUTTIMING=mpi_packetChecker
+OUTPUTTIMING=mpi_packetCheck
 
 all: $(OUTPUTPINGPONG) $(OUTPUTTIMING)
 
