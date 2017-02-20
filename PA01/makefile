@@ -3,20 +3,26 @@ CC=mpicc
 CXXFLAGS=-Wall
 LIBS=-lpmi
 # feel free to either add files here (for more compilcated src's), or create more vars, or just manually type them in. Up to you.
-FILE= src/mpi_pingpong.c
+FILEPINGPONG= src/mpi_pingpong.c
+FILETIMING= src/mpi_packetChecker.c
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
-OUTPUT=mpi_pingpong
+OUTPUTPINGPONG=mpi_pingpong
+OUTPUTTIMING=mpi_packetChecker
 
-all: $(OUTPUT)
+all: $(OUTPUTPINGPONG) $(OUTPUTTIMING)
 
-$(OUTPUT): $(FILE)
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) $(FILE) $(LIBS)
+$(OUTPUTPINGPONG): $(FILEPINGPONG)
+	$(CC) $(CXXFLAGS) -o $(OUTPUTPINGPONG) $(FILEPINGPONG) $(LIBS)
+
+$(OUTPUTTIMING): $(FILETIMING)
+	$(CC) $(CXXFLAGS) -o $(OUTPUTTIMING) $(FILETIMING) $(LIBS)
 
 # use this to run
-run: $(OUTPUT)
-	srun -n2 -N1 $(OUTPUT)
-	srun -n2 -N2 $(OUTPUT)
+run: $(OUTPUTPINGPONG) $(OUTPUTTIMING):
+	sbatch One_box.sh
+    sbatch Two_box.sh
+    sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTPUT) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTPUTPINGPONG) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
