@@ -14,10 +14,10 @@
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
-#define  ARRAYSIZE  10000
+#define  ARRAYSIZE  10
 #define  ITERATIONS 50
 #define  SECTOMICRO 1000000
-
+#define  SIZE 2
 
 int main (int argc, char *argv[])
 {
@@ -49,9 +49,9 @@ int main (int argc, char *argv[])
 	    {
 		    gettimeofday(&startTime, NULL); //start clock
             //send to slave
-		    MPI_Send(numberArray, 1, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD);
+		    MPI_Send(numberArray, SIZE, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD);
             //recieve from slave
-		    MPI_Recv(numberArray, 1, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD,
+		    MPI_Recv(numberArray, SIZE, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
 		    gettimeofday(&endTime, NULL); //end clock
 
@@ -71,10 +71,10 @@ int main (int argc, char *argv[])
 	    for(index = 0; index < ITERATIONS ; index++)
 	    {
             //send to slave
-		    MPI_Recv(numberArray, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD,
+		    MPI_Recv(numberArray, SIZE, MPI_INT, MASTER, TAG, MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
             //recieve from slave
-		    MPI_Send(numberArray, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
+		    MPI_Send(numberArray, SIZE, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
 	    }
 	
 }
