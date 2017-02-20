@@ -49,9 +49,9 @@ int main (int argc, char *argv[])
 	    {
 		    gettimeofday(&startTime, NULL); //start clock
             //send to slave
-		    MPI_Send(numberArray, indexS, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD);
+		    MPI_Send(numberArray, 1, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD);
             //recieve from slave
-		    MPI_Recv(numberArray, indexS, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD,
+		    MPI_Recv(numberArray, 1, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
 		    gettimeofday(&endTime, NULL); //end clock
 
@@ -71,10 +71,10 @@ int main (int argc, char *argv[])
 	    for(index = 0; index < ITERATIONS ; index++)
 	    {
             //send to slave
-		    MPI_Recv(numberArray, indexS, MPI_INT, MASTER, TAG, MPI_COMM_WORLD,
+		    MPI_Recv(numberArray, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD,
                     MPI_STATUS_IGNORE);
             //recieve from slave
-		    MPI_Send(numberArray, indexS, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
+		    MPI_Send(numberArray, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
 	    }
 	
 }
