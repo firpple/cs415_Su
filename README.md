@@ -8,4 +8,4 @@ Quoted from user cs415-615
 ##PA0: Hello World
 Simple MPI program that prints out hello world from each process
 ##PA1: Ping Pong Timing
-A MPI program that measures the time for a message to travel from one process to another.
+MPI programs that measures the time for a message to travel from one process to another.

@@ -2,6 +2,9 @@
 Evan Su
 
 # PA1: "Ping Pong"
+MPI programs that measures the time for a message to travel from one process to another.
+## Files in PA1
+
 
 # Dependencies, Building, and Running
 
