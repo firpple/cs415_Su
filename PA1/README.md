@@ -18,7 +18,23 @@ Quoted from user cs415-615
 >```
 
 ## Building and Running
-There is one option to build this project, Makefile.
+The program can be build two ways: Manually compile them with mpicc or use the makefile
+The program must be ran using sbatch. 
+### mpicc Instructions
+```bash
+mpicc -Wall -o mpi_pingpong src/mpi_pingpong.c -lpmi
+mpicc -Wall -o mpi_packetCheck src/mpi_packetCheck.c -lpmi
+sbatch One_box.sh
+sbatch Two_box.sh
+sbatch Timing.sh
+```
+
+
+To clean the files, run this command:
+```bash
+rm mpi_pingpong mpi_packetCheck
+```
+
 
 ### Makefile Instructions
 The makefile works as expected and must be updated with new files added in.
