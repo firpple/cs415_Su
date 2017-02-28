@@ -5,6 +5,8 @@ Evan Su
 MPI programs that measures the time for a message to travel from one process to another.
 ## Files in PA1
 
+All Source code is located in the src folder
+Batch scripts and makefile is located in the root folder
 
 # Dependencies, Building, and Running
 
@@ -21,7 +23,7 @@ Quoted from user cs415-615
 >```
 
 ## Building and Running
-The program can be build two ways: Manually compile them with mpicc or use the makefile
+The program can be build two ways: Manually compile them with mpicc or use the makefile.
 The program must be ran using sbatch. 
 ### mpicc Instructions
 ```bash
