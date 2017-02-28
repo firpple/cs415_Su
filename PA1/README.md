@@ -5,8 +5,9 @@ Evan Su
 MPI programs that measures the time for a message to travel from one process to another.
 ## Files in PA1
 
-All Source code is located in the src folder
-Batch scripts and makefile is located in the root folder
+All Source code is located in the src folder.
+
+Batch scripts and makefile is located in the root folder.
 
 # Dependencies, Building, and Running
 
