@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <cstring>
+#include <string.h>
 
 #ifdef _WIN32
   #define WRITE_FLAGS "wb"
