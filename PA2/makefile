@@ -13,15 +13,15 @@ OUTPUTTIMING=mpi_packetCheck
 OUTMANDELSEQ = mpi_mandelSeq
 FILEMANDELSEQ = src/mpi_mandelSeq.c
 
-OUTMANDELULT = mpi_mandelUtility.o
-FILEMANDELULT = src/mpi_mandelUtility.c
+OUTMANDELUTL = mpi_mandelUtility.o
+FILEMANDELUTL = src/mpi_mandelUtility.c
 all: $(OUTMANDELSEQ)
 
-$(OUTMANDELSEQ): $(FILEMANDELSEQ) $(OUTMANDELULT)
+$(OUTMANDELSEQ): $(FILEMANDELSEQ) $(OUTMANDELUTL)
 	$(CC) $(CXXFLAGS) -o $(OUTMANDELSEQ) $(FILEMANDELSEQ) $(OUTMANDELUTL) $(LIBS)
 
-$(OUTMANDELULT): $(FILEMANDELULT)
-	$(CC) $(CXXFLAGS) -c $(FILEMANDELULT)
+$(OUTMANDELUTL): $(FILEMANDELUTL)
+	$(CC) $(CXXFLAGS) -c $(FILEMANDELUTL)
 
 # use this to run
 #run: $(OUTPUTPINGPONG) $(OUTPUTTIMING)
@@ -30,4 +30,4 @@ $(OUTMANDELULT): $(FILEMANDELULT)
 #	sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTMANDELULT) $(OUTMANDELSEQ) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTMANDELUTL) $(OUTMANDELSEQ) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi

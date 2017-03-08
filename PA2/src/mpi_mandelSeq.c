@@ -8,7 +8,7 @@
 * LAST REVISED: 02/19/17
 ******************************************************************************/
 #include "mpi.h"
-#include "mpi_mandelUltility.h"
+#include "mpi_mandelUtility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
