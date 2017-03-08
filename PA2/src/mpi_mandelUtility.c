@@ -8,8 +8,25 @@
 #endif
 
 
-bool calc_Pixel(struct complex z)
+int calc_Pixel(struct complex c)
 {
+    int count, max_iter;
+    struct complex z;
+    float temp, lengthsq;
+    max_iter = 256;
+    z.real = 0;
+    z.imag = 0;
+    count = 0;
+
+    do
+    {
+        temp = z.real * z.real - z.imag * z.imag + c.real;
+        z.imag = 2 * z.real * z.real + c.imag;
+        z.real = temp;
+        count++;
+    }while((lengthsq < 4.00)&& (count < max_iter));
+
+    return count;
 
 }
 

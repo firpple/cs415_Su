@@ -4,10 +4,10 @@
 struct complex
 {
     float real;
-    float imagine;
+    float imag;
 };
 
-bool calc_Pixel(struct complex z);
+int calc_Pixel(struct complex);
 
 
 
