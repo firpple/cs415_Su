@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 #ifdef _WIN32
   #define WRITE_FLAGS "wb"
 #else
@@ -30,11 +29,15 @@ int calc_Pixel(struct complex c)
 
 }
 
-bool pim_write_black_and_white(const char * const fileName,
+int pim_write_black_and_white(const char * const fileName,
                                const int width,
                                const int height,
                                const unsigned char * pixels)
 {
+  
+  const int true = 1;
+  const int false = 0;
+
   FILE * fp = fopen(fileName, WRITE_FLAGS);
 
   if (!fp) return false;
@@ -44,25 +47,27 @@ bool pim_write_black_and_white(const char * const fileName,
 
   return true;
 }
-bool pim_write_black_and_white(const char * const fileName,
+int pim_write_black_and_white(const char * const fileName,
                                const int width,
                                const int height,
                                const unsigned char ** pixels)
 {
   int i;
-  bool ret;
-  unsigned char * t = new unsigned char[width * height];
-
+  int ret;
+  unsigned char * t = (unsigned char*) malloc(width * height * sizeof(char));
+  
   for (i = 0; i < height; ++i) memcpy(t + width * i, pixels[i], width);
   ret = pim_write_black_and_white(fileName, width, height, t);
-  delete [] t;
+  free(t);
   return ret;
 }
-bool pim_write_color(const char * const fileName,
+int pim_write_color(const char * const fileName,
                      const int width,
                      const int height,
                      const unsigned char * pixels)
 {
+  const int true = 1;
+  const int false = 0;
   FILE * fp = fopen(fileName, WRITE_FLAGS);
 
   if (!fp) return false;
@@ -72,21 +77,22 @@ bool pim_write_color(const char * const fileName,
 
   return true;
 }
-bool pim_write_color(const char * const fileName,
+int pim_write_color(const char * const fileName,
                      const int width,
                      const int height,
                      const unsigned char * const * pixels)
 {
   int i;
-  bool ret;
-  unsigned char * t = new unsigned char[width * height * 3];
+  int ret;
+  unsigned char * t = (unsigned char*) malloc(width * height * sizeof(char) * 3);;
 
   for (i = 0; i < height; ++i) memcpy(t + width * i * 3, pixels[i], width * 3);
   ret = pim_write_color(fileName, width, height, t);
-  delete [] t;
+  free(t);
   return ret;
+  
 }
-bool pim_write_color(const char * const fileName,
+int pim_write_color(const char * const fileName,
                      const int width,
                      const int height,
                      const unsigned char * red,
@@ -94,8 +100,8 @@ bool pim_write_color(const char * const fileName,
                      const unsigned char * blue)
 {
   int i, j, ind;
-  bool ret;
-  unsigned char * p, * t = new unsigned char[width * height * 3];
+  int ret;
+  unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);
 
   p = t;
   for (i = 0; i < height; ++i)
@@ -108,10 +114,10 @@ bool pim_write_color(const char * const fileName,
     }
   }
   ret = pim_write_color(fileName, width, height, t);
-  delete [] t;
+  free(t);
   return ret;
 }
-bool pim_write_color(const char * const fileName,
+int pim_write_color(const char * const fileName,
                      const int width,
                      const int height,
                      const unsigned char ** red,
@@ -119,9 +125,9 @@ bool pim_write_color(const char * const fileName,
                      const unsigned char ** blue)
 {
   int i, j, ind;
-  bool ret;
+  int ret;
   const unsigned char * r, * g, * b;
-  unsigned char * p, * t = new unsigned char[width * height * 3];
+  unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);;
 
   p = t;
   for (i = 0; i < height; ++i)
@@ -137,6 +143,6 @@ bool pim_write_color(const char * const fileName,
     }
   }
   ret = pim_write_color(fileName, width, height, t);
-  delete [] t;
+  free(t);
   return ret;
 }
