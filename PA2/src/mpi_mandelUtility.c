@@ -17,7 +17,7 @@ int calc_Pixel(struct complex c)
 {
     int count, max_iter;
     struct complex z;
-    float temp, lengthsq;
+    float temp, lengthsq = 0;
     max_iter = 256;
     z.real = 0;
     z.imag = 0;
