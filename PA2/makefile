@@ -11,10 +11,10 @@ OUTPUTPINGPONG=mpi_pingpong
 OUTPUTTIMING=mpi_packetCheck
 
 OUTMANDELSEQ = mpi_mandelSeq
-FILEMANDELSEQ = src/mpi_mandelSequential
+FILEMANDELSEQ = src/mpi_mandelSeq.c
 
 OUTMANDELULT = mpi_mandelUtility.o
-FILEMANDELULT = src/mpi_mandelUtility
+FILEMANDELULT = src/mpi_mandelUtility.c
 all: $(OUTMANDELSEQ)
 
 $(OUTMANDELSEQ): $(FILEMANDELSEQ) $(FILEMANDELULT)
