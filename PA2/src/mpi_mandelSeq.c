@@ -8,6 +8,7 @@
 * LAST REVISED: 02/19/17
 ******************************************************************************/
 #include "mpi.h"
+#include "mpi_mandelUltility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +19,9 @@
 #define  ITERATIONS 50
 #define  SECTOMICRO 1000000
 
+
+void masterCode();
+void slaveCode();
 
 int main (int argc, char *argv[])
 {
@@ -40,52 +44,46 @@ int main (int argc, char *argv[])
     //printf ("Hello from task %d on %s!\n", taskid, hostname);
 
     //Iterator indexs is for message size
-    for(indexS = 0; indexS < ARRAYSIZE; indexS++)
+    timerclear(&diffTime);
+
+    if (taskid == MASTER)
     {
-	    timerclear(&diffTime);
+	    //master code
+        //
+	    gettimeofday(&startTime, NULL); //start clock
+        //send to slave
+	    masterCode();
 
-	    if (taskid == MASTER)
-	    {
-		    //master code
-            //Iterator index is for sending the same size message multiple times.
-		    for(index = 0; index < ITERATIONS ; index++)
-		    {
-			    gettimeofday(&startTime, NULL); //start clock
-                //send to slave
-			    MPI_Send(numberArray, indexS, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD);
-                //recieve from slave
-			    MPI_Recv(numberArray, indexS, MPI_INT, SLAVE, TAG, MPI_COMM_WORLD,
-                        MPI_STATUS_IGNORE);
-			    gettimeofday(&endTime, NULL); //end clock
+	    timersub(&endTime, &startTime, &diffTime); //calc diff time
+        //converts time struct to float
+	    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+        //prints result in CSV format
+	    printf("%f,",elapsedTime );
+        printf("\n");
+    }
+    else
+    {
+        //slave code
+        //this code does nothing, placeholder for parallel.
+	    slaveCode();
+    }
 
-			    timersub(&endTime, &startTime, &diffTime); //calc diff time
-                //converts time struct to float
-			    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-                //prints result in CSV format
-			    printf("%f,",elapsedTime );
-
-		    }
-		    printf("\n");
-	    }
-	    else
-	    {
-            //slave code
-            //Iterator index is for sending the same size message multiple times.
-		    for(index = 0; index < ITERATIONS ; index++)
-		    {
-                //send to slave
-			    MPI_Recv(numberArray, indexS, MPI_INT, MASTER, TAG, MPI_COMM_WORLD,
-                        MPI_STATUS_IGNORE);
-                //recieve from slave
-			    MPI_Send(numberArray, indexS, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
-		    }
-	    }
-}
-
-MPI_Finalize();
-return 0;
+    MPI_Finalize();
+    return 0;
 
 
 
 }
+
+
+void masterCode()
+{
+    printf("hello from master");
+}
+
+void slaveCode()
+{
+    printf("hello from slave");
+}
+
 
