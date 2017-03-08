@@ -7,6 +7,11 @@
   #define WRITE_FLAGS "w"
 #endif
 
+struct complex
+{
+    float real;
+    float imag;
+};
 
 int calc_Pixel(struct complex c)
 {
@@ -100,7 +105,7 @@ int pim_write_color2(const char * const fileName,
                      const unsigned char * green,
                      const unsigned char * blue)
 {
-  int i, j, ind;
+  int i, j;
   int ret;
   unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);
 
@@ -125,7 +130,7 @@ int pim_write_color3(const char * const fileName,
                      const unsigned char ** green,
                      const unsigned char ** blue)
 {
-  int i, j, ind;
+  int i, j;
   int ret;
   const unsigned char * r, * g, * b;
   unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);;

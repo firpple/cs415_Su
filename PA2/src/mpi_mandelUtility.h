@@ -1,11 +1,6 @@
 #ifndef __PIMFUNCS_H__
 #define __PIMFUNCS_H__
-
-struct complex
-{
-    float real;
-    float imag;
-};
+typedef struct complex;
 
 int calc_Pixel(struct complex);
 
