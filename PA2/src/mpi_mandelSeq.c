@@ -87,18 +87,28 @@ void masterCode(int width, int height)
     image = (char**)malloc(height* sizeof(char*));
     for(indexOut = 0; indexOut < height; indexOut++)
     {
-        image = (char*)malloc(width * sizeof(char));
+        image[indexOut] = (char*)malloc(width * sizeof(char));
     }
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         for(indexIn = 0; indexIn < width; indexIn++)
         {
-            
+            number.real = -2. + indexOut/((float)height)*4.;
+            number.imag = -2. + indexIn/((float)width)*4.;
+            image[IndexOut][indexIn] = calc_Pixel(number);
         }
     }
+    
+    pim_write_color3("outimage.pim", width, height,
+                     image, image, image)
+
+    for(indexOut = 0; indexOut < height; indexOut++)
+    {
+        free(image[indexOut]);
+    }
+    free(image);
+
     printf("hello from master");
-
-
 
 }
 
