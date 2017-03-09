@@ -171,8 +171,8 @@ int pim_write_color4(const char * const fileName,
     for (j = 0; j < width; ++j)
     {
       *(p++) = 0;
-      *(p++) = *(g++);
-      *(p++) = *(b++);
+      *(p++) = (*(g++) * 5) % 256;
+      *(p++) = (*(b++) * 5) % 256;
     }
   }
   ret = pim_write_color(fileName, width, height, t);
