@@ -100,9 +100,9 @@ void masterCode(int width, int height)
     }
     
     pim_write_color3("outimage.pim", width, height,
-                    (unsigned char**)image,
-                    (unsigned char**)image, 
-                    (unsigned char**)image);
+                    (const unsigned char**)image,
+                    (const unsigned char**)image, 
+                    (const unsigned char**)image);
 
     for(indexOut = 0; indexOut < height; indexOut++)
     {
