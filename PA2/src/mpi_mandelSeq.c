@@ -96,7 +96,7 @@ void masterCode(int width, int height)
             number.real = -2. + indexOut/((float)height)*4.;
             number.imag = -2. + indexIn/((float)width)*4.;
             image[indexOut][indexIn] = calc_Pixel(number);
-            printf("%d" image[indexOut][indexIn]);
+            printf("%d", image[indexOut][indexIn]);
         }
         printf("\n");
     }
