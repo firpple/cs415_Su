@@ -95,12 +95,14 @@ void masterCode(int width, int height)
         {
             number.real = -2. + indexOut/((float)height)*4.;
             number.imag = -2. + indexIn/((float)width)*4.;
-            image[IndexOut][indexIn] = calc_Pixel(number);
+            image[indexOut][indexIn] = calc_Pixel(number);
         }
     }
     
     pim_write_color3("outimage.pim", width, height,
-                     image, image, image)
+                    (unsigned char**)image,
+                    (unsigned char**)image, 
+                    (unsigned char**)image);
 
     for(indexOut = 0; indexOut < height; indexOut++)
     {
