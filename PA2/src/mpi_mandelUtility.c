@@ -7,11 +7,7 @@
   #define WRITE_FLAGS "w"
 #endif
 
-struct complex
-{
-    float real;
-    float imag;
-};
+
 
 int calc_Pixel(struct complex c)
 {

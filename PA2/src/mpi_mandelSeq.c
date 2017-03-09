@@ -20,18 +20,20 @@
 #define  SECTOMICRO 1000000
 
 
-void masterCode();
-void slaveCode();
+void masterCode(int, int);
+void slaveCode(int, int);
 
 int main (int argc, char *argv[])
 {
     //preprocessing
     int numtasks, taskid, len;
-    int numberArray[ARRAYSIZE];
-    int index,indexS;
+    int displayWidth, displayHeight;
     char hostname[MPI_MAX_PROCESSOR_NAME];
     float elapsedTime = 0;
     struct timeval startTime, endTime, diffTime;
+    displayWidth = 500;
+    displayHeight = 500;
+
     timerclear(&diffTime);
 
     //parallel start
@@ -52,7 +54,7 @@ int main (int argc, char *argv[])
         //
 	    gettimeofday(&startTime, NULL); //start clock
         //send to slave
-	    masterCode();
+	    masterCode(displayWidth, displayHeight);
 
 	    timersub(&endTime, &startTime, &diffTime); //calc diff time
         //converts time struct to float
@@ -65,7 +67,7 @@ int main (int argc, char *argv[])
     {
         //slave code
         //this code does nothing, placeholder for parallel.
-	    slaveCode();
+	    slaveCode(displayWidth, displayHeight);
     }
 
     MPI_Finalize();
@@ -76,12 +78,31 @@ int main (int argc, char *argv[])
 }
 
 
-void masterCode()
+void masterCode(int width, int height)
 {
+    char **image;
+    int indexOut, indexIn;
+    struct complex number;
+
+    image = (char**)malloc(height* sizeof(char*));
+    for(indexOut = 0; indexOut < height; indexOut++)
+    {
+        image = (char*)malloc(width * sizeof(char));
+    }
+    for(indexOut = 0; indexOut < height; indexOut++)
+    {
+        for(indexIn = 0; indexIn < width; indexIn++)
+        {
+            
+        }
+    }
     printf("hello from master");
+
+
+
 }
 
-void slaveCode()
+void slaveCode(int width, int height)
 {
     printf("hello from slave");
 }
