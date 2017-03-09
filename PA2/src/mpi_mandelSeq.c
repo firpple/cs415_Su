@@ -31,8 +31,8 @@ int main (int argc, char *argv[])
     char hostname[MPI_MAX_PROCESSOR_NAME];
     float elapsedTime = 0;
     struct timeval startTime, endTime, diffTime;
-    displayWidth = 500;
-    displayHeight = 500;
+    displayWidth = 5000;
+    displayHeight = 3000;
 
     timerclear(&diffTime);
 
