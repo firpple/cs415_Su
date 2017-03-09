@@ -83,7 +83,7 @@ int pim_write_color(const char * const fileName,
 int pim_write_color1(const char * const fileName,
                      const int width,
                      const int height,
-                     const unsigned char * const * pixels)
+                     const unsigned char  ** pixels)
 {
   int i;
   int ret;
