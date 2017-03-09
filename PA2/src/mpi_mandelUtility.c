@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "mpi_mandelUtility.h"
 #ifdef _WIN32
   #define WRITE_FLAGS "wb"
 #else
