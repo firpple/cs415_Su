@@ -23,8 +23,9 @@ int calc_Pixel(struct complex c)
     do
     {
         temp = z.real * z.real - z.imag * z.imag + c.real;
-        z.imag = 2 * z.real * z.real + c.imag;
+        z.imag = 2 * z.real * z.imag + c.imag;
         z.real = temp;
+        lengthsq = z.real *z.real + z.imag * z.imag;
         count++;
     }while((lengthsq < 4.00)&& (count < max_iter));
 
