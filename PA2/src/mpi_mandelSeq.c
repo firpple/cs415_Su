@@ -93,12 +93,12 @@ void masterCode(int width, int height)
     {
         for(indexIn = 0; indexIn < width; indexIn++)
         {
-            number.real = -2. + indexOut/((float)height)*4.;
-            number.imag = -2. + indexIn/((float)width)*4.;
+            number.real = -2. + indexOut/((float)indexOut)*4.;
+            number.imag = -2. + indexIn/((float)indexIn)*4.;
             image[indexOut][indexIn] = calc_Pixel(number);
-            printf("%d", image[indexOut][indexIn]);
+            //printf("%d", image[indexOut][indexIn]);
         }
-        printf("\n");
+        //printf("\n");
     }
     
     pim_write_color3("outimage.pim", width, height,
