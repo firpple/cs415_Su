@@ -150,3 +150,32 @@ int pim_write_color3(const char * const fileName,
   free(t);
   return ret;
 }
+
+int pim_write_color4(const char * const fileName,
+                     const int width,
+                     const int height,
+                     const unsigned char ** red,
+                     const unsigned char ** green,
+                     const unsigned char ** blue)
+{
+  int i, j;
+  int ret;
+  const unsigned char * r, * g, * b;
+  unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);;
+
+  p = t;
+  for (i = 0; i < height; ++i)
+  {
+    g = green[i];
+    b = blue[i];
+    for (j = 0; j < width; ++j)
+    {
+      *(p++) = 0;
+      *(p++) = *(g++);
+      *(p++) = *(b++);
+    }
+  }
+  ret = pim_write_color(fileName, width, height, t);
+  free(t);
+  return ret;
+}

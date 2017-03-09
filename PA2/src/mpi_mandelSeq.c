@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
     float elapsedTime = 0;
     struct timeval startTime, endTime, diffTime;
     displayWidth = 5000;
-    displayHeight = 3000;
+    displayHeight = 5000;
 
     timerclear(&diffTime);
 
@@ -96,12 +96,12 @@ void masterCode(int width, int height)
             number.real = -2. + indexOut/((float)height)*4.;
             number.imag = -2. + indexIn/((float)width)*4.;
             image[indexOut][indexIn] = (char) (calc_Pixel(number) % 256);
-            printf("%d", image[indexOut][indexIn]);
+            //printf("%d", image[indexOut][indexIn]);
         }
-        printf("\n");
+        //printf("\n");
     }
     
-    pim_write_color3("outimage.pim", width, height,
+    pim_write_color4("outimage.pim", width, height,
                     (const unsigned char**)image,
                     (const unsigned char**)image, 
                     (const unsigned char**)image);

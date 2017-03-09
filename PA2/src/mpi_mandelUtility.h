@@ -41,4 +41,11 @@ int pim_write_color3(const char * const fileName,
                      const unsigned char ** green,
                      const unsigned char ** blue);
 
+int pim_write_color4(const char * const fileName,
+                     const int width,
+                     const int height,
+                     const unsigned char ** red,
+                     const unsigned char ** green,
+                     const unsigned char ** blue);
+
 #endif
