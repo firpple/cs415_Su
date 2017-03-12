@@ -15,8 +15,6 @@
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
-#define  ARRAYSIZE  10000
-#define  ITERATIONS 50
 #define  SECTOMICRO 1000000
 
 
@@ -25,14 +23,22 @@ void slaveCode(int, int);
 
 int main (int argc, char *argv[])
 {
+    //argc checker
+    if(argc < 2)
+    {
+        printf("not enough arguments\n");
+        printf("proper usage:\n srun mpi_mandelSeq <width> <height> <mpi arguements>");
+        return 0;
+    }
+    
     //preprocessing
     int numtasks, taskid, len;
     int displayWidth, displayHeight;
     char hostname[MPI_MAX_PROCESSOR_NAME];
     float elapsedTime = 0;
     struct timeval startTime, endTime, diffTime;
-    displayWidth = 5000;
-    displayHeight = 5000;
+    displayWidth = atoi(argv[1]);
+    displayHeight = atoi(argv[2]);
 
     timerclear(&diffTime);
 
