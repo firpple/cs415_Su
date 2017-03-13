@@ -5,4 +5,4 @@
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA2/build/mpi_mandelDynamic 5000 6000
+srun ~/cs415_Su/PA2/build/mpi_mandelDynamic 5000 6000 pizza%J.out
