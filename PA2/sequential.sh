@@ -5,4 +5,4 @@
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA2/mpi_mandelSeq
+srun ~/cs415_Su/PA2/mpi_mandelSeq 5000 6000
