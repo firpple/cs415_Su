@@ -81,7 +81,10 @@ int main (int argc, char *argv[])
  *  Brief: Mandelbrot code for the master node
  *  
  *  Detail: The master node will create an image char array.
- *          The image array is filled using calc pixel.
+ *          Row numbers are sent to each of the slaves.
+ *          Master waits for slaves to give back the row
+ *          Masters sends a uncomplete row to slave when it recieved one
+ *          Repeat until all rows are completed
  *          The image array is then written to a file.
  *  
  */
@@ -89,7 +92,7 @@ void masterCode(int width, int height, int rank, int nodes)
 {
     //initialize variables
     char **image;
-    int indexOut, indexIn;
+    int indexOut;
     int rowNumber, nextRow;
     //int masterRow;
     int finish = NOTDONE;
@@ -119,7 +122,6 @@ void masterCode(int width, int height, int rank, int nodes)
     nextRow = 0;
     for(indexOut = 1; indexOut < nodes; indexOut++)
     {        
-        printf("sending %d to %d\n", nextRow, indexOut);
         MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
         nextRow++;
         if(nextRow >= height)
@@ -131,23 +133,20 @@ void masterCode(int width, int height, int rank, int nodes)
     while(finish == NOTDONE)
     {
         //recv from slave
-        printf("waiting for row\n");
         MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
         MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         
-        printf("got this row %d\n", rowNumber);
-        printf("Sends row %d\n", nextRow);
         //assign new row
         MPI_Send(&nextRow, 1, MPI_INT, status.MPI_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD);
         
         //calculates next row;
         
-        findIteration = 0;
         nextRow++;
         if(nextRow >= height)
         {
             nextRow = 0;
         }
+        findIteration = 0;
         while(image[nextRow][0] != BADPIXEL && findIteration < 2)
         {
             nextRow++;
@@ -162,28 +161,7 @@ void masterCode(int width, int height, int rank, int nodes)
             finish = DONE;
         }
         
-        printf("Find next row %d\n", rowNumber);
     }
-    //finished calculations
-    //begin calculations for image
-    //for(indexOut = startIndex; indexOut < endIndex; indexOut++)
-    //{
-    //    for(indexIn = 0; indexIn < width; indexIn++)
-    //    {
-    //        number.real = -2. + indexOut/((float)height)*4.;
-    //        number.imag = -2. + indexIn/((float)width)*4.;
-    //        image[indexOut][indexIn] = (char) (calc_Pixel(number) % 256);
-    //    }
-    //}
-    //finish calculations for image
-
-
-    //recieve data from slaves
-    /*for(indexOut = endIndex; indexOut < height; indexOut++)
-    {
-        MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
-        MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }*/
     //finish recieve data from slaves
 
 	gettimeofday(&endTime, NULL); //end clock
@@ -211,7 +189,6 @@ void masterCode(int width, int height, int rank, int nodes)
     {        
         MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
     }    
-    //printf("hello from master");
 
 }
 
@@ -220,7 +197,11 @@ void masterCode(int width, int height, int rank, int nodes)
  *  
  *  Brief: Mandelbrot code for the slave node
  *  
- *  Detail: <><><><><><
+ *  Detail: Creates a working buffer
+ *          Recives a row number
+ *          Calculates all the pixels in the given row
+ *          sends the row and row number back to master
+ *          Repeats this process until it recieves an invalid row.
  *  
  */
 void slaveCode(int width, int height, int rank, int nodes)
@@ -242,7 +223,6 @@ void slaveCode(int width, int height, int rank, int nodes)
     {
         //wait for instructions
         MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        printf("recieved %d said %d\n", workingRow, rank);
         if(workingRow == ALLDONE)
         {
             finish = DONE;
