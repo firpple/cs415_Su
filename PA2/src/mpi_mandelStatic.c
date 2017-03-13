@@ -128,7 +128,7 @@ void masterCode(int width, int height, int rank, int nodes)
     }
     //finish calculations for image
     //recieve data from slaves
-    for(indexOut = indexEnd; indexOut < height; indexOut++)
+    for(indexOut = endIndex; indexOut < height; indexOut++)
     {
         MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
         MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
