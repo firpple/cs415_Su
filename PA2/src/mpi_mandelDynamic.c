@@ -116,15 +116,16 @@ void masterCode(int width, int height, int rank, int nodes)
 
     //assigns all slaves to a row
     nextRow = 0;
-    for(indexOut = 1; indexOut < nodes; indexOut++)
-    {        
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
-        nextRow++;
-        if(nextRow >= height)
-        {
-            nextRow = 0;
-        }
-    }    
+    //for(indexOut = 1; indexOut < nodes; indexOut++)
+    //{        
+    //    printf("sending %d to %d", nextRow, indexOut);
+    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
+    //    nextRow++;
+    //    if(nextRow >= height)
+    //    {
+     //       nextRow = 0;
+    //    }
+    //}    
     //wait for last row;
     while(finish == NOTDONE)
     {
@@ -235,6 +236,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     {
         //wait for instructions
         MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("recieved %d said %d\n", workingRow, rank);
         if(workingRow == ALLDONE)
         {
             finish = DONE;
