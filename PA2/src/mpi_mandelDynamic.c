@@ -90,7 +90,6 @@ void masterCode(int width, int height, int rank, int nodes)
     //initialize variables
     char **image;
     int indexOut, indexIn;
-    int startIndex, endIndex;
     int rowNumber, nextRow, masterRow;
     int finish = NOTDONE;
     struct complex number;
@@ -204,7 +203,6 @@ void masterCode(int width, int height, int rank, int nodes)
 void slaveCode(int width, int height, int rank, int nodes)
 {   
     int indexIn;
-    int startIndex, endIndex;
     char *workingBuffer;
     int workingRow;
     int finish;
@@ -214,7 +212,7 @@ void slaveCode(int width, int height, int rank, int nodes)
 
 
     //creates image row buffer
-    imageArray = (char*)malloc(width* sizeof(char*))
+    workingBuffer = (char*)malloc(width* sizeof(char*));
 
     //synchronize
     MPI_Barrier(MPI_COMM_WORLD);
