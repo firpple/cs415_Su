@@ -69,7 +69,16 @@ int main (int argc, char *argv[])
 
 }
 
-
+/*
+ *  Function name: masterCode
+ *  
+ *  Brief: Mandelbrot code for the master node
+ *  
+ *  Detail: The master node will create an image char array.
+ *          The image array is filled using calc pixel.
+ *          The image array is then written to a file.
+ *  
+ */
 void masterCode(int width, int height)
 {
     //initialize variables
@@ -117,13 +126,21 @@ void masterCode(int width, int height)
     }
     free(image);
 
-    printf("hello from master");
+    //printf("hello from master");
 
 }
 
+/*
+ *  Function name: slaveCode
+ *  
+ *  Brief: Mandelbrot code for the slave node
+ *  
+ *  Detail: The slave node does nothing in sequential calculations
+ *  
+ */
 void slaveCode(int width, int height)
 {
-    printf("hello from slave");
+    //printf("hello from slave");
 }
 
 
