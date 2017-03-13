@@ -6,4 +6,4 @@
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA2/mpi_mandelDynamic 500 500
+srun ~/cs415_Su/PA2/build/mpi_mandelDynamic 500 500
