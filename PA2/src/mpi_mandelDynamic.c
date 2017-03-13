@@ -90,11 +90,12 @@ void masterCode(int width, int height, int rank, int nodes)
     //initialize variables
     char **image;
     int indexOut, indexIn;
-    int rowNumber, nextRow, masterRow;
+    int rowNumber, nextRow;
+    //int masterRow;
     int finish = NOTDONE;
     finish = DONE;//<><><><><><><><><><><><><>
     int findIteration;
-    struct complex number;
+    //struct complex number;
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
     MPI_Status status;
@@ -128,7 +129,7 @@ void masterCode(int width, int height, int rank, int nodes)
         }
     }    
     //wait for last row;
-    while(finish != DONE)
+    while(finish == NOTDONE)
     {
         //recv from slave
         printf("waiting for row\n");
@@ -155,7 +156,7 @@ void masterCode(int width, int height, int rank, int nodes)
         }
         if(findIteration > 1)
         {
-            finish = ALLDONE;
+            finish = DONE;
         }
     }
     //finished calculations
