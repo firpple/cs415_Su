@@ -85,7 +85,6 @@ void masterCode(int width, int height, int rank, int nodes)
     char **image;
     int indexOut, indexIn;
     int startIndex, endIndex;
-    int taskid;
     struct complex number;
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
@@ -178,10 +177,10 @@ void slaveCode(int width, int height, int rank, int nodes)
     }
     
     //creates image array
-    image = (char**)malloc((endIndex - startIndex)* sizeof(char*));
+    imageArray = (char**)malloc((endIndex - startIndex)* sizeof(char*));
     for(indexOut = 0; indexOut < (endIndex - startIndex); indexOut++)
     {
-        image[indexOut] = (char*)malloc(width * sizeof(char));
+        imageArray[indexOut] = (char*)malloc(width * sizeof(char));
     }
 
     //synchronize
@@ -193,15 +192,15 @@ void slaveCode(int width, int height, int rank, int nodes)
         {
             number.real = -2. + indexOut/((float)height)*4.;
             number.imag = -2. + indexIn/((float)width)*4.;
-            image[indexOut - startIndex][indexIn] = (char) (calc_Pixel(number) % 256);
+            imageArray[indexOut - startIndex][indexIn] = (char) (calc_Pixel(number) % 256);
         }
     }
     //send info back
     for(indexOut = 0; indexOut < (endIndex - startIndex); indexOut++)
     {
-        free(image[indexOut]);
+        free(imageArray[indexOut]);
     }
-    free(image);
+    free(imageArray);
 
 }
 
