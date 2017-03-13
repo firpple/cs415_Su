@@ -240,7 +240,7 @@ void slaveCode(int width, int height, int rank, int nodes)
             MPI_Send(workingBuffer, width, MPI_BYTE, MASTER ,ROWARRTAG, MPI_COMM_WORLD);
         }
     }
-    //free memory
+    //free memory 
     free(workingBuffer);
 
 }
