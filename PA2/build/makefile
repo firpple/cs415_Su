@@ -3,24 +3,20 @@ CC=mpicc
 CXXFLAGS=-Wall
 LIBS=-lpmi
 # feel free to either add files here (for more compilcated src's), or create more vars, or just manually type them in. Up to you.
-FILEPINGPONG= src/mpi_pingpong.c
-FILETIMING= src/mpi_packetCheck.c
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
-OUTPUTPINGPONG=mpi_pingpong
-OUTPUTTIMING=mpi_packetCheck
 
 OUTMANDELSEQ = mpi_mandelSeq
-FILEMANDELSEQ = src/mpi_mandelSeq.c
+FILEMANDELSEQ = ../src/mpi_mandelSeq.c
 
 OUTMANDELUTL = mpi_mandelUtility.o
-FILEMANDELUTL = src/mpi_mandelUtility.c
+FILEMANDELUTL = ../src/mpi_mandelUtility.c
 
 OUTMANDELSTATIC = mpi_mandelStatic
-FILEMANDELSTATIC = src/mpi_mandelStatic.c
+FILEMANDELSTATIC = ../src/mpi_mandelStatic.c
 
 OUTMANDELDYNAMIC = mpi_mandelDynamic
-FILEMANDELDYNAMIC = src/mpi_mandelDynamic.c
+FILEMANDELDYNAMIC = ../src/mpi_mandelDynamic.c
 
 all: $(OUTMANDELSEQ) $(OUTMANDELSTATIC) $(OUTMANDELDYNAMIC)
 
