@@ -119,15 +119,15 @@ void masterCode(int width, int height, int rank, int nodes)
 
     //assigns all slaves to a row
     nextRow = 0;
-    for(indexOut = 0; indexOut < nodes; indexOut++)
-    {        
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
-        nextRow++;
-        if(nextRow >= height)
-        {
-            nextRow = 0;
-        }
-    }    
+    //for(indexOut = 0; indexOut < nodes; indexOut++)
+    //{        
+    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
+    //    nextRow++;
+    //    if(nextRow >= height)
+    //    {
+    //        nextRow = 0;
+    //    }
+    //}    
     //wait for last row;
     while(finish == NOTDONE)
     {
@@ -201,11 +201,11 @@ void masterCode(int width, int height, int rank, int nodes)
     }
     free(image);
     //stops all remaining slaves;
-    nextRow = ALLDONE;
-    for(indexOut = 0; indexOut < nodes; indexOut++)
-    {        
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
-    }    
+    //nextRow = ALLDONE;
+    //for(indexOut = 0; indexOut < nodes; indexOut++)
+    //{        
+    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
+    //}    
     //printf("hello from master");
 
 }
@@ -236,7 +236,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     MPI_Barrier(MPI_COMM_WORLD);
 
 
-    while(finish != DONE)
+    while(finish == NOTDONE)
     {
         //wait for instructions
         MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
