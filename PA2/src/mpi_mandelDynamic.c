@@ -93,7 +93,6 @@ void masterCode(int width, int height, int rank, int nodes)
     int rowNumber, nextRow;
     //int masterRow;
     int finish = NOTDONE;
-    finish = DONE;//<><><><><><><><><><><><><>
     int findIteration;
     //struct complex number;
     struct timeval startTime, endTime, diffTime;
@@ -117,15 +116,15 @@ void masterCode(int width, int height, int rank, int nodes)
 
     //assigns all slaves to a row
     nextRow = 0;
-    //for(indexOut = 0; indexOut < nodes; indexOut++)
-    //{        
-    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
-    //    nextRow++;
-    //    if(nextRow >= height)
-    //    {
-    //        nextRow = 0;
-    //    }
-    //}    
+    for(indexOut = 1; indexOut < nodes; indexOut++)
+    {        
+        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
+        nextRow++;
+        if(nextRow >= height)
+        {
+            nextRow = 0;
+        }
+    }    
     //wait for last row;
     while(finish == NOTDONE)
     {
@@ -223,7 +222,6 @@ void slaveCode(int width, int height, int rank, int nodes)
     int workingRow;
     int finish;
     finish = NOTDONE;
-    finish = DONE;//<><><><><><><><><><><><><>
     struct complex number;
 
 
@@ -233,8 +231,6 @@ void slaveCode(int width, int height, int rank, int nodes)
     //synchronize
     MPI_Barrier(MPI_COMM_WORLD);
     
-    MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    printf("got this row %d", workingRow);
     while(finish == NOTDONE)
     {
         //wait for instructions
