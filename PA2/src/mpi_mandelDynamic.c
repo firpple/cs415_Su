@@ -148,7 +148,7 @@ void masterCode(int width, int height, int rank, int nodes)
             if(nextRow >= height)
             {
                 nextRow = 0;
-                FindIteration++;
+                findIteration++;
             }
         }
         if(findIteration > 1)
