@@ -11,9 +11,9 @@ do
 
         echo ${file##*/}
 
-    #    sbatch ${file}
+        sbatch ${file}
 
-    #    sleep 3m
+        sleep 3m
 
     done  
 
