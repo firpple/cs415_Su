@@ -92,6 +92,7 @@ void masterCode(int width, int height, int rank, int nodes)
     int indexOut, indexIn;
     int rowNumber, nextRow, masterRow;
     int finish = NOTDONE;
+    int findIteration;
     struct complex number;
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
@@ -114,30 +115,44 @@ void masterCode(int width, int height, int rank, int nodes)
 	gettimeofday(&startTime, NULL); //start clock
 
     //assigns all slaves to a row
+    nextRow = 0;
     for(indexOut = 0; indexOut < nodes; indexOut++)
     {        
-        MPI_Send(&indexOut, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
-    }    
-    nextRow = indexOut;
-    //wait for last row;
-    while(finish != DONE)
-    {
-        //recv from slave
-        MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
-        MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        //assign new row
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
-        
-        //calculates next row;
+        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
         nextRow++;
         if(nextRow >= height)
         {
             nextRow = 0;
-            while(image[nextRow][0] != BADPIXEL && nextRow < height)
+        }
+    }    
+    //wait for last row;
+    while(finish != DONE)
+    {
+        //recv from slave
+        printf("waiting for row\n");
+        MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
+        MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        
+        printf("got this row %d\n", rowNumber);
+        //assign new row
+        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
+        
+        //calculates next row;
+        
+        printf("Find next row %d\n", rowNumber);
+        findIteration = 0;
+        while(image[nextRow][0] != BADPIXEL && findIteration < 2)
+        {
+            printf("row %d is done", nextRow);
+            nextRow++;
+            if(nextRow >= height)
             {
-                nextRow++;
+                nextRow = 0;
+                FindIteration++;
             }
-            //All rows are finish
+        }
+        if(findIteration > 1)
+        {
             finish = ALLDONE;
         }
     }
