@@ -36,7 +36,6 @@ int main (int argc, char *argv[])
     int displayWidth, displayHeight;
     char hostname[MPI_MAX_PROCESSOR_NAME];
     float elapsedTime = 0;
-    struct timeval startTime, endTime, diffTime;
     displayWidth = atoi(argv[1]);
     displayHeight = atoi(argv[2]);
 
@@ -62,12 +61,7 @@ int main (int argc, char *argv[])
         //send to slave
 	    masterCode(displayWidth, displayHeight);
 
-	    timersub(&endTime, &startTime, &diffTime); //calc diff time
-        //converts time struct to float
-	    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-        //prints result in CSV format
-	    printf("%f,",elapsedTime );
-        printf("\n");
+
     }
     else
     {
@@ -86,15 +80,21 @@ int main (int argc, char *argv[])
 
 void masterCode(int width, int height)
 {
+    //initialize variables
     char **image;
     int indexOut, indexIn;
     struct complex number;
+    struct timeval startTime, endTime, diffTime;
 
+    //creates image array
     image = (char**)malloc(height* sizeof(char*));
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         image[indexOut] = (char*)malloc(width * sizeof(char));
     }
+
+	gettimeofday(&startTime, NULL); //start clock
+    //begin calculations for image
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         for(indexIn = 0; indexIn < width; indexIn++)
@@ -102,11 +102,17 @@ void masterCode(int width, int height)
             number.real = -2. + indexOut/((float)height)*4.;
             number.imag = -2. + indexIn/((float)width)*4.;
             image[indexOut][indexIn] = (char) (calc_Pixel(number) % 256);
-            //printf("%d", image[indexOut][indexIn]);
         }
-        //printf("\n");
     }
-    
+    //finish calculations for image
+	gettimeofday(&endTime, NULL); //end clock
+    timersub(&endTime, &startTime, &diffTime); //calc diff time
+
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+    //prints result 
+    printf("time:\t%f\n",elapsedTime );
+    //this function will write the mandelbrot in cyan color
     pim_write_color4("outimage.pim", width, height,
                     (const unsigned char**)image,
                     (const unsigned char**)image, 
