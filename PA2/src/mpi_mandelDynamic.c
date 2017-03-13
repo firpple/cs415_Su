@@ -233,7 +233,7 @@ void slaveCode(int width, int height, int rank, int nodes)
             {
                 number.real = -2. + workingRow/((float)height)*4.;
                 number.imag = -2. + indexIn/((float)width)*4.;
-                workingBuffer = (char) (calc_Pixel(number) % 256);
+                workingBuffer[indexIn] = (char) (calc_Pixel(number) % 256);
             }
             //send info back       
             MPI_Send(&workingRow, 1, MPI_INT, MASTER ,ROWNUMTAG, MPI_COMM_WORLD);
