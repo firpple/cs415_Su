@@ -231,8 +231,9 @@ void slaveCode(int width, int height, int rank, int nodes)
 
     //synchronize
     MPI_Barrier(MPI_COMM_WORLD);
-
-
+    
+    MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    printf("got this row %d", workingRow);
     while(finish == NOTDONE)
     {
         //wait for instructions
