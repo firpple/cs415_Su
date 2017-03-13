@@ -136,17 +136,20 @@ void masterCode(int width, int height, int rank, int nodes)
         MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         
         printf("got this row %d\n", rowNumber);
-        printf("Sends row %d\n", rowNumber);
+        printf("Sends row %d\n", nextRow);
         //assign new row
         MPI_Send(&nextRow, 1, MPI_INT, status.MPI_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD);
         
         //calculates next row;
         
-        printf("Find next row %d\n", rowNumber);
         findIteration = 0;
+        nextRow++;
+        if(nextRow >= height)
+        {
+            nextRow = 0;
+        }
         while(image[nextRow][0] != BADPIXEL && findIteration < 2)
         {
-            printf("row %d is done", nextRow);
             nextRow++;
             if(nextRow >= height)
             {
@@ -158,6 +161,8 @@ void masterCode(int width, int height, int rank, int nodes)
         {
             finish = DONE;
         }
+        
+        printf("Find next row %d\n", rowNumber);
     }
     //finished calculations
     //begin calculations for image
