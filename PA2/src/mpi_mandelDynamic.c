@@ -112,9 +112,7 @@ void masterCode(int width, int height, int rank, int nodes)
     
     //synchronize
     //barrier
-    printf("barrior\n");
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("past Barriro\n");
 	gettimeofday(&startTime, NULL); //start clock
 
     //assigns all slaves to a row
@@ -201,11 +199,11 @@ void masterCode(int width, int height, int rank, int nodes)
     }
     free(image);
     //stops all remaining slaves;
-    //nextRow = ALLDONE;
-    //for(indexOut = 0; indexOut < nodes; indexOut++)
-    //{        
-    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
-    //}    
+    nextRow = ALLDONE;
+    for(indexOut = 0; indexOut < nodes; indexOut++)
+    {        
+        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
+    }    
     //printf("hello from master");
 
 }
@@ -225,7 +223,6 @@ void slaveCode(int width, int height, int rank, int nodes)
     int workingRow;
     int finish;
     finish = NOTDONE;
-    finish = DONE;//<><><><><><><><><><><><><>
     struct complex number;
 
 
