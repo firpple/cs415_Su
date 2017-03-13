@@ -223,6 +223,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     int workingRow;
     int finish;
     finish = NOTDONE;
+    finish = DONE;//<><><><><><><><><><><><><>
     struct complex number;
 
 
