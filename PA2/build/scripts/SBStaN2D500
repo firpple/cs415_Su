@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH --OverSubscribe = yes
 #SBATCH --nodes 1
 #SBATCH --ntasks 2
 #SBATCH --time=00:05:00

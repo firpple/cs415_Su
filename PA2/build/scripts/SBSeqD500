@@ -1,5 +1,4 @@
 #!/bin/bash
-#SBATCH --OverSubscribe = yes
 #SBATCH --ntasks 1
 #SBATCH --time=00:05:00
 #SBATCH --mail-user=pikmin898@gmail.com
