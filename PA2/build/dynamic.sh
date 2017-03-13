@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -o ~/cs415_Su/PA2/bin/pizza%J.out
+#SBATCH -o pizza%J.out
 #SBATCH --nodes 1
 #SBATCH --ntasks 8
 #SBATCH --time=00:05:00
