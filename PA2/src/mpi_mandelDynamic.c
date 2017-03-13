@@ -93,7 +93,7 @@ void masterCode(int width, int height, int rank, int nodes)
     int rowNumber, nextRow;
     //int masterRow;
     int finish = NOTDONE;
-    finish = DONE;
+    //finish = DONE;
     int findIteration;
     //struct complex number;
     struct timeval startTime, endTime, diffTime;
@@ -117,16 +117,16 @@ void masterCode(int width, int height, int rank, int nodes)
 
     //assigns all slaves to a row
     nextRow = 0;
-    //for(indexOut = 1; indexOut < nodes; indexOut++)
-    //{        
-    //    printf("sending %d to %d", nextRow, indexOut);
-    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
-    //    nextRow++;
-    //    if(nextRow >= height)
-    //    {
-     //       nextRow = 0;
-    //    }
-    //}    
+    for(indexOut = 1; indexOut < nodes; indexOut++)
+    {        
+        printf("sending %d to %d\n", nextRow, indexOut);
+        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);        
+        nextRow++;
+        if(nextRow >= height)
+        {
+            nextRow = 0;
+        }
+    }    
     //wait for last row;
     while(finish == NOTDONE)
     {
@@ -136,8 +136,9 @@ void masterCode(int width, int height, int rank, int nodes)
         MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         
         printf("got this row %d\n", rowNumber);
+        printf("Sends row %d\n", rowNumber);
         //assign new row
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
+        MPI_Send(&nextRow, 1, MPI_INT, status.MPI_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD);
         
         //calculates next row;
         
@@ -222,8 +223,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     int indexIn;
     char *workingBuffer;
     int workingRow;
-    int finish;
-    //finish = NOTDONE;
+    int finish= NOTDONE;
     struct complex number;
 
 
