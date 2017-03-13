@@ -26,6 +26,8 @@ int main (int argc, char *argv[])
     //argc checker
     if(argc < 2)
     {
+        //there are not enough arugments
+        //note: this will not check if the arguements are in the correct positions
         printf("not enough arguments\n");
         printf("proper usage:\n srun mpi_mandelSeq <width> <height> <mpi arguements>");
         return 0;
@@ -35,11 +37,9 @@ int main (int argc, char *argv[])
     int numtasks, taskid, len;
     int displayWidth, displayHeight;
     char hostname[MPI_MAX_PROCESSOR_NAME];
-    float elapsedTime = 0;
     displayWidth = atoi(argv[1]);
     displayHeight = atoi(argv[2]);
 
-    timerclear(&diffTime);
 
     //parallel start
     MPI_Init(&argc, &argv);
@@ -47,18 +47,10 @@ int main (int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD,&taskid);
     MPI_Get_processor_name(hostname, &len);
 
-    //the printf here is only used for debugging
-    //printf ("Hello from task %d on %s!\n", taskid, hostname);
-
-    //Iterator indexs is for message size
-    timerclear(&diffTime);
 
     if (taskid == MASTER)
     {
 	    //master code
-        //
-	    gettimeofday(&startTime, NULL); //start clock
-        //send to slave
 	    masterCode(displayWidth, displayHeight);
 
 
@@ -85,6 +77,7 @@ void masterCode(int width, int height)
     int indexOut, indexIn;
     struct complex number;
     struct timeval startTime, endTime, diffTime;
+    float elapsedTime = 0;
 
     //creates image array
     image = (char**)malloc(height* sizeof(char*));
