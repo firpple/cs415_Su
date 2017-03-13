@@ -92,6 +92,7 @@ void masterCode(int width, int height, int rank, int nodes)
     int indexOut, indexIn;
     int rowNumber, nextRow, masterRow;
     int finish = NOTDONE;
+    finish = DONE;//<><><><><><><><><><><><><>
     int findIteration;
     struct complex number;
     struct timeval startTime, endTime, diffTime;
@@ -223,7 +224,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     int workingRow;
     int finish;
     finish = NOTDONE;
-    
+    finish = DONE;//<><><><><><><><><><><><><>
     struct complex number;
 
 
