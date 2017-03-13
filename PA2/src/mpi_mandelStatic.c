@@ -15,6 +15,8 @@
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
+#define  ROWNUMTAG        1
+#define  ROWARRTAG        2
 #define  SECTOMICRO 1000000
 
 
@@ -29,7 +31,7 @@ int main (int argc, char *argv[])
         //there are not enough arugments
         //note: this will not check if the arguements are in the correct positions
         printf("not enough arguments\n");
-        printf("proper usage:\n srun mpi_mandelSeq <width> <height> <mpi arguements>");
+        printf("proper usage:\n srun mpi_mandelSeq <width> <height> <mpi arguements>\n");
         return 0;
     }
     
@@ -85,9 +87,11 @@ void masterCode(int width, int height, int rank, int nodes)
     char **image;
     int indexOut, indexIn;
     int startIndex, endIndex;
+    int rowNumber;
     struct complex number;
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
+    MPI_Status status;
 
     //creates image array
     image = (char**)malloc(height* sizeof(char*));
@@ -123,7 +127,13 @@ void masterCode(int width, int height, int rank, int nodes)
         }
     }
     //finish calculations for image
-
+    //recieve data from slaves
+    for(indexOut = indexEnd; indexOut < height; indexOut++)
+    {
+        MPI_Recv(&rowNumber, 1, MPI_INT, MPI_ANY_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD, &status);
+        MPI_Recv(image[rowNumber], width, MPI_BYTE, status.MPI_SOURCE ,ROWARRTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    //finish recieve data from slaves
 
 	gettimeofday(&endTime, NULL); //end clock
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -196,6 +206,15 @@ void slaveCode(int width, int height, int rank, int nodes)
         }
     }
     //send info back
+    
+    for(indexOut = startIndex; indexOut < endIndex; indexOut++)
+    {
+        
+        MPI_Send(&indexOut, 1, MPI_INT, MASTER ,ROWNUMTAG, MPI_COMM_WORLD);
+        MPI_Send(imageArray[indexOut - startIndex], width, MPI_BYTE, MASTER ,ROWARRTAG, MPI_COMM_WORLD);
+    }
+    
+    //free memory
     for(indexOut = 0; indexOut < (endIndex - startIndex); indexOut++)
     {
         free(imageArray[indexOut]);
