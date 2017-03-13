@@ -160,7 +160,7 @@ int pim_write_color4(const char * const fileName,
 {
   int i, j;
   int ret;
-  const unsigned char * r, * g, * b;
+  const unsigned char * g, * b;
   unsigned char * p, * t = (unsigned char*) malloc(width * height * sizeof(char)* 3);;
 
   p = t;
