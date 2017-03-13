@@ -50,4 +50,4 @@ $(OUTMANDELUTL): $(FILEMANDELUTL)
 #	sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTMANDELUTL) $(OUTMANDELSEQ) $(OUTMANDELSTATIC) $(FILEMANDELDYNAMIC) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTMANDELUTL) $(OUTMANDELSEQ) $(OUTMANDELSTATIC) $(OUTMANDELDYNAMIC) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
