@@ -110,8 +110,9 @@ void masterCode(int width, int height, int rank, int nodes)
     
     //synchronize
     //barrier
+    printf("barrior\n");
     MPI_Barrier(MPI_COMM_WORLD);
-    
+    printf("past Barriro\n");
 	gettimeofday(&startTime, NULL); //start clock
 
     //assigns all slaves to a row
