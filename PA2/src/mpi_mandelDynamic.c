@@ -200,10 +200,10 @@ void masterCode(int width, int height, int rank, int nodes)
     free(image);
     //stops all remaining slaves;
     nextRow = ALLDONE;
-    for(indexOut = 0; indexOut < nodes; indexOut++)
-    {        
-        MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
-    }    
+    //for(indexOut = 0; indexOut < nodes; indexOut++)
+    //{        
+    //    MPI_Send(&nextRow, 1, MPI_INT, indexOut ,ROWNUMTAG, MPI_COMM_WORLD);
+    //}    
     //printf("hello from master");
 
 }
@@ -232,7 +232,7 @@ void slaveCode(int width, int height, int rank, int nodes)
     //synchronize
     MPI_Barrier(MPI_COMM_WORLD);
     
-    MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    //MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     printf("got this row %d", workingRow);
     while(finish == NOTDONE)
     {
