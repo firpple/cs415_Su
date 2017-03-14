@@ -1,13 +1,17 @@
 # Author
 Evan Su
 
-# PA1: "Ping Pong"
-MPI programs that measures the time for a message to travel from one process to another.
+# PA2: "Embarrassing Parallel Mandelbrot"
+MPI programs that measures the time for the mandelbrot image to calucalate.
 ## Files in PA1
 
 All Source code is located in the src folder.
 
-Batch scripts and makefile is located in the root folder.
+Batch scripts and makefile is located in the build folder.
+
+More scripts are found in the scripts folder within the build folder. Use at your own risk as these scripts are not throughly tested and the output may be incorrect.
+
+bin contains all raw data that was collected in the tests
 
 # Dependencies, Building, and Running
 
@@ -28,17 +32,20 @@ The program can be build two ways: Manually compile them with mpicc or use the m
 The program must be ran using sbatch. 
 ### mpicc Instructions
 ```bash
-mpicc -Wall -o mpi_pingpong src/mpi_pingpong.c -lpmi
-mpicc -Wall -o mpi_packetCheck src/mpi_packetCheck.c -lpmi
-sbatch One_box.sh
-sbatch Two_box.sh
-sbatch Timing.sh
+cd build
+mpicc -Wall -c mpi_mandelUtility.c -lpmi
+mpicc -Wall -o mpi_mandelSeq ../src/mpi_mandelSeq.c mpi_mandelUtility.o -lpmi
+mpicc -Wall -o mpi_mandelStatic ../src/mpi_mandelStatic.c mpi_mandelUtility.o -lpmi
+mpicc -Wall -o mpi_mandelDynamic ../src/mpi_mandelDynamic.c mpi_mandelUtility.o -lpmi
+sbatch dynamic.sh
+sbatch sequential.sh
+sbatch static.sh
 ```
 
 
 To clean the files, run this command:
 ```bash
-rm mpi_pingpong mpi_packetCheck
+rm mpi_mandelSeq mpi_mandelStatic mpi_mandelDynamic mpi_mandelUtility.o
 ```
 
 
@@ -46,10 +53,11 @@ rm mpi_pingpong mpi_packetCheck
 The makefile works as expected and must be updated with new files added in.
 
 ```bash
+cd build
 make
-sbatch One_box.sh
-sbatch Two_box.sh
-sbatch Timing.sh
+sbatch dynamic.sh
+sbatch sequential.sh
+sbatch static.sh
 ```
 
 
