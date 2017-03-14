@@ -1,17 +1,18 @@
 /******************************************************************************
-* FILE: mpi_packetCheck.c
+* FILE: mpi_mandelDynamic.c
 * DESCRIPTION:
-*   MPI Send and recieved. The program outputs the ellapsed time between mpi 
-*   send and mpi receive for increasing message sizes. The ellapsed time is
-*   measured in microseconds
+*   Calculates the mandelbrot image using dynamic task assignment. 
 * AUTHOR: Evan Su
-* LAST REVISED: 02/19/17
+* LAST REVISED: 03/13/17
 ******************************************************************************/
+//libraries
 #include "mpi.h"
 #include "mpi_mandelUtility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+//Define constants
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
@@ -23,10 +24,22 @@
 #define  ALLDONE    -1
 #define  BADPIXEL   -1
 
-
+//Function declarations
 void masterCode(int, int, int, int);
 void slaveCode(int, int, int, int);
 
+//Main function
+/*
+ *  Function name: main
+ *  
+ *  Brief: Main driver for the program
+ *  
+ *  Detail: The main driver initializes parallel processes.
+ *          The master calls the master function
+ *          The slave calls the slave function
+ *          Both functions will run until computations are over. 
+ *  
+ */
 int main (int argc, char *argv[])
 {
     //argc checker
@@ -64,7 +77,6 @@ int main (int argc, char *argv[])
     else
     {
         //slave code
-        //this code does nothing, placeholder for parallel.
 	    slaveCode(displayWidth, displayHeight,taskid,numtasks);
     }
 
@@ -118,7 +130,7 @@ void masterCode(int width, int height, int rank, int nodes)
     MPI_Barrier(MPI_COMM_WORLD);
 	gettimeofday(&startTime, NULL); //start clock
 
-    //assigns all slaves to a row
+    //assigns tasks all slaves to a row
     nextRow = 0;
     for(indexOut = 1; indexOut < nodes; indexOut++)
     {        
@@ -139,7 +151,7 @@ void masterCode(int width, int height, int rank, int nodes)
         //assign new row
         MPI_Send(&nextRow, 1, MPI_INT, status.MPI_SOURCE ,ROWNUMTAG, MPI_COMM_WORLD);
         
-        //calculates next row;
+        //calculates next row to be sent;
         
         nextRow++;
         if(nextRow >= height)
@@ -147,6 +159,7 @@ void masterCode(int width, int height, int rank, int nodes)
             nextRow = 0;
         }
         findIteration = 0;
+        //finds the next valid row
         while(image[nextRow][0] != BADPIXEL && findIteration < 2)
         {
             nextRow++;
@@ -158,6 +171,7 @@ void masterCode(int width, int height, int rank, int nodes)
         }
         if(findIteration > 1)
         {
+            //if there is no more rows, computations are done
             finish = DONE;
         }
         
@@ -178,11 +192,15 @@ void masterCode(int width, int height, int rank, int nodes)
                     (const unsigned char**)image, 
                     (const unsigned char**)image);
 
+
+    //free memory
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         free(image[indexOut]);
     }
     free(image);
+
+
     //stops all remaining slaves;
     nextRow = ALLDONE;
     for(indexOut = 1; indexOut < nodes; indexOut++)
@@ -206,6 +224,7 @@ void masterCode(int width, int height, int rank, int nodes)
  */
 void slaveCode(int width, int height, int rank, int nodes)
 {   
+    //variables
     int indexIn;
     char *workingBuffer;
     int workingRow;
@@ -218,13 +237,15 @@ void slaveCode(int width, int height, int rank, int nodes)
 
     //synchronize
     MPI_Barrier(MPI_COMM_WORLD);
-    
+    //works until the computations are complete.
     while(finish == NOTDONE)
     {
         //wait for instructions
         MPI_Recv(&workingRow, 1, MPI_INT, MASTER, ROWNUMTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        //check if it is a valid row or done message
         if(workingRow == ALLDONE)
         {
+            //all calculations are complete
             finish = DONE;
         }
         else
@@ -236,7 +257,7 @@ void slaveCode(int width, int height, int rank, int nodes)
                 number.imag = -2. + indexIn/((float)width)*4.;
                 workingBuffer[indexIn] = (char) (calc_Pixel(number) % 256);
             }
-            //send info back       
+            //sends row and row numberback       
             MPI_Send(&workingRow, 1, MPI_INT, MASTER ,ROWNUMTAG, MPI_COMM_WORLD);
             MPI_Send(workingBuffer, width, MPI_BYTE, MASTER ,ROWARRTAG, MPI_COMM_WORLD);
         }

@@ -1,3 +1,12 @@
+/******************************************************************************
+* FILE: mpi_mandelUtility.c
+* DESCRIPTION:
+*   Implementations of utility functions for mandelbrot
+* AUTHOR: Fred Harris (original code)
+*         Evan Su (modified for c usage)
+* LAST REVISED: 03/13/17
+******************************************************************************/
+//libraries and complier directives
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +18,7 @@
 #endif
 
 
-
+//this function calculates the mandelbrot for a single pixel.
 int calc_Pixel(struct complex c)
 {
     int count, max_iter;
@@ -32,7 +41,7 @@ int calc_Pixel(struct complex c)
     return count;
 
 }
-
+//writes the image to black and white 1d array
 int pim_write_black_and_white(const char * const fileName,
                                const int width,
                                const int height,
@@ -51,6 +60,8 @@ int pim_write_black_and_white(const char * const fileName,
 
   return true;
 }
+
+//writes the image to black and white 2d array
 int pim_write_black_and_white1(const char * const fileName,
                                const int width,
                                const int height,
@@ -65,6 +76,8 @@ int pim_write_black_and_white1(const char * const fileName,
   free(t);
   return ret;
 }
+
+//writes the image to color 1d array
 int pim_write_color(const char * const fileName,
                      const int width,
                      const int height,
@@ -81,6 +94,7 @@ int pim_write_color(const char * const fileName,
 
   return true;
 }
+//writes the image to color 2d array
 int pim_write_color1(const char * const fileName,
                      const int width,
                      const int height,
@@ -96,6 +110,7 @@ int pim_write_color1(const char * const fileName,
   return ret;
   
 }
+//writes the image to color 1d array using rgb
 int pim_write_color2(const char * const fileName,
                      const int width,
                      const int height,
@@ -121,6 +136,7 @@ int pim_write_color2(const char * const fileName,
   free(t);
   return ret;
 }
+//writes the image to color 2d array using rgb
 int pim_write_color3(const char * const fileName,
                      const int width,
                      const int height,
@@ -151,6 +167,8 @@ int pim_write_color3(const char * const fileName,
   return ret;
 }
 
+//writes the image to color 2d array using rgb
+//Red values are ignored.
 int pim_write_color4(const char * const fileName,
                      const int width,
                      const int height,

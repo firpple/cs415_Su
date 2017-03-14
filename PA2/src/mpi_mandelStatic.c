@@ -1,17 +1,18 @@
 /******************************************************************************
-* FILE: mpi_packetCheck.c
+* FILE: mpi_mandelStatic.c
 * DESCRIPTION:
-*   MPI Send and recieved. The program outputs the ellapsed time between mpi 
-*   send and mpi receive for increasing message sizes. The ellapsed time is
-*   measured in microseconds
+*   Calculates the mandelbrot image using static task assignment. 
 * AUTHOR: Evan Su
-* LAST REVISED: 02/19/17
+* LAST REVISED: 03/13/17
 ******************************************************************************/
+//libraries
 #include "mpi.h"
 #include "mpi_mandelUtility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+//define constants
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
@@ -19,10 +20,24 @@
 #define  ROWARRTAG        2
 #define  SECTOMICRO 1000000
 
-
+//function declarations
 void masterCode(int, int, int, int);
 void slaveCode(int, int, int, int);
 
+
+//Main function
+/*
+ *  Function name: main
+ *  
+ *  Brief: Main driver for the program
+ *  
+ *  Detail: The main driver initializes parallel processes.
+ *          The master calls the master function
+ *          The slave calls the slave function
+ *          Both functions will run until computations are over.
+ *
+ *          
+ */
 int main (int argc, char *argv[])
 {
     //argc checker
@@ -60,14 +75,11 @@ int main (int argc, char *argv[])
     else
     {
         //slave code
-        //this code does nothing, placeholder for parallel.
 	    slaveCode(displayWidth, displayHeight,taskid,numtasks);
     }
 
     MPI_Finalize();
     return 0;
-
-
 
 }
 
@@ -148,14 +160,12 @@ void masterCode(int width, int height, int rank, int nodes)
                     (const unsigned char**)image,
                     (const unsigned char**)image, 
                     (const unsigned char**)image);
-
+    //frees memory
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         free(image[indexOut]);
     }
     free(image);
-
-    //printf("hello from master");
 
 }
 
@@ -164,11 +174,14 @@ void masterCode(int width, int height, int rank, int nodes)
  *  
  *  Brief: Mandelbrot code for the slave node
  *  
- *  Detail: <><><><><><
- *  
+ *  Detail: Slave calculates which rows is assigned to it
+ *          Then, it will create an array to store the image
+ *          It will then calculate its pixels
+ *          Once it finishes, it will send the data to the master
  */
 void slaveCode(int width, int height, int rank, int nodes)
 {   
+    //variables
     int indexOut, indexIn;
     int startIndex, endIndex;
     char **imageArray;
@@ -186,7 +199,7 @@ void slaveCode(int width, int height, int rank, int nodes)
         endIndex = (rank+1)*(height/nodes);
     }
     
-    //creates image array
+    //creates image array just for the sections it is assigned
     imageArray = (char**)malloc((endIndex - startIndex)* sizeof(char*));
     for(indexOut = 0; indexOut < (endIndex - startIndex); indexOut++)
     {

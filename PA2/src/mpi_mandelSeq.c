@@ -1,26 +1,42 @@
 /******************************************************************************
-* FILE: mpi_packetCheck.c
+* FILE: mpi_mandelSeq.c
 * DESCRIPTION:
-*   MPI Send and recieved. The program outputs the ellapsed time between mpi 
-*   send and mpi receive for increasing message sizes. The ellapsed time is
-*   measured in microseconds
+*   Calculates the mandelbrot image sequential. 
 * AUTHOR: Evan Su
-* LAST REVISED: 02/19/17
+* LAST REVISED: 03/13/17
 ******************************************************************************/
+//libraries
 #include "mpi.h"
 #include "mpi_mandelUtility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+//define constants
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
 
-
+//function declarations
 void masterCode(int, int);
 void slaveCode(int, int);
 
+//Main function
+/*
+ *  Function name: main
+ *  
+ *  Brief: Main driver for the program
+ *  
+ *  Detail: The main driver initializes parallel processes.
+ *          The master calls the master function
+ *          The slave calls the slave function
+ *          Both functions will run until computations are over.
+ *
+ *  Note: The slave functions does nothing, it is a placeholder
+ *        for parallel code. 
+ *          
+ */
 int main (int argc, char *argv[])
 {
     //argc checker
@@ -120,13 +136,13 @@ void masterCode(int width, int height)
                     (const unsigned char**)image, 
                     (const unsigned char**)image);
 
+    //frees memory
     for(indexOut = 0; indexOut < height; indexOut++)
     {
         free(image[indexOut]);
     }
     free(image);
 
-    //printf("hello from master");
 
 }
 
