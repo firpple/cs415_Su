@@ -18,10 +18,52 @@
 #endif
 
 
-//this function calculates t *he mandelbrot for a single pixel.
-int sortBucket(struct bucket b)
+//this function calculates the mandelbrot for a single pixel.
+int sortBucket(struct bucket * b)
 {
-   int count, max_iter;
-   printf("helloworld\n");
+   int valueHolder;
+   //printf("helloworld\n");
+   struct bucketNode * currentPtr, * endOfListPtr, *holderPtr, *unsorted, *previousPtr;
+
+   //endOfListPtr = b -> front;
+   unsorted = b->front;
+   b->front = NULL;
+   while(unsorted != NULL)
+   {
+        //
+        //holderPtr = endOfListPtr -> next;
+        holderPtr = unsorted;
+        unsorted = unsorted -> next;
+        holderPtr-> next = NULL;
+        if(b->front == NULL)
+        {
+            //
+            b->front = holderPtr;
+        }
+        else
+        {
+            currentPtr = b-> front;
+            previousPtr = NULL;
+            while(currentPtr != NULL && (currentPtr -> data) < (holderPtr -> data) )
+            {
+                previousPtr = currentPtr;
+                currentPtr = currentPtr -> next;
+            }
+            if(currentPtr == b->front)
+            {
+                b->front = holderPtr;
+                holderPtr -> next = currentPtr;
+            }
+            else
+            {
+                previousPtr -> next = holderPtr;
+                holderPtr -> next = currentPtr;
+            }
+        }
+
+
+
+   }
+
    return 0;
 }

@@ -24,5 +24,5 @@ struct bucket
 };
 
 
-int calc_Pixel(struct bucket);
+int sortBucket(struct bucket *);
 #endif

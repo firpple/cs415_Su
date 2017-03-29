@@ -149,9 +149,23 @@ void masterCode(char* fileName)
         printf("\n");
     }
     //sort buckets
+    for(index = 0; index < numBucket; index++)
+    {
+        sortBucket(&bucketArray[index]);
+    }
 
 
-
+    for(index = 0; index < numBucket; index++)
+    {
+        ptrNode = bucketArray[index].front;
+        printf("Bucket %d:",index);
+        while(ptrNode != NULL)
+        {
+            printf("%d ", ptrNode->data);
+            ptrNode = ptrNode -> next;
+        }
+        printf("\n");
+    }
     //free memory
     for(index = 0; index < numBucket; index++)
     {
