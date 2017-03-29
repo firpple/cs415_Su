@@ -93,9 +93,66 @@ int main (int argc, char *argv[])
  */
 void masterCode(char* fileName)
 {
+    struct bucket * bucketArray;
+    int numBucket = 10;
+    int arraySize;
+    int *unsortedArray;
+    int index;
+    int result;
+    int bucketNumber;
+    struct bucketNode * newNode;
+    struct bucketNode * ptrNode;
+    FILE *fin;
+    fin = fopen(fileName, "r");
+    //get array
+    result = fscanf(fin,"%d",&arraySize);
+    unsortedArray = (int *) malloc(arraySize * sizeof(int));
+
+    for(index = 0; index < arraySize; index++)
+    {
+        result = fscanf(fin,"%d", &unsortedArray[index]);
+    }
+
+    for(index = 0; index < arraySize; index++)
+    {
+        //printf("%d ", unsortedArray[index]);
+    }
+    printf("\n");
     //make buckets
+    bucketArray = (struct bucket *) malloc(numBucket*sizeof(struct bucket)); 
+    for(index = 0; index < numBucket; index++)
+    {
+        bucketArray[index].front = NULL;
+    }
     //fill buckets
+    for(index = 0; index < arraySize; index++)
+    {
+        bucketNumber = unsortedArray[index]/(1000 / numBucket);
+        printf("%d %d\n",bucketNumber,unsortedArray[index]);
+        //push number
+        newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
+        newNode->next = bucketArray[bucketNumber].front;
+        newNode->data = unsortedArray[index];
+        bucketArray[bucketNumber].front =  newNode;
+
+    }
+
+    for(index = 0; index < numBucket; index++)
+    {
+        ptrNode = bucketArray[index].front;
+        printf("Bucket %d:",index);
+        while(ptrNode != NULL)
+        {
+            printf("%d ", ptrNode->data);
+            ptrNode = ptrNode -> next;
+        }
+        printf("\n");
+    }
     //sort buckets
+
+
+    free(bucketArray);
+    free(unsortedArray);
 }
 
 /*
