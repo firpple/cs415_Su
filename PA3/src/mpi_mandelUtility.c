@@ -18,10 +18,10 @@
 #endif
 
 
-//this function calculates the mandelbrot for a single pixel.
+//this function calculates t *he mandelbrot for a single pixel.
 int sortBucket(struct bucket b)
 {
-    int count, max_iter;
-    printf("helloworld\n");
-    return 0;
+   int count, max_iter;
+   printf("helloworld\n");
+   return 0;
 }

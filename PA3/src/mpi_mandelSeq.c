@@ -151,6 +151,22 @@ void masterCode(char* fileName)
     //sort buckets
 
 
+
+    //free memory
+    for(index = 0; index < numBucket; index++)
+    {
+        //
+        ptrNode = bucketArray[index].front;
+        while(ptrNode != NULL)
+        {
+            //frees each node that exist
+            bucketArray[index].front= ptrNode->next;
+            free(ptrNode);
+            ptrNode = bucketArray[index].front;
+
+        }
+        //bucketArray[index]
+    }
     free(bucketArray);
     free(unsortedArray);
 }
