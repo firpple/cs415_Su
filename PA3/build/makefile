@@ -6,7 +6,7 @@ LIBS=-lpmi
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
 
-OUTMANDELSEQ = mpi_mandelSeq
+OUTMANDELSEQ = mpi_bucketSequential
 FILEMANDELSEQ = ../src/mpi_mandelSeq.c
 
 OUTMANDELUTL = mpi_mandelUtility.o

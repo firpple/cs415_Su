@@ -19,8 +19,8 @@
 #define  SECTOMICRO 1000000
 
 //function declarations
-void masterCode(char*);
-void slaveCode(char*);
+void masterCode(int, char*);
+void slaveCode(int, char*);
 
 //Main function
 /*
@@ -63,7 +63,7 @@ int main (int argc, char *argv[])
     if (taskid == MASTER)
     {
 	    //master code
-	    masterCode(argv[1]);
+	    masterCode(atoi(argv[1]),argv[2]);
 
 
     }
@@ -71,7 +71,7 @@ int main (int argc, char *argv[])
     {
         //slave code
         //this code does nothing, placeholder for parallel.
-	    slaveCode(argv[1]);
+	    slaveCode(atoi(argv[1]),argv[2]);
     }
 
     MPI_Finalize();
@@ -91,10 +91,10 @@ int main (int argc, char *argv[])
  *          The image array is then written to a file.
  *  
  */
-void masterCode(char* fileName)
+void masterCode(int buckets, char* fileName)
 {
     struct bucket * bucketArray;
-    int numBucket = 10;
+    int numBucket = buckets;
     int arraySize;
     int *unsortedArray;
     int index;
@@ -117,7 +117,7 @@ void masterCode(char* fileName)
     {
         //printf("%d ", unsortedArray[index]);
     }
-    printf("\n");
+//    printf("\n");
     //make buckets
     bucketArray = (struct bucket *) malloc(numBucket*sizeof(struct bucket)); 
     for(index = 0; index < numBucket; index++)
@@ -128,7 +128,7 @@ void masterCode(char* fileName)
     for(index = 0; index < arraySize; index++)
     {
         bucketNumber = unsortedArray[index]/(1000 / numBucket);
-        printf("%d %d\n",bucketNumber,unsortedArray[index]);
+//        printf("%d %d\n",bucketNumber,unsortedArray[index]);
         //push number
         newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
         newNode->next = bucketArray[bucketNumber].front;
@@ -140,13 +140,13 @@ void masterCode(char* fileName)
     for(index = 0; index < numBucket; index++)
     {
         ptrNode = bucketArray[index].front;
-        printf("Bucket %d:",index);
+//        printf("Bucket %d:",index);
         while(ptrNode != NULL)
         {
-            printf("%d ", ptrNode->data);
+//            printf("%d ", ptrNode->data);
             ptrNode = ptrNode -> next;
         }
-        printf("\n");
+//        printf("\n");
     }
     //sort buckets
     for(index = 0; index < numBucket; index++)
@@ -193,7 +193,7 @@ void masterCode(char* fileName)
  *  Detail: The slave node does nothing in sequential calculations
  *  
  */
-void slaveCode(char* fileName)
+void slaveCode(int buckets, char* fileName)
 {
     //printf("hello from slave");
 }
