@@ -159,7 +159,7 @@ void masterCode(int buckets, char* fileName)
     }
     */
     
-    //stop
+    //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
     //converts time struct to float
