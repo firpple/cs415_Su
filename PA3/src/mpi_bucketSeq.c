@@ -107,13 +107,19 @@ void masterCode(int buckets, char* fileName)
     //get array
     //read the size of list
     result = fscanf(fin,"%d",&arraySize);
+    if(result == 0)
+    {
+        fclose(fin);
+        return 0;
+    }
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
     for(index = 0; index < arraySize; index++)
     {
         result = fscanf(fin,"%d", &unsortedArray[index]);
     }
-
+    
+    fclose(fin);
     //make buckets
     bucketArray = makeBucket(numBucket);
     //fill buckets
