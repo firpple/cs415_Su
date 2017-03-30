@@ -91,6 +91,23 @@ struct bucket* makeBucket(int numBucket)
     return bucketArray;
 }
 
-void deleteBucket()
+void deleteBucket(struct bucket * bucketArray, int size)
 {
+
+    int index;
+    struct bucketNode * ptrNode;
+    for(index = 0; index < numBucket; index++)
+    {
+        ptrNode = bucketArray[index].front;
+        while(ptrNode != NULL)
+        {
+            //frees each node that exist
+            bucketArray[index].front= ptrNode->next;
+            free(ptrNode);
+            ptrNode = bucketArray[index].front;
+
+        }
+        //bucketArray[index]
+    }
+    free(bucketArray);
 }
