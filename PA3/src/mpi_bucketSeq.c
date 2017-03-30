@@ -7,7 +7,7 @@
 ******************************************************************************/
 //libraries
 #include "mpi.h"
-#include "mpi_mandelUtility.h"
+#include "mpi_bucketUtility.h"
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>

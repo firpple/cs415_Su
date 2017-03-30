@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mpi_mandelUtility.h"
+#include "mpi_bucketUtility.h"
 #ifdef _WIN32
   #define WRITE_FLAGS "wb"
 #else
@@ -66,4 +66,16 @@ int sortBucket(struct bucket * b)
    }
 
    return 0;
+}
+
+
+void printBucket()
+{
+
+}
+void makeBucket()
+{
+}
+void deleteBucket()
+{
 }

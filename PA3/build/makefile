@@ -7,16 +7,16 @@ LIBS=-lpmi
 #INCLUDES=-I../include
 
 OUTMANDELSEQ = mpi_bucketSequential
-FILEMANDELSEQ = ../src/mpi_mandelSeq.c
+FILEMANDELSEQ = ../src/mpi_bucketSeq.c
 
-OUTMANDELUTL = mpi_mandelUtility.o
-FILEMANDELUTL = ../src/mpi_mandelUtility.c
+OUTMANDELUTL = mpi_bucketUtility.o
+FILEMANDELUTL = ../src/mpi_bucketUtility.c
 
-OUTMANDELSTATIC = mpi_mandelStatic
-FILEMANDELSTATIC = ../src/mpi_mandelStatic.c
+OUTMANDELSTATIC = mpi_bucketStatic
+FILEMANDELSTATIC = ../src/mpi_bucketStatic.c
 
-OUTMANDELDYNAMIC = mpi_mandelDynamic
-FILEMANDELDYNAMIC = ../src/mpi_mandelDynamic.c
+OUTMANDELDYNAMIC = mpi_bucketDynamic
+FILEMANDELDYNAMIC = ../src/mpi_bucketDynamic.c
 
 all: $(OUTMANDELSEQ)
 

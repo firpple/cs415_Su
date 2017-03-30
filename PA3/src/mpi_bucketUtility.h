@@ -25,4 +25,7 @@ struct bucket
 
 
 int sortBucket(struct bucket *);
+void printBucket();
+void makeBucket();
+void deleteBucket();
 #endif
