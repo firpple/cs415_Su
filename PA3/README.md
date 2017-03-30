@@ -1,9 +1,9 @@
 # Author
 Evan Su
 
-# PA2: "Embarrassing Parallel Mandelbrot"
-MPI programs that measures the time for the mandelbrot image to calucalate.
-## Files in PA1
+# PA3: "Parallel Sorting"
+MPI programs that measures the time for sorting.
+## Files in PA3
 
 All Source code is located in the src folder.
 
@@ -33,19 +33,19 @@ The program must be ran using sbatch.
 ### mpicc Instructions
 ```bash
 cd build
-mpicc -Wall -c mpi_mandelUtility.c -lpmi
-mpicc -Wall -o mpi_mandelSeq ../src/mpi_mandelSeq.c mpi_mandelUtility.o -lpmi
-mpicc -Wall -o mpi_mandelStatic ../src/mpi_mandelStatic.c mpi_mandelUtility.o -lpmi
-mpicc -Wall -o mpi_mandelDynamic ../src/mpi_mandelDynamic.c mpi_mandelUtility.o -lpmi
-sbatch dynamic.sh
-sbatch sequential.sh
-sbatch static.sh
+mpicc -Wall -c mpi_bucketUtility.c -lpmi
+mpicc -Wall -o mpi_bucketSeq ../src/mpi_bucketSeq.c mpi_bucketUtility.o -lpmi
+mpicc -Wall -o mpi_bucketStatic ../src/mpi_bucketStatic.c mpi_bucketUtility.o -lpmi
+mpicc -Wall -o mpi_bucketDynamic ../src/mpi_bucketDynamic.c mpi_bucketUtility.o -lpmi
+cd scripts
+./makeBatch.sh
+sbatch SBBuckSeqB16S100
 ```
 
 
 To clean the files, run this command:
 ```bash
-rm mpi_mandelSeq mpi_mandelStatic mpi_mandelDynamic mpi_mandelUtility.o
+rm mpi_bucketSeq mpi_bucketStatic mpi_bucketDynamic mpi_bucketUtility.o
 ```
 
 
@@ -55,9 +55,9 @@ The makefile works as expected and must be updated with new files added in.
 ```bash
 cd build
 make
-sbatch dynamic.sh
-sbatch sequential.sh
-sbatch static.sh
+cd scripts
+./makeBatch.sh
+sbatch SBBuckSeqB16S100
 ```
 
 
