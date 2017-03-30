@@ -83,7 +83,7 @@ void printBucket(struct bucket * currentBucket, int bucketNumber)
     printf("\n");
 }
 
-struct bucket * makeBucket(int numBucket)
+bucket * makeBucket(int numBucket)
 {
     int index;
     struct bucket * bucketArray;

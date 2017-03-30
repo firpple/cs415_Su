@@ -26,6 +26,6 @@ struct bucket
 
 int sortBucket(struct bucket *);
 void printBucket(struct bucket *, int);
-bucket * makeBucket(int numBucket)
+bucket * makeBucket(int);
 void deleteBucket();
 #endif
