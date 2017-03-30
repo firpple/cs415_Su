@@ -101,7 +101,6 @@ void masterCode(int buckets, char* fileName)
     int result;
     int bucketNumber;
     struct bucketNode * newNode;
-    struct bucketNode * ptrNode;
     FILE *fin;
     fin = fopen(fileName, "r");
     //get array
@@ -110,7 +109,7 @@ void masterCode(int buckets, char* fileName)
     if(result == 0)
     {
         fclose(fin);
-        return 0;
+        return;
     }
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
