@@ -102,6 +102,9 @@ void masterCode(int buckets, char* fileName)
     int bucketNumber;
     struct bucketNode * newNode;
     FILE *fin;
+    struct timeVal startTime, endTime, diffTime;
+    float elapsedTime = 0;
+
     fin = fopen(fileName, "r");
     //get array
     //read the size of list
@@ -121,6 +124,8 @@ void masterCode(int buckets, char* fileName)
     fclose(fin);
     //make buckets
     bucketArray = makeBucket(numBucket);
+    //start time
+    gettimeofday(&startTime, NULL);
     //fill buckets
     for(index = 0; index < arraySize; index++)
     {
@@ -134,10 +139,12 @@ void masterCode(int buckets, char* fileName)
     }
 
     //print buckets
+    /*
     for(index = 0; index < numBucket; index++)
     {
         printBucket(&bucketArray[index],index);
     }
+    */
     //sort buckets
     for(index = 0; index < numBucket; index++)
     {
@@ -145,10 +152,21 @@ void masterCode(int buckets, char* fileName)
     }
 
     //prints the sorted bucket
+    /*
     for(index = 0; index < numBucket; index++)
     {
         printBucket(&bucketArray[index],index);
     }
+    */
+    
+    //stop
+    gettimeofday(&endTime, NULL);
+    timersub(&endTime, &startTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+
+    //prints result
+    printf("%f,",elapsedTime );
     //free memory
     deleteBucket(bucketArray, numBucket);
     free(unsortedArray);

@@ -1,12 +1,18 @@
 #!/bin/bash
-for((i = 100; i <=100000000; i *= 10))
+for m in 1 2 3 4 5
 do
 
-for((k = 2; k <=32 ; k *= 2))
-do
+    for((i = 100; i <=100000000; i *= 10))
+    do
 
-sbatch SBBuckSeqB${k}S${i}
+        for((k = 2; k <=32 ; k *= 2))
+        do
 
-done
+            sbatch SBBuckSeqB${k}S${i}
+            
+            sleep 1m
+        done
+
+    done
 
 done
