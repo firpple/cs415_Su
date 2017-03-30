@@ -21,17 +21,12 @@
 //this function calculates the mandelbrot for a single pixel.
 int sortBucket(struct bucket * b)
 {
-   int valueHolder;
-   //printf("helloworld\n");
-   struct bucketNode * currentPtr, * endOfListPtr, *holderPtr, *unsorted, *previousPtr;
+   struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
-   //endOfListPtr = b -> front;
    unsorted = b->front;
    b->front = NULL;
    while(unsorted != NULL)
    {
-        //
-        //holderPtr = endOfListPtr -> next;
         holderPtr = unsorted;
         unsorted = unsorted -> next;
         holderPtr-> next = NULL;
@@ -73,7 +68,7 @@ void printBucket(struct bucket * currentBucket, int bucketNumber)
 {
 
     struct bucketNode * ptrNode;
-    ptrNode = bucket->front;
+    ptrNode = currentBucket->front;
     printf("Bucket %d:",bucketNumber);
     while(ptrNode != NULL)
     {
@@ -83,7 +78,7 @@ void printBucket(struct bucket * currentBucket, int bucketNumber)
     printf("\n");
 }
 
-bucket * makeBucket(int numBucket)
+struct bucket* makeBucket(int numBucket)
 {
     int index;
     struct bucket * bucketArray;
