@@ -91,7 +91,7 @@ struct bucket* makeBucket(int numBucket)
     return bucketArray;
 }
 
-void deleteBucket(struct bucket * bucketArray, int numBucket)
+void deleteBucket(struct bucket * bucketArray, int size)
 {
 
     int index;
