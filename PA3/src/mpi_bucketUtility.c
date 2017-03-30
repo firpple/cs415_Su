@@ -69,13 +69,33 @@ int sortBucket(struct bucket * b)
 }
 
 
-void printBucket()
+void printBucket(struct bucket * currentBucket, int bucketNumber)
 {
 
+    struct bucketNode * ptrNode;
+    ptrNode = bucket->front;
+    printf("Bucket %d:",bucketNumber);
+    while(ptrNode != NULL)
+    {
+        printf("%d ", ptrNode->data);
+        ptrNode = ptrNode -> next;
+    }
+    printf("\n");
 }
-void makeBucket()
+
+struct bucket * makeBucket(int numBucket)
 {
+    int index;
+    struct bucket * bucketArray;
+
+    bucketArray = (struct bucket *) malloc(numBucket*sizeof(struct bucket)); 
+    for(index = 0; index < numBucket; index++)
+    {
+        bucketArray[index].front = NULL;
+    }
+    return bucketArray;
 }
+
 void deleteBucket()
 {
 }

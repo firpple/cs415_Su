@@ -105,30 +105,21 @@ void masterCode(int buckets, char* fileName)
     FILE *fin;
     fin = fopen(fileName, "r");
     //get array
+    //read the size of list
     result = fscanf(fin,"%d",&arraySize);
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
-
+    //read the list
     for(index = 0; index < arraySize; index++)
     {
         result = fscanf(fin,"%d", &unsortedArray[index]);
     }
 
-    for(index = 0; index < arraySize; index++)
-    {
-        //printf("%d ", unsortedArray[index]);
-    }
-//    printf("\n");
     //make buckets
-    bucketArray = (struct bucket *) malloc(numBucket*sizeof(struct bucket)); 
-    for(index = 0; index < numBucket; index++)
-    {
-        bucketArray[index].front = NULL;
-    }
+    bucketArray = makeBucket(numBucket);
     //fill buckets
     for(index = 0; index < arraySize; index++)
     {
         bucketNumber = unsortedArray[index]/(1000 / numBucket);
-//        printf("%d %d\n",bucketNumber,unsortedArray[index]);
         //push number
         newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
         newNode->next = bucketArray[bucketNumber].front;
@@ -137,16 +128,10 @@ void masterCode(int buckets, char* fileName)
 
     }
 
+    //print buckets
     for(index = 0; index < numBucket; index++)
     {
-        ptrNode = bucketArray[index].front;
-//        printf("Bucket %d:",index);
-        while(ptrNode != NULL)
-        {
-//            printf("%d ", ptrNode->data);
-            ptrNode = ptrNode -> next;
-        }
-//        printf("\n");
+        printBucket(&bucketArray[index],index);
     }
     //sort buckets
     for(index = 0; index < numBucket; index++)
@@ -154,17 +139,10 @@ void masterCode(int buckets, char* fileName)
         sortBucket(&bucketArray[index]);
     }
 
-
+    //prints the sorted bucket
     for(index = 0; index < numBucket; index++)
     {
-        ptrNode = bucketArray[index].front;
-        printf("Bucket %d:",index);
-        while(ptrNode != NULL)
-        {
-            printf("%d ", ptrNode->data);
-            ptrNode = ptrNode -> next;
-        }
-        printf("\n");
+        printBucket(&bucketArray[index],index);
     }
     //free memory
     for(index = 0; index < numBucket; index++)
