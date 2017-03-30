@@ -1,9 +1,8 @@
 /******************************************************************************
-* FILE: mpi_mandelUtility.c
+* FILE: mpi_bucketUtility.c
 * DESCRIPTION:
-*   Implementations of utility functions for mandelbrot
-* AUTHOR: Fred Harris (original code)
-*         Evan Su (modified for c usage)
+*   Implementations of utility functions for bucket sort
+* AUTHOR: Evan Su (modified for c usage)
 * LAST REVISED: 03/13/17
 ******************************************************************************/
 //libraries and complier directives
@@ -17,14 +16,14 @@
   #define WRITE_FLAGS "w"
 #endif
 
-
-//this function calculates the mandelbrot for a single pixel.
+//sorts a single bucket
 int sortBucket(struct bucket * b)
 {
    struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
    unsorted = b->front;
    b->front = NULL;
+   //sorts the list using insertion sort
    while(unsorted != NULL)
    {
         holderPtr = unsorted;
@@ -32,18 +31,21 @@ int sortBucket(struct bucket * b)
         holderPtr-> next = NULL;
         if(b->front == NULL)
         {
-            //
+            //insert on the front of list
             b->front = holderPtr;
         }
         else
         {
+            //finds the next place to insert the item
             currentPtr = b-> front;
             previousPtr = NULL;
+            //cycles through the sorted list
             while(currentPtr != NULL && (currentPtr -> data) < (holderPtr -> data) )
             {
                 previousPtr = currentPtr;
                 currentPtr = currentPtr -> next;
             }
+            //inserts the element in the correct location
             if(currentPtr == b->front)
             {
                 b->front = holderPtr;
@@ -63,7 +65,7 @@ int sortBucket(struct bucket * b)
    return 0;
 }
 
-
+//prints a single bucket
 void printBucket(struct bucket * currentBucket, int bucketNumber)
 {
 
@@ -77,12 +79,12 @@ void printBucket(struct bucket * currentBucket, int bucketNumber)
     }
     printf("\n");
 }
-
+//makes an array of buckets
 struct bucket* makeBucket(int numBucket)
 {
     int index;
     struct bucket * bucketArray;
-
+    
     bucketArray = (struct bucket *) malloc(numBucket*sizeof(struct bucket)); 
     for(index = 0; index < numBucket; index++)
     {
@@ -90,7 +92,7 @@ struct bucket* makeBucket(int numBucket)
     }
     return bucketArray;
 }
-
+//delete an array of buckets
 void deleteBucket(struct bucket * bucketArray, int numBucket)
 {
 

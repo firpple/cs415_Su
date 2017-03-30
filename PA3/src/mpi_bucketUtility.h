@@ -1,9 +1,8 @@
 /******************************************************************************
-* FILE: mpi_mandelUtility.h
+* FILE: mpi_bucketUtility.h
 * DESCRIPTION:
-*   Declarations of utility functions for mandelbrot
-* AUTHOR: Fred Harris (original code)
-*         Evan Su (modified for c use)
+*   Declarations of utility functions for bucket sort
+* AUTHOR: Evan Su
 * LAST REVISED: 03/13/17
 ******************************************************************************/
 

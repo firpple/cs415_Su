@@ -1,7 +1,7 @@
 /******************************************************************************
-* FILE: mpi_mandelSeq.c
+* FILE: mpi_bucketSeq.c
 * DESCRIPTION:
-*   Calculates the mandelbrot image sequential. 
+*   Calculates the bucketsort image sequential. 
 * AUTHOR: Evan Su
 * LAST REVISED: 03/13/17
 ******************************************************************************/
@@ -84,7 +84,7 @@ int main (int argc, char *argv[])
 /*
  *  Function name: masterCode
  *  
- *  Brief: Mandelbrot code for the master node
+ *  Brief: bucketsort code for the master node
  *  
  *  Detail: The master node will create an image char array.
  *          The image array is filled using calc pixel.
@@ -175,7 +175,7 @@ void masterCode(int buckets, char* fileName)
 /*
  *  Function name: slaveCode
  *  
- *  Brief: Mandelbrot code for the slave node
+ *  Brief: bucketsort code for the slave node
  *  
  *  Detail: The slave node does nothing in sequential calculations
  *  
