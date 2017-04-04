@@ -183,7 +183,7 @@ void masterCode(int buckets, char* fileName)
         }
     }
     //all to all
-    MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
+    MPI_Alltoall(sendBuckets,2*rowSize,MPI_INT,
                  recvBuckets, 2*rowSize, MPI_INT,
                  MPI_COMM_WORLD);
 
@@ -347,7 +347,7 @@ void slaveCode(int buckets, char* fileName)
         }
     }
     //all to all    
-    MPI_Alltoall(smallBuckets, 2*size, MPI_INT,
+    MPI_Alltoall(sendBuckets, 2*size, MPI_INT,
                  recvBuckets, 2*size, MPI_INT,
                  MPI_COMM_WORLD);
 
