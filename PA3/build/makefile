@@ -6,31 +6,25 @@ LIBS=-lpmi
 # uncomment below if/when you have a folder called include that holds potential header files
 #INCLUDES=-I../include
 
-OUTMANDELSEQ = mpi_bucketSequential
-FILEMANDELSEQ = ../src/mpi_bucketSeq.c
+OUTBUCKETSEQ = mpi_bucketSequential
+FILEBUCKETSEQ = ../src/mpi_bucketSeq.c
 
-OUTMANDELUTL = mpi_bucketUtility.o
-FILEMANDELUTL = ../src/mpi_bucketUtility.c
+OUTBUCKETUTL = mpi_bucketUtility.o
+FILEBUCKETUTL = ../src/mpi_bucketUtility.c
 
-OUTMANDELSTATIC = mpi_bucketStatic
-FILEMANDELSTATIC = ../src/mpi_bucketStatic.c
+OUTBUCKETPAR = mpi_bucketParallel
+FILEBUCKETPAR = ../src/mpi_bucketPar.c
 
-OUTMANDELDYNAMIC = mpi_bucketDynamic
-FILEMANDELDYNAMIC = ../src/mpi_bucketDynamic.c
+all: $(OUTBUCKETSEQ) $(OUTBUCKETPAR)
 
-all: $(OUTMANDELSEQ)
+$(OUTBUCKETSEQ): $(FILEBUCKETSEQ) $(OUTBUCKETUTL)
+	$(CC) $(CXXFLAGS) -o $(OUTBUCKETSEQ) $(FILEBUCKETSEQ) $(OUTBUCKETUTL) $(LIBS)
 
-$(OUTMANDELSEQ): $(FILEMANDELSEQ) $(OUTMANDELUTL)
-	$(CC) $(CXXFLAGS) -o $(OUTMANDELSEQ) $(FILEMANDELSEQ) $(OUTMANDELUTL) $(LIBS)
+$(OUTBUCKETPAR): $(FILEBUCKETPAR) $(OUTBUCKETUTL)
+	$(CC) $(CXXFLAGS) -o $(OUTBUCKETPAR) $(FILEBUCKETPAR) $(OUTBUCKETUTL) $(LIBS)
 
-$(OUTMANDELSTATIC): $(FILEMANDELSTATIC) $(OUTMANDELUTL)
-	$(CC) $(CXXFLAGS) -o $(OUTMANDELSTATIC) $(FILEMANDELSTATIC) $(OUTMANDELUTL) $(LIBS)
-
-$(OUTMANDELDYNAMIC): $(FILEMANDELDYNAMIC) $(OUTMANDELUTL)
-	$(CC) $(CXXFLAGS) -o $(OUTMANDELDYNAMIC) $(FILEMANDELDYNAMIC) $(OUTMANDELUTL) $(LIBS)
-
-$(OUTMANDELUTL): $(FILEMANDELUTL)
-	$(CC) $(CXXFLAGS) -c $(FILEMANDELUTL)
+$(OUTBUCKETUTL): $(FILEBUCKETUTL)
+	$(CC) $(CXXFLAGS) -c $(FILEBUCKETUTL)
 
 
 
@@ -46,4 +40,4 @@ $(OUTMANDELUTL): $(FILEMANDELUTL)
 #	sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTMANDELUTL) $(OUTMANDELSEQ) $(OUTMANDELSTATIC) $(OUTMANDELDYNAMIC) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTBUCKETUTL) $(OUTBUCKETSEQ) $(OUTBUCKETSTATIC) $(OUTBUCKETDYNAMIC) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
