@@ -369,8 +369,8 @@ void slaveCode(int buckets, char* fileName)
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         printf("ducket %d:", indexOut);
-        //for(indexIn = 0; indexIn < recvBuckets[buckets*2*size]; indexIn++)
-        for(indexIn = 0; indexIn < 2*size; indexIn++)
+        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*size]; indexIn++)
+        //for(indexIn = 0; indexIn < 2*size; indexIn++)
         {
             printf("%d ", recvBuckets[indexOut*2*size + indexIn +1]);
         }
