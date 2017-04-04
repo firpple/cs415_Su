@@ -203,12 +203,12 @@ void masterCode(int buckets, char* fileName)
         printf("\n");
     }
     
-    for(indexOut = 0; indexOut < numBuckets; indexOut++ )
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
         printf("zucket %d:", indexOut);
-        for(indexIn = 0; indexIn < recvBuckets[numBuckets*2*rowSize]; indexIn++)
+        for(indexIn = 0; indexIn < recvBuckets[numBucket*2*rowSize]; indexIn++)
         {
-            printf("%d ", recvBuckets[numBuckets*2*rowSize +indexIn +1]);
+            printf("%d ", recvBuckets[numBucket*2*rowSize +indexIn +1]);
         }
         printf("\n");
     }
@@ -300,6 +300,7 @@ void slaveCode(int buckets, char* fileName)
     int *sendBuckets;
     int currentIndex;
     int bucketIndex, nextIndex;
+    int numBucket = buckets;
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
