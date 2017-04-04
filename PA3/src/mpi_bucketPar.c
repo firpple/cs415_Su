@@ -165,6 +165,8 @@ void masterCode(int buckets, char* fileName)
     sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
+    //start time
+    gettimeofday(&startTime, NULL);
     //fill buckets
     
     for(indexOut = 0; indexOut < size; indexOut++ )
@@ -206,7 +208,14 @@ void masterCode(int buckets, char* fileName)
     printBucket(bucketPtr, 0);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
+    //stop time
+    gettimeofday(&endTime, NULL);
+    timersub(&endTime, &startTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
+    //prints result
+    printf("%f,",elapsedTime );
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
     
     //print buckets
