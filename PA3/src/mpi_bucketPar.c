@@ -152,7 +152,6 @@ void masterCode(int buckets, char* fileName)
     for(indexOut = 0; indexOut < size; indexOut ++)
     {
         result = fscanf(fin,"%d",&unsortedArray[indexOut]);
-        printf("{%d}", indexOut);
     }
     fclose(fin);
     //make buckets
@@ -298,6 +297,7 @@ void slaveCode(int buckets, char* fileName, int rank)
 
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
+    printf("<%d>\n", size);
     MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
     
