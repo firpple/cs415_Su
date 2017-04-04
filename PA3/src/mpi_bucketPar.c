@@ -107,7 +107,7 @@ void masterCode(int buckets, char* fileName)
     int indexIn, indexOut;
     int size;
     int ** smallBuckets;
-    int **recvBuckets;
+    int * recvBuckets;
     int bucketIndex, nextIndex;
     struct bucketNode * newNode;
     FILE *fin;
@@ -157,11 +157,7 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[indexOut][0] = 0;
     }
     
-    recvBuckets = (int **)malloc(sizeof(int*)*numBucket);
-    for(indexOut = 0; indexOut < numBucket; indexOut++ )
-    {
-        recvBuckets[indexOut] = (int *)malloc(sizeof(int)*2*rowSize);
-    }
+    recvBuckets = (int **)malloc(sizeof(int*)*numBucket * 2* rowSize);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
     
@@ -174,9 +170,9 @@ void masterCode(int buckets, char* fileName)
         
     }
     //all to all
-    MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
-                 recvBuckets, 2*rowSize, MPI_INT,
-                 MPI_COMM_WORLD);
+    //MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
+    //             recvBuckets, 2*rowSize, MPI_INT,
+    //             MPI_COMM_WORLD);
 
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
@@ -194,21 +190,13 @@ void masterCode(int buckets, char* fileName)
         printf("\n");
     }
     
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        printf("Vucket %d:", indexOut);
-        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
-        {
-            printf("%d ", recvBuckets[indexOut][indexIn+1]);
-        }
-        printf("\n");
-    }
     free(sendBuffer);
     for(indexOut = 0; indexOut < numBucket; indexOut++)
     {
         free(smallBuckets[indexOut]);
     }
     free(smallBuckets);
+    free(recvBuckets);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
@@ -304,11 +292,7 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
         smallBuckets[indexOut][0] = 0;
     }
-    recvBuckets = (int **)malloc(sizeof(int*)*buckets);
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        recvBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
-    }
+    recvBuckets = (int **)malloc(sizeof(int*)*buckets*2*size);
     
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
@@ -325,9 +309,9 @@ void slaveCode(int buckets, char* fileName)
         
     }
     //all to all    
-    MPI_Alltoall(smallBuckets, 2*size,MPI_INT,
-                 recvBuckets, 2*size, MPI_INT,
-                 MPI_COMM_WORLD);
+    //MPI_Alltoall(smallBuckets, 2*size, MPI_INT,
+    //             recvBuckets, 2*size, MPI_INT,
+    //             MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
@@ -344,15 +328,17 @@ void slaveCode(int buckets, char* fileName)
         printf("\n");
     }
     
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        printf("ducket %d:", indexOut);
-        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
-        {
-            printf("%d ", recvBuckets[indexOut][indexIn+1]);
-        }
-        printf("\n");
-    }
+    //for(indexOut = 0; indexOut < buckets; indexOut++ )
+    //{
+    //    printf("ducket %d:", indexOut);
+    //    for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
+    //    {
+    //        printf("%d ", recvBuckets[indexOut][indexIn+1]);
+    //    }
+    //    printf("\n");
+    //}
+
+    //free memory
     free(unsortedArray);
 
     for(indexOut = 0; indexOut < buckets; indexOut++)
@@ -360,6 +346,8 @@ void slaveCode(int buckets, char* fileName)
         free(smallBuckets[indexOut]);
     }
     free(smallBuckets);
+    
+    free(recvBuckets);
     //printf("%d got\n", size);
     //printf("hello from slave");
 }
