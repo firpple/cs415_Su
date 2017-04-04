@@ -141,7 +141,7 @@ void masterCode(int buckets, char* fileName)
         MPI_Send(sendBuffer, rowSize, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
     //
-    size = arraySize - rowSize* numBucket;
+    size = arraySize - rowSize* (numBucket- 1);
     unsortedArray = (int*)malloc(size);
     for(indexOut = 0; indexOut < size; indexOut ++)
     {
@@ -183,6 +183,11 @@ void masterCode(int buckets, char* fileName)
         printf("\n");
     }
     free(sendBuffer);
+    for(indexOut = 0; indexOut < numBucket; indexOut++)
+    {
+        free(smallBucket[indexOut]);
+    }
+    free(smallBucket);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
@@ -307,6 +312,12 @@ void slaveCode(int buckets, char* fileName)
     
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
     free(unsortedArray);
+
+    for(indexOut = 0; indexOut < numBucket; indexOut++)
+    {
+        free(smallBucket[indexOut]);
+    }
+    free(smallBucket);
     //printf("%d got\n", size);
     //printf("hello from slave");
 }
