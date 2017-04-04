@@ -115,6 +115,7 @@ void masterCode(int buckets, char* fileName)
     struct bucketNode * newNode;
     FILE *fin;
     struct timeval startTime, endTime, diffTime;
+    struct timeval sortTime,
     float elapsedTime = 0;
 
     fin = fopen(fileName, "r");
@@ -207,10 +208,13 @@ void masterCode(int buckets, char* fileName)
         }
     }
     
+    MPI_Barrier(MPI_COMM_WORLD);//sync 2
+    
+    gettimeofday(&sortTime, NULL);
     sortBucket(bucketPtr);
     //printBucket(bucketPtr, 0);
 
-    MPI_Barrier(MPI_COMM_WORLD);//sync 2
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -219,7 +223,14 @@ void masterCode(int buckets, char* fileName)
 
     //prints result
     printf("%f,",elapsedTime );
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
+
+    //sort time
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+
+    //prints result
+    printf("%f,",elapsedTime );
     
     //print buckets
     for(indexOut = 0; indexOut < buckets; indexOut++ )
@@ -332,7 +343,6 @@ void slaveCode(int buckets, char* fileName, int rank)
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     //put in big bucket;
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
@@ -346,6 +356,8 @@ void slaveCode(int buckets, char* fileName, int rank)
         }
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
+    
     sortBucket(bucketPtr);
     //printBucket(bucketPtr, rank);
     
