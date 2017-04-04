@@ -326,9 +326,9 @@ void slaveCode(int buckets, char* fileName)
     
     //ready buckets to send
     currentIndex = 0;
-    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
-        for(indexIn = 0; indexIn < 2*rowSize; indexIn++ )
+        for(indexIn = 0; indexIn < 2*size; indexIn++ )
         {
             sendBuckets[currentIndex] = smallBuckets[indexOut][indexIn];
             currentIndex++;
