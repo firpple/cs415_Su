@@ -175,7 +175,7 @@ void masterCode(int buckets, char* fileName)
     //print buckets
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
-        printf("bucket %d:", indexOut);
+        printf("Tucket %d:", indexOut);
         for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
         {
             printf("%d ", smallBuckets[indexOut][indexIn+1]);
