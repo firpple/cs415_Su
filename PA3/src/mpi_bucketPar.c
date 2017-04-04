@@ -313,7 +313,7 @@ void slaveCode(int buckets, char* fileName)
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
     free(unsortedArray);
 
-    for(indexOut = 0; indexOut < numBucket; indexOut++)
+    for(indexOut = 0; indexOut < buckets; indexOut++)
     {
         free(smallBucket[indexOut]);
     }
