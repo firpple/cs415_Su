@@ -203,6 +203,15 @@ void masterCode(int buckets, char* fileName)
         printf("\n");
     }
     
+    for(indexOut = 0; indexOut < numBuckets; indexOut++ )
+    {
+        printf("zucket %d:", indexOut);
+        for(indexIn = 0; indexIn < recvBuckets[numBuckets*2*rowSize]; indexIn++)
+        {
+            printf("%d ", recvBuckets[numBuckets*2*rowSize +indexIn +1]);
+        }
+        printf("\n");
+    }
     free(sendBuffer);
     for(indexOut = 0; indexOut < numBucket; indexOut++)
     {
@@ -356,15 +365,15 @@ void slaveCode(int buckets, char* fileName)
         printf("\n");
     }
     
-    //for(indexOut = 0; indexOut < buckets; indexOut++ )
-    //{
-    //    printf("ducket %d:", indexOut);
-    //    for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
-    //    {
-    //        printf("%d ", recvBuckets[indexOut][indexIn+1]);
-    //    }
-    //    printf("\n");
-    //}
+    for(indexOut = 0; indexOut < buckets; indexOut++ )
+    {
+        printf("ducket %d:", indexOut);
+        for(indexIn = 0; indexIn < recvBuckets[buckets*2*size]; indexIn++)
+        {
+            printf("%d ", recvBuckets[buckets*2*size +indexIn +1]);
+        }
+        printf("\n");
+    }
 
     //free memory
     free(unsortedArray);
