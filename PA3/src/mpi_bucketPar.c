@@ -242,6 +242,7 @@ void masterCode(int buckets, char* fileName)
     free(smallBuckets);
     free(sendBuckets);
     free(recvBuckets);
+    deleteBucket(bucketPtr, 1);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
@@ -418,6 +419,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     }*/
 
     //free memory
+    
     free(unsortedArray);
 
     for(indexOut = 0; indexOut < buckets; indexOut++)
@@ -428,6 +430,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     
     free(sendBuckets);
     free(recvBuckets);
+    deleteBucket(bucketPtr, 1);
     //printf("%d got\n", size);
     //printf("hello from slave");
 }
