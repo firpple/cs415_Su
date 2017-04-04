@@ -239,7 +239,7 @@ void slaveCode(int buckets, char* fileName)
     smallBuckets = (int **)malloc(buckets);
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
-        smallBuckets[indexOut] = (int *)malloc(2*size);
+        smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
         smallBuckets[indexOut][0] = 0;
     }
     
@@ -252,8 +252,8 @@ void slaveCode(int buckets, char* fileName)
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         smallBuckets[bucketIndex][0]++;
         
-        printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
-        printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
+        //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
+        //printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
         //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
