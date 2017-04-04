@@ -133,10 +133,11 @@ void masterCode(int buckets, char* fileName)
         {
             result = fscanf(fin,"%d",&sendBuffer[indexIn]);
         }
-        MPI_Send(&rowSize, 1, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
+        MPI_Send(sendBuffer, rowSize, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
     
     MPI_Barrier(MPI_COMM_WORLD);
+
     free(sendBuffer);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
@@ -216,7 +217,7 @@ void slaveCode(int buckets, char* fileName)
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
-    MPI_Recv(&unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     for(indexOut = 0; indexOut < size; indexOut++)
     {
         printf("%d ", unsortedArray[indexOut]);
