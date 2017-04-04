@@ -315,7 +315,7 @@ void slaveCode(int buckets, char* fileName, int rank)
         
     }
     
-MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+//MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     //ready buckets to send
     currentIndex = 0;
     for(indexOut = 0; indexOut < buckets; indexOut++ )
