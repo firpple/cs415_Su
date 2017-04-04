@@ -11,7 +11,6 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 //define constants
 #define  MASTER		0
@@ -175,7 +174,7 @@ void masterCode(int buckets, char* fileName)
     
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
-        bucketIndex = unsortedArray[indexOut]/ceil(MAXINT/ (double) buckets);
+        bucketIndex = (int)(unsortedArray[indexOut]/(MAXINT/ (float) buckets));
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         smallBuckets[bucketIndex][0]++;
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
@@ -305,7 +304,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
-        bucketIndex = unsortedArray[indexOut]/ceil(MAXINT/ (double) buckets);
+        bucketIndex = (int)(unsortedArray[indexOut]/(MAXINT/ (float) buckets));
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         //smallBuckets[bucketIndex][0]++;
         
@@ -349,26 +348,7 @@ void slaveCode(int buckets, char* fileName, int rank)
 
     sortBucket(bucketPtr);
     //printBucket(bucketPtr, rank);
-    //print buckets
-    /*for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        printf("bucket %d:", indexOut);
-        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
-        {
-            printf("%d ", smallBuckets[indexOut][indexIn+1]);
-        }
-        printf("\n");
-    }
     
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        printf("ducket %d:", indexOut);
-        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*size]; indexIn++)
-        {
-            printf("%d ", recvBuckets[indexOut*2*size + indexIn +1]);
-        }
-        printf("\n");
-    }*/
 
     //free memory
     
