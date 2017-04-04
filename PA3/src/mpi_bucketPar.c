@@ -288,7 +288,8 @@ void slaveCode(int buckets, char* fileName)
     int indexIn, indexOut;
     int **smallBuckets;
     int *recvBuckets;
-    int *sendBuckets
+    int *sendBuckets;
+    int currentIndex;
     int bucketIndex, nextIndex;
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
