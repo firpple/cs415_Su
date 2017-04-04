@@ -165,8 +165,7 @@ void masterCode(int buckets, char* fileName)
     
     sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
-    //for debugging
-    MPI_Recv(&numBucket, 1, MPI_INT, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //printf("started time\n");
     //start time
@@ -281,14 +280,12 @@ void slaveCode(int buckets, char* fileName, int rank)
     int bucketIndex, nextIndex;
     int numBucket = buckets;
     MPI_Status status;
+
+
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
     MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    //for(indexOut = 0; indexOut < size; indexOut++)
-    //{
-    //    printf("%d ", unsortedArray[indexOut]);
-    //}
-    //printf("\n");
+
     
     //make buckets
     bucketPtr = (struct bucket*)malloc(sizeof(struct bucket));
@@ -327,6 +324,7 @@ void slaveCode(int buckets, char* fileName, int rank)
             currentIndex++;
         }
     }
+MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     //all to all    
     MPI_Alltoall(sendBuckets, 2*size, MPI_INT,
                  recvBuckets, 2*size, MPI_INT,
