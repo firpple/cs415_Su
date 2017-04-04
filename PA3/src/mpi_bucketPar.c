@@ -106,6 +106,8 @@ void masterCode(int buckets, char* fileName)
     int rowSize;
     int indexIn, indexOut;
     int size;
+    int ** smallBuckets;
+    int bucketIndex, nextIndex;
     struct bucketNode * newNode;
     FILE *fin;
     struct timeval startTime, endTime, diffTime;
@@ -140,13 +142,46 @@ void masterCode(int buckets, char* fileName)
     }
     //
     size = arraySize - rowSize* numBucket;
+    unsortedArray = (int*)malloc(size);
+    for(indexOut = 0; indexOut < size; indexOut ++)
+    {
+        result = fscanf(fin,"%d",&unsortedArray[indexIn]);
+    }
+    fclose(fin);
     //make buckets
-    MPI_Barrier(MPI_COMM_WORLD);//sync 1
+    smallBuckets = (int **)malloc(sizeof(int*)*numBucket);
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    {
+        smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
+        smallBuckets[indexOut][0] = 0;
+    }
+    
+    MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
+    
+    for(indexOut = 0; indexOut < size; indexOut++ )
+    {
+        bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
+        nextIndex = smallBuckets[bucketIndex][0] + 1;
+        smallBuckets[bucketIndex][0]++;
+        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
+        
+    }
     
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
+    
+    //print buckets
+    for(indexOut = 0; indexOut < buckets; indexOut++ )
+    {
+        printf("bucket %d:", indexOut);
+        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
+        {
+            printf("%d ", smallBuckets[indexOut][indexIn+1]);
+        }
+        printf("\n");
+    }
     free(sendBuffer);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
@@ -236,7 +271,7 @@ void slaveCode(int buckets, char* fileName)
     //printf("\n");
     
     //make buckets
-    smallBuckets = (int **)malloc(buckets);
+    smallBuckets = (int **)malloc(sizeof(int*)*buckets);
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
@@ -257,6 +292,7 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
+    //print buckets
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         printf("bucket %d:", indexOut);
