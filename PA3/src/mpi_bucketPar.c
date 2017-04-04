@@ -108,7 +108,9 @@ void masterCode(int buckets, char* fileName)
     int size;
     int ** smallBuckets;
     int * recvBuckets;
+    int * sendBuckets;
     int bucketIndex, nextIndex;
+    int currentIndex;
     struct bucketNode * newNode;
     FILE *fin;
     struct timeval startTime, endTime, diffTime;
@@ -157,6 +159,7 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[indexOut][0] = 0;
     }
     
+    sendBuckets = (int **)malloc(sizeof(int*)*numBucket * 2* rowSize);
     recvBuckets = (int **)malloc(sizeof(int*)*numBucket * 2* rowSize);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
@@ -169,10 +172,20 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
+    //ready buckets to send
+    currentIndex = 0;
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    {
+        for(indexIn = 0; indexIn < 2*rowSize; indexIn++ )
+        {
+            sendBuckets[currentIndex] = smallBuckets[indexOut][indexIn];
+            currentIndex++;
+        }
+    }
     //all to all
-    //MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
-    //             recvBuckets, 2*rowSize, MPI_INT,
-    //             MPI_COMM_WORLD);
+    MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
+                 recvBuckets, 2*rowSize, MPI_INT,
+                 MPI_COMM_WORLD);
 
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
@@ -196,6 +209,7 @@ void masterCode(int buckets, char* fileName)
         free(smallBuckets[indexOut]);
     }
     free(smallBuckets);
+    free(sendBuckets);
     free(recvBuckets);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
@@ -292,6 +306,7 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
         smallBuckets[indexOut][0] = 0;
     }
+    sendBuckets = (int **)malloc(sizeof(int*)*buckets*2*size);
     recvBuckets = (int **)malloc(sizeof(int*)*buckets*2*size);
     
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
@@ -308,10 +323,21 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
+    
+    //ready buckets to send
+    currentIndex = 0;
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    {
+        for(indexIn = 0; indexIn < 2*rowSize; indexIn++ )
+        {
+            sendBuckets[currentIndex] = smallBuckets[indexOut][indexIn];
+            currentIndex++;
+        }
+    }
     //all to all    
-    //MPI_Alltoall(smallBuckets, 2*size, MPI_INT,
-    //             recvBuckets, 2*size, MPI_INT,
-    //             MPI_COMM_WORLD);
+    MPI_Alltoall(smallBuckets, 2*size, MPI_INT,
+                 recvBuckets, 2*size, MPI_INT,
+                 MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
@@ -347,6 +373,7 @@ void slaveCode(int buckets, char* fileName)
     }
     free(smallBuckets);
     
+    free(sendBuckets);
     free(recvBuckets);
     //printf("%d got\n", size);
     //printf("hello from slave");
