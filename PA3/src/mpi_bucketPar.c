@@ -22,7 +22,7 @@
 
 //function declarations
 void masterCode(int, char*);
-void slaveCode(int, char*);
+void slaveCode(int, char*, int);
 
 //Main function
 /*
@@ -73,7 +73,7 @@ int main (int argc, char *argv[])
     {
         //slave code
         //this code does nothing, placeholder for parallel.
-	    slaveCode(atoi(argv[1]),argv[2]);
+	    slaveCode(atoi(argv[1]),argv[2], taskid);
     }
 
     MPI_Finalize();
@@ -312,10 +312,11 @@ void masterCode(int buckets, char* fileName)
  *  Detail: The slave node does nothing in sequential calculations
  *  
  */
-void slaveCode(int buckets, char* fileName)
+void slaveCode(int buckets, char* fileName, int rank)
 {
     
     struct bucket * bucketPtr;
+    struct bucketNode * newNode;
     int size;
     int * unsortedArray;
     int indexIn, indexOut;
@@ -380,9 +381,23 @@ void slaveCode(int buckets, char* fileName)
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
-    
+    //put in big bucket;
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    {
+        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*rowSize]; indexIn++)
+        {
+            //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
+            newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
+            newNode->next = bucketPtr->front;
+            newNode->data = recvBuckets[indexOut*2*rowSize + indexIn +1];
+            bucketPtr->front =  newNode;
+        }
+    }
+
+    sortBucket(bucketPtr);
+    printBucket(bucketPtr, 0);
     //print buckets
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
+    /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         printf("bucket %d:", indexOut);
         for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
@@ -400,7 +415,7 @@ void slaveCode(int buckets, char* fileName)
             printf("%d ", recvBuckets[indexOut*2*size + indexIn +1]);
         }
         printf("\n");
-    }
+    }*/
 
     //free memory
     free(unsortedArray);
