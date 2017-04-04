@@ -162,6 +162,7 @@ void masterCode(int buckets, char* fileName)
         bucketArray[bucketNumber].front =  newNode;
 
     }
+    */
 
     //print buckets
     /*
@@ -176,7 +177,7 @@ void masterCode(int buckets, char* fileName)
     {
         sortBucket(&bucketArray[index]);
     }
-
+    */
     //prints the sorted bucket
     /*
     for(index = 0; index < numBucket; index++)
@@ -216,7 +217,7 @@ void slaveCode(int buckets, char* fileName)
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
     MPI_Recv(&unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    for(indexOut = 0; indexOut < size; index++)
+    for(indexOut = 0; indexOut < size; indexOut++)
     {
         printf("%d ", unsortedArray[indexOut]);
     }
