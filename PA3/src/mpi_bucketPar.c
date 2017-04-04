@@ -164,7 +164,7 @@ void masterCode(int buckets, char* fileName)
         bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         smallBuckets[bucketIndex][0]++;
-        //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
+        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     
