@@ -167,7 +167,12 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
-    
+    //all to all
+    MPI_Alltoall(smallBuckets,2*rowSize,MPI_INT,
+                 smallBuckets, 2*rowSize, MPI_INT,
+                 MPI_COMM_WORLD);
+
+
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
@@ -297,6 +302,15 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
+    //all to all    
+    MPI_Alltoall(smallBuckets, 2*size,MPI_INT,
+                 smallBuckets, 2*size, MPI_INT,
+                 MPI_COMM_WORLD);
+
+    MPI_Barrier(MPI_COMM_WORLD);//sync 2
+    
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
+    
     //print buckets
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
@@ -307,10 +321,6 @@ void slaveCode(int buckets, char* fileName)
         }
         printf("\n");
     }
-    //all to all    
-    MPI_Barrier(MPI_COMM_WORLD);//sync 2
-    
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     free(unsortedArray);
 
     for(indexOut = 0; indexOut < buckets; indexOut++)
