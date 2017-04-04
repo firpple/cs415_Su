@@ -253,7 +253,8 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][0]++;
         
         printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
-        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
+        printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
+        //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     for(indexOut = 0; indexOut < buckets; indexOut++ )
