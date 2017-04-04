@@ -196,7 +196,7 @@ void masterCode(int buckets, char* fileName)
         {
             //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
             newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
-            newNode->next = bucketArray[bucketNumber].front;
+            newNode->next = bucketPtr->front;
             newNode->data = recvBuckets[indexOut*2*rowSize + indexIn +1];
             bucketPtr->front =  newNode;
         }
