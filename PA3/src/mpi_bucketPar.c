@@ -305,8 +305,8 @@ void slaveCode(int buckets, char* fileName, int rank)
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
         bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
-        nextIndex = smallBuckets[bucketIndex][0] + 1;
-        smallBuckets[bucketIndex][0]++;
+        //nextIndex = smallBuckets[bucketIndex][0] + 1;
+        //smallBuckets[bucketIndex][0]++;
         
         //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
         //printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
