@@ -159,8 +159,8 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[indexOut][0] = 0;
     }
     
-    sendBuckets = (int **)malloc(sizeof(int*)*numBucket * 2* rowSize);
-    recvBuckets = (int **)malloc(sizeof(int*)*numBucket * 2* rowSize);
+    sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
+    recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
     
@@ -287,7 +287,8 @@ void slaveCode(int buckets, char* fileName)
     int * unsortedArray;
     int indexIn, indexOut;
     int **smallBuckets;
-    int **recvBuckets;
+    int *recvBuckets;
+    int *sendBuckets
     int bucketIndex, nextIndex;
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -306,8 +307,8 @@ void slaveCode(int buckets, char* fileName)
         smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
         smallBuckets[indexOut][0] = 0;
     }
-    sendBuckets = (int **)malloc(sizeof(int*)*buckets*2*size);
-    recvBuckets = (int **)malloc(sizeof(int*)*buckets*2*size);
+    sendBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
+    recvBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
