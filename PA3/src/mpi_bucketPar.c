@@ -145,7 +145,7 @@ void masterCode(int buckets, char* fileName)
     unsortedArray = (int*)malloc(sizeof(int)*size);
     for(indexOut = 0; indexOut < size; indexOut ++)
     {
-        result = fscanf(fin,"%d",&unsortedArray[indexIn]);
+        result = fscanf(fin,"%d",&unsortedArray[indexOut]);
     }
     fclose(fin);
     //make buckets
