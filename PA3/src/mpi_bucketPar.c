@@ -117,11 +117,16 @@ void masterCode(int buckets, char* fileName)
         rowSize = -1;
         for(indexOut = 1; indexOut < buckets; indexOut++)
         {
-            MPI_Send(&rowSize, 1,MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+            MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         }
         return;
     }
-    
+
+    rowSize = arraySize/buckets;
+    for(indexOut = 1; indexOut < buckets; indexOut++)
+    {
+        MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+    }
 
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));

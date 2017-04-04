@@ -24,7 +24,7 @@ done
 #parallel stuffs
 cat > SBBuckParB2S100 << EOF
 #!/bin/bash
-#SBATCH -o BSeqB2S100_%J.out
+#SBATCH -o BParB2S100_%J.out
 #SBATCH --ntasks 2
 #SBATCH --nodes 1
 #SBATCH --time=00:05:00
