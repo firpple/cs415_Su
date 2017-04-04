@@ -131,7 +131,7 @@ void masterCode(int buckets, char* fileName)
         MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         for(indexIn = 0; indexIn < rowSize; indexIn++)
         {
-            result = fscanf(fp,"%d",&sendBuffer[indexIn]);
+            result = fscanf(fin,"%d",&sendBuffer[indexIn]);
         }
         MPI_Send(&rowSize, 1, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
