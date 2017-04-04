@@ -359,11 +359,11 @@ void slaveCode(int buckets, char* fileName, int rank)
         }
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     
     sortBucket(bucketPtr);
     //printBucket(bucketPtr, rank);
     
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
 
     //free memory
     
