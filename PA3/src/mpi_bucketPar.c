@@ -390,7 +390,7 @@ void slaveCode(int buckets, char* fileName, int rank)
             //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
             newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
             newNode->next = bucketPtr->front;
-            newNode->data = recvBuckets[indexOut*2*rowSize + indexIn +1];
+            newNode->data = recvBuckets[indexOut*2*size + indexIn +1];
             bucketPtr->front =  newNode;
         }
     }
