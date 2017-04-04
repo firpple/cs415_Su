@@ -152,7 +152,7 @@ void masterCode(int buckets, char* fileName)
     smallBuckets = (int **)malloc(sizeof(int*)*numBucket);
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
-        smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*size);
+        smallBuckets[indexOut] = (int *)malloc(sizeof(int)*2*rowSize);
         smallBuckets[indexOut][0] = 0;
     }
     
@@ -161,10 +161,10 @@ void masterCode(int buckets, char* fileName)
     
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
-        bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
-        nextIndex = smallBuckets[bucketIndex][0] + 1;
-        smallBuckets[bucketIndex][0]++;
-        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
+        //bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
+        //nextIndex = smallBuckets[bucketIndex][0] + 1;
+        //smallBuckets[bucketIndex][0]++;
+        //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     
