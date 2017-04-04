@@ -115,7 +115,7 @@ void masterCode(int buckets, char* fileName)
     struct bucketNode * newNode;
     FILE *fin;
     struct timeval startTime, endTime, diffTime;
-    struct timeval sortTime,
+    struct timeval sortTime;
     float elapsedTime = 0;
 
     fin = fopen(fileName, "r");
