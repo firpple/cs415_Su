@@ -166,7 +166,7 @@ void masterCode(int buckets, char* fileName)
     sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     //for debugging
-    MPI_Recv(&numBuckets, 1, MPI_INT, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(&numBucket, 1, MPI_INT, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //printf("started time\n");
     //start time
