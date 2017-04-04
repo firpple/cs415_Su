@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 //define constants
 #define  MASTER		0
@@ -174,7 +175,7 @@ void masterCode(int buckets, char* fileName)
     
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
-        bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
+        bucketIndex = unsortedArray[indexOut]/ceil(MAXINT/ (double) buckets);
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         smallBuckets[bucketIndex][0]++;
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
@@ -304,8 +305,8 @@ void slaveCode(int buckets, char* fileName, int rank)
     
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
-        bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
-        //nextIndex = smallBuckets[bucketIndex][0] + 1;
+        bucketIndex = unsortedArray[indexOut]/ceil(MAXINT/ (double) buckets);
+        nextIndex = smallBuckets[bucketIndex][0] + 1;
         //smallBuckets[bucketIndex][0]++;
         
         //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
