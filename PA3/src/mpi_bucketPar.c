@@ -185,9 +185,9 @@ void masterCode(int buckets, char* fileName)
     free(sendBuffer);
     for(indexOut = 0; indexOut < numBucket; indexOut++)
     {
-        free(smallBucket[indexOut]);
+        free(smallBuckets[indexOut]);
     }
-    free(smallBucket);
+    free(smallBuckets);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
@@ -315,9 +315,9 @@ void slaveCode(int buckets, char* fileName)
 
     for(indexOut = 0; indexOut < buckets; indexOut++)
     {
-        free(smallBucket[indexOut]);
+        free(smallBuckets[indexOut]);
     }
-    free(smallBucket);
+    free(smallBuckets);
     //printf("%d got\n", size);
     //printf("hello from slave");
 }
