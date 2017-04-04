@@ -203,7 +203,7 @@ void masterCode(int buckets, char* fileName)
     }
     
     sortBucket(bucketPtr);
-
+    printBucket(bucketPtr, 0);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
 
