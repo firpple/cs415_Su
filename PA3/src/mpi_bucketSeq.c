@@ -166,14 +166,14 @@ void masterCode(int buckets, char* fileName)
 
     //prints result
     printf("%f,",elapsedTime );
-    printBucket(&bucketArray[0],0);
+    //printBucket(&bucketArray[0],0);
     //prints the sorted bucket
-    /*
+    
     for(index = 0; index < numBucket; index++)
     {
         printBucket(&bucketArray[index],index);
     }
-    */
+    
     
 
 
