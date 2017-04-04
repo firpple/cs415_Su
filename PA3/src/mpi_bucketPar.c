@@ -153,7 +153,7 @@ void masterCode(int buckets, char* fileName)
     }
     fclose(fin);
     //make buckets
-    bucketPtr = (struct bucket*)malloc(sizeof(bucket));
+    bucketPtr = (struct bucket*)malloc(sizeof(struct bucket));
     smallBuckets = (int **)malloc(sizeof(int*)*numBucket);
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
@@ -335,7 +335,7 @@ void slaveCode(int buckets, char* fileName)
     //printf("\n");
     
     //make buckets
-    bucketPtr = (struct bucket*)malloc(sizeof(bucket));
+    bucketPtr = (struct bucket*)malloc(sizeof(struct bucket));
     smallBuckets = (int **)malloc(sizeof(int*)*buckets);
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
