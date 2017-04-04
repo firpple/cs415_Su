@@ -16,6 +16,7 @@
 #define  MASTER		0
 #define  SLAVE      1
 #define  TAG        0
+#define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
 
 //function declarations
@@ -97,6 +98,7 @@ void masterCode(int buckets, char* fileName)
     int numBucket = buckets;
     int arraySize;
     int *unsortedArray;
+    int *sendBuffer;
     int index;
     int result;
     int bucketNumber;
@@ -121,13 +123,21 @@ void masterCode(int buckets, char* fileName)
         }
         return;
     }
-
-    rowSize = arraySize/buckets;
-    for(indexOut = 1; indexOut < buckets; indexOut++)
+    
+    rowSize = arraySize/numBucket;
+    sendBuffer = (int*)malloc(sizeof(int)*rowSize);
+    for(indexOut = 1; indexOut < numBucket; indexOut++)
     {
         MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+        for(indexIn = 0; indexIn < rowSize; indexIn++)
+        {
+            result = fscanf(fp,"%d",&sendBuffer[indexIn]);
+        }
+        MPI_Send(&rowSize, 1, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
-
+    
+    MPI_Barrier(MPI_COMM_WORLD);
+    free(sendBuffer);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
@@ -200,9 +210,21 @@ void masterCode(int buckets, char* fileName)
 void slaveCode(int buckets, char* fileName)
 {
     int size;
+    int * unsortedArray;
+    int indexIn, indexOut;
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    printf("%d got\n", size);
+    unsortedArray = (int*)malloc(sizeof(int)*size);
+    MPI_Recv(&unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    for(indexOut = 0; indexOut < size; index++)
+    {
+        printf("%d ", unsortedArray[indexOut]);
+    }
+    printf("\n");
+    
+    MPI_Barrier(MPI_COMM_WORLD);
+    free(unsortedArray);
+    //printf("%d got\n", size);
     //printf("hello from slave");
 }
 
