@@ -18,6 +18,7 @@
 #define  TAG        0
 #define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
+#define  MAXINT     1000
 
 //function declarations
 void masterCode(int, char*);
@@ -104,6 +105,7 @@ void masterCode(int buckets, char* fileName)
     int bucketNumber;
     int rowSize;
     int indexIn, indexOut;
+    int size;
     struct bucketNode * newNode;
     FILE *fin;
     struct timeval startTime, endTime, diffTime;
@@ -126,6 +128,7 @@ void masterCode(int buckets, char* fileName)
     
     rowSize = arraySize/numBucket;
     sendBuffer = (int*)malloc(sizeof(int)*rowSize);
+    //send rows out
     for(indexOut = 1; indexOut < numBucket; indexOut++)
     {
         MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
@@ -135,9 +138,15 @@ void masterCode(int buckets, char* fileName)
         }
         MPI_Send(sendBuffer, rowSize, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
+    //
+    size = arraySize - rowSize* numBucket;
+    //make buckets
+    MPI_Barrier(MPI_COMM_WORLD);//sync 1
+    //fill buckets
     
-    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);//sync 2
 
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     free(sendBuffer);
     /*
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
@@ -214,17 +223,48 @@ void slaveCode(int buckets, char* fileName)
     int size;
     int * unsortedArray;
     int indexIn, indexOut;
+    int **smallBuckets;
+    int bucketIndex, nextIndex;
     MPI_Status status;
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     unsortedArray = (int*)malloc(sizeof(int)*size);
     MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    for(indexOut = 0; indexOut < size; indexOut++)
-    {
-        printf("%d ", unsortedArray[indexOut]);
-    }
-    printf("\n");
+    //for(indexOut = 0; indexOut < size; indexOut++)
+    //{
+    //    printf("%d ", unsortedArray[indexOut]);
+    //}
+    //printf("\n");
     
-    MPI_Barrier(MPI_COMM_WORLD);
+    //make buckets
+    smallBuckets = (int **)malloc(buckets);
+    for(indexOut = 0; indexOut < buckets; indexOut++ )
+    {
+        smallBuckets[indexOut] = (int *)malloc(2*size);
+        smallBuckets[indexOut][0] = 0;
+    }
+    
+    MPI_Barrier(MPI_COMM_WORLD); //sync 1
+    //fill buckets
+    
+    for(indexOut = 0; indexOut < size; indexOut++ )
+    {
+        bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
+        nextIndex = ++smallBuckets[bucketIndex][0];
+        smallBucket[bucketIndex][nextIndex] =unsortedArray[indexOut]; 
+    }
+    for(indexOut = 0; indexOut < buckets; indexOut++ )
+    {
+        printf("bucket %d:", indexOut);
+        for(indexIn = 0; indexIn < smallBucket[indexOut][0]; indexIn++)
+        {
+            printf("%d", smallBucket[indexOut][indexIn+1]);
+        }
+        printf("\n");
+    }
+    //all to all    
+    MPI_Barrier(MPI_COMM_WORLD);//sync 2
+    
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3
     free(unsortedArray);
     //printf("%d got\n", size);
     //printf("hello from slave");
