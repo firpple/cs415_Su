@@ -129,7 +129,7 @@ void masterCode(int buckets, char* fileName)
         {
             MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         }
-        printf("rowSize: %d\n", rowSize);
+        //printf("rowSize: %d\n", rowSize);
         return;
     }
     
@@ -165,8 +165,10 @@ void masterCode(int buckets, char* fileName)
     
     sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
+    //for debugging
+    MPI_Recv(&numBuckets, 1, MPI_INT, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
-    printf("started time\n");
+    //printf("started time\n");
     //start time
     gettimeofday(&startTime, NULL);
     //fill buckets
