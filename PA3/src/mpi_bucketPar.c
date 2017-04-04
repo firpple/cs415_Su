@@ -299,7 +299,6 @@ void slaveCode(int buckets, char* fileName, int rank)
     sendBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     recvBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     
-MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
     //fill buckets
     
@@ -311,7 +310,7 @@ MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STA
         
         //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
         //printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
-        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
+        //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     
