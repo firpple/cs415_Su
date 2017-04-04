@@ -233,7 +233,9 @@ void masterCode(int buckets, char* fileName)
     printf("%f,",elapsedTime );
     
     //print buckets
-    for(indexOut = 0; indexOut < buckets; indexOut++ )
+
+    printBucket(bucketPtr, 0);
+    /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         //printf("Tucket %d:", indexOut);
         for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
@@ -253,7 +255,7 @@ void masterCode(int buckets, char* fileName)
         }
         //printf("\n");
     }
-
+*/
 
 
     //free memory

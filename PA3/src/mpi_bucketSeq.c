@@ -151,15 +151,6 @@ void masterCode(int buckets, char* fileName)
     {
         sortBucket(&bucketArray[index]);
     }
-
-    //prints the sorted bucket
-    /*
-    for(index = 0; index < numBucket; index++)
-    {
-        printBucket(&bucketArray[index],index);
-    }
-    */
-    
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -175,6 +166,16 @@ void masterCode(int buckets, char* fileName)
 
     //prints result
     printf("%f,",elapsedTime );
+    printBucket(&bucketArray[0],0);
+    //prints the sorted bucket
+    /*
+    for(index = 0; index < numBucket; index++)
+    {
+        printBucket(&bucketArray[index],index);
+    }
+    */
+    
+
 
     //free memory
     deleteBucket(bucketArray, numBucket);
