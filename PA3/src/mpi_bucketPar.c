@@ -396,7 +396,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     }
 
     sortBucket(bucketPtr);
-    printBucket(bucketPtr, 0);
+    printBucket(bucketPtr, rank);
     //print buckets
     /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
