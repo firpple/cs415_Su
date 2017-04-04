@@ -250,14 +250,14 @@ void slaveCode(int buckets, char* fileName)
     {
         bucketIndex = unsortedArray[indexOut]/(MAXINT/ buckets);
         nextIndex = ++smallBuckets[bucketIndex][0];
-        smallBucket[bucketIndex][nextIndex] =unsortedArray[indexOut]; 
+        smallBuckets[bucketIndex][nextIndex] =unsortedArray[indexOut]; 
     }
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         printf("bucket %d:", indexOut);
-        for(indexIn = 0; indexIn < smallBucket[indexOut][0]; indexIn++)
+        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
         {
-            printf("%d", smallBucket[indexOut][indexIn+1]);
+            printf("%d", smallBuckets[indexOut][indexIn+1]);
         }
         printf("\n");
     }
