@@ -324,8 +324,7 @@ void slaveCode(int buckets, char* fileName, int rank)
         
         //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
         //printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
-        //smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
-        printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
+        smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     
