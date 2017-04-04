@@ -205,7 +205,7 @@ void masterCode(int buckets, char* fileName)
     }
     
     sortBucket(bucketPtr);
-    printBucket(bucketPtr, 0);
+    //printBucket(bucketPtr, 0);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     //stop time
@@ -252,66 +252,6 @@ void masterCode(int buckets, char* fileName)
     free(sendBuckets);
     free(recvBuckets);
     deleteBucket(bucketPtr, 1);
-    /*
-    unsortedArray = (int *) malloc(arraySize * sizeof(int));
-    //read the list
-    for(index = 0; index < arraySize; index++)
-    {
-        result = fscanf(fin,"%d", &unsortedArray[index]);
-    }
-    
-    fclose(fin);
-    //make buckets
-    bucketArray = makeBucket(numBucket);
-    //start time
-    gettimeofday(&startTime, NULL);
-    //fill buckets
-    for(index = 0; index < arraySize; index++)
-    {
-        bucketNumber = unsortedArray[index]/(1000 / numBucket);
-        //push number
-        newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
-        newNode->next = bucketArray[bucketNumber].front;
-        newNode->data = unsortedArray[index];
-        bucketArray[bucketNumber].front =  newNode;
-
-    }
-    */
-
-    //print buckets
-    /*
-    for(index = 0; index < numBucket; index++)
-    {
-        printBucket(&bucketArray[index],index);
-    }
-    */
-    //sort buckets
-    /*
-    for(index = 0; index < numBucket; index++)
-    {
-        sortBucket(&bucketArray[index]);
-    }
-    */
-    //prints the sorted bucket
-    /*
-    for(index = 0; index < numBucket; index++)
-    {
-        printBucket(&bucketArray[index],index);
-    }
-    */
-    /*
-    //stop time
-    gettimeofday(&endTime, NULL);
-    timersub(&endTime, &startTime, &diffTime); //calc diff time
-    //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-
-    //prints result
-    printf("%f,",elapsedTime );
-    //free memory
-    deleteBucket(bucketArray, numBucket);
-    free(unsortedArray);
-    */
 }
 
 /*
@@ -405,7 +345,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     }
 
     sortBucket(bucketPtr);
-    printBucket(bucketPtr, rank);
+    //printBucket(bucketPtr, rank);
     //print buckets
     /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
