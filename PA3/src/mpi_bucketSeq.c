@@ -160,19 +160,19 @@ void masterCode(int buckets, char* fileName)
     //prints result
     printf("%f,",elapsedTime );
     //calc sort time
-    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+    //elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
-    printf("%f,",elapsedTime );
+    //printf("%f,",elapsedTime );
     //printBucket(&bucketArray[0],0);
     //prints the sorted bucket
     
-    for(index = 0; index < numBucket; index++)
-    {
-        printBucket(&bucketArray[index],index);
-    }
+    //for(index = 0; index < numBucket; index++)
+    //{
+    //    printBucket(&bucketArray[index],index);
+    //}
     
     
 

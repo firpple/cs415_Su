@@ -227,14 +227,14 @@ void masterCode(int buckets, char* fileName)
     //sort time
     timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+    //elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
-    printf("%f,",elapsedTime );
+    //printf("%f,",elapsedTime );
     
     //print buckets
 
-    printBucket(bucketPtr, 0);
+    //printBucket(bucketPtr, 0);
     /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
         //printf("Tucket %d:", indexOut);
@@ -362,7 +362,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
     
     sortBucket(bucketPtr);
-    printBucket(bucketPtr, rank);
+    //printBucket(bucketPtr, rank);
     
 
     //free memory
