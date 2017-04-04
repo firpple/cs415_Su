@@ -96,6 +96,7 @@ int main (int argc, char *argv[])
 void masterCode(int buckets, char* fileName)
 {
     struct bucket * bucketArray;
+    struct bucket * bucketPtr;
     int numBucket = buckets;
     int arraySize;
     int *unsortedArray;
@@ -152,6 +153,7 @@ void masterCode(int buckets, char* fileName)
     }
     fclose(fin);
     //make buckets
+    bucketPtr = (struct bucket*)malloc(sizeof(bucket));
     smallBuckets = (int **)malloc(sizeof(int*)*numBucket);
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
@@ -186,6 +188,20 @@ void masterCode(int buckets, char* fileName)
     MPI_Alltoall(sendBuckets,2*rowSize,MPI_INT,
                  recvBuckets, 2*rowSize, MPI_INT,
                  MPI_COMM_WORLD);
+    //put in big bucket;
+    for(indexOut = 0; indexOut < numBucket; indexOut++ )
+    {
+        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*rowSize]; indexIn++)
+        {
+            //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
+            newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
+            newNode->next = bucketArray[bucketNumber].front;
+            newNode->data = recvBuckets[indexOut*2*rowSize + indexIn +1];
+            bucketPtr->front =  newNode;
+        }
+    }
+    
+    sortBucket(bucketPtr);
 
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
@@ -195,23 +211,28 @@ void masterCode(int buckets, char* fileName)
     //print buckets
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
-        printf("Tucket %d:", indexOut);
+        //printf("Tucket %d:", indexOut);
         for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
         {
-            printf("%d ", smallBuckets[indexOut][indexIn+1]);
+        //    printf("%d ", smallBuckets[indexOut][indexIn+1]);
         }
-        printf("\n");
+        //printf("\n");
     }
-    
+
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
-        printf("zucket %d:", indexOut);
-        for(indexIn = 0; indexIn < recvBuckets[numBucket*2*rowSize]; indexIn++)
+        //printf("zucket %d:", indexOut);
+        
+        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*rowSize]; indexIn++)
         {
-            printf("%d ", recvBuckets[numBucket*2*rowSize +indexIn +1]);
+        //    printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
         }
-        printf("\n");
+        //printf("\n");
     }
+
+
+
+    //free memory
     free(sendBuffer);
     for(indexOut = 0; indexOut < numBucket; indexOut++)
     {
@@ -292,6 +313,8 @@ void masterCode(int buckets, char* fileName)
  */
 void slaveCode(int buckets, char* fileName)
 {
+    
+    struct bucket * bucketPtr;
     int size;
     int * unsortedArray;
     int indexIn, indexOut;
@@ -312,6 +335,7 @@ void slaveCode(int buckets, char* fileName)
     //printf("\n");
     
     //make buckets
+    bucketPtr = (struct bucket*)malloc(sizeof(bucket));
     smallBuckets = (int **)malloc(sizeof(int*)*buckets);
     for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
@@ -370,7 +394,6 @@ void slaveCode(int buckets, char* fileName)
     {
         printf("ducket %d:", indexOut);
         for(indexIn = 0; indexIn < recvBuckets[indexOut*2*size]; indexIn++)
-        //for(indexIn = 0; indexIn < 2*size; indexIn++)
         {
             printf("%d ", recvBuckets[indexOut*2*size + indexIn +1]);
         }
