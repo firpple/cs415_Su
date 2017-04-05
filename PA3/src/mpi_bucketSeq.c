@@ -17,7 +17,7 @@
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
-
+#define  PRINT      1
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*);
@@ -168,12 +168,13 @@ void masterCode(int buckets, char* fileName)
     //printf("%f,",elapsedTime );
     //printBucket(&bucketArray[0],0);
     //prints the sorted bucket
-    
-    //for(index = 0; index < numBucket; index++)
-    //{
-    //    printBucket(&bucketArray[index],index);
-    //}
-    
+    if(PRINT)
+    {
+        for(index = 0; index < numBucket; index++)
+        {
+            printBucket(&bucketArray[index],index);
+        }
+    }    
     
 
 

@@ -172,7 +172,7 @@ void masterCode(int buckets, char* fileName)
     //start time
     gettimeofday(&startTime, NULL);
     //fill buckets
-    
+    MPI_Barrier(MPI_COMM_WORLD); //sync 11
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
         bucketIndex = (int)(unsortedArray[indexOut]/(MAXINT/ (float) buckets));
@@ -313,6 +313,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     recvBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     
     MPI_Barrier(MPI_COMM_WORLD); //sync 1
+    MPI_Barrier(MPI_COMM_WORLD); //sync 11
     //fill buckets
     
     for(indexOut = 0; indexOut < size; indexOut++ )
