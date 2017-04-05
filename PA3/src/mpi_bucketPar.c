@@ -218,6 +218,10 @@ void masterCode(int buckets, char* fileName)
     //printBucket(bucketPtr, 0);
 
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
+    for(indexOut = 1; indexOut<numBucket; indexOut++)
+    {
+        MPI_Recv(&result, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -375,7 +379,7 @@ void slaveCode(int buckets, char* fileName, int rank)
         //printBucket(bucketPtr, rank);
     }
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
-
+    MPI_Send(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
     //free memory
     
     free(unsortedArray);
