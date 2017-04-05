@@ -17,7 +17,7 @@
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
-#define  PRINT      0
+#define  PRINT      1
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*);
@@ -138,6 +138,14 @@ void masterCode(int buckets, char* fileName)
         bucketArray[bucketNumber].front =  newNode;
 
     }
+    if(PRINT)
+    {
+        for(index = 0; index < numBucket; index++)
+        {
+            printBucket(&bucketArray[index],index);
+        }
+    }    
+    
     //print buckets
     /*
     for(index = 0; index < numBucket; index++)
@@ -172,7 +180,7 @@ void masterCode(int buckets, char* fileName)
     {
         for(index = 0; index < numBucket; index++)
         {
-            printBucket(&bucketArray[index],index);
+            //printBucket(&bucketArray[index],index);
         }
     }    
     

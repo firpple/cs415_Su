@@ -19,7 +19,7 @@
 #define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
-#define  PRINT      0
+#define  PRINT      1
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*, int);
@@ -209,7 +209,10 @@ void masterCode(int buckets, char* fileName)
     }
     
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
-    
+    if(PRINT)
+    {
+        printBucket(bucketPtr, 0);
+    }
     gettimeofday(&sortTime, NULL);
     sortBucket(bucketPtr);
     //printBucket(bucketPtr, 0);
@@ -235,7 +238,7 @@ void masterCode(int buckets, char* fileName)
     
     if(PRINT)
     {
-        printBucket(bucketPtr, 0);
+        //printBucket(bucketPtr, 0);
     }
     /*for(indexOut = 0; indexOut < buckets; indexOut++ )
     {
@@ -360,13 +363,16 @@ void slaveCode(int buckets, char* fileName, int rank)
             bucketPtr->front =  newNode;
         }
     }
-
+    if(PRINT)
+    {
+        printBucket(bucketPtr, 0);
+    }
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
     sortBucket(bucketPtr);
     if(PRINT)
     {
-        printBucket(bucketPtr, rank);
+        //printBucket(bucketPtr, rank);
     }
     MPI_Barrier(MPI_COMM_WORLD);//sync 3
 
