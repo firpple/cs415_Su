@@ -17,7 +17,7 @@
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
-#define  PRINT      1
+#define  PRINT      0
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*);
@@ -160,9 +160,9 @@ void masterCode(int buckets, char* fileName)
     //prints result
     printf("%f,",elapsedTime );
     //calc sort time
-    //timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
-    //elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
     //printf("%f,",elapsedTime );

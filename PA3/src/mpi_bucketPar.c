@@ -19,7 +19,7 @@
 #define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
-#define  PRINT      1
+#define  PRINT      0
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*, int);
@@ -225,8 +225,11 @@ void masterCode(int buckets, char* fileName)
     printf("%f,",elapsedTime );
 
 
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     //prints result
-    //printf("%f,",elapsedTime );
+    printf("%f,",elapsedTime );
     
     //print buckets
     
@@ -344,7 +347,6 @@ void slaveCode(int buckets, char* fileName, int rank)
                  recvBuckets, 2*size, MPI_INT,
                  MPI_COMM_WORLD);
 
-    MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
     //put in big bucket;
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
@@ -359,6 +361,7 @@ void slaveCode(int buckets, char* fileName, int rank)
         }
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
     sortBucket(bucketPtr);
     if(PRINT)
