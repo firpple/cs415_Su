@@ -198,7 +198,7 @@ void masterCode(int buckets, char* fileName)
     //put in big bucket;
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
-        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*rowSize]; indexIn++)
+        for(indexIn = 0; indexIn < recvBuckets[((indexOut +1)%numBucket)*2*rowSize]; indexIn++)
         {
             //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
             newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
@@ -354,7 +354,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     //put in big bucket;
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
-        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*size]; indexIn++)
+        for(indexIn = 0; indexIn < recvBuckets[((indexOut +1)%numBucket)*2*size]; indexIn++)
         {
             //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
             newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
@@ -365,7 +365,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     }
     if(PRINT)
     {
-        printBucket(bucketPtr, 0);
+        printBucket(bucketPtr, rank);
     }
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
     
