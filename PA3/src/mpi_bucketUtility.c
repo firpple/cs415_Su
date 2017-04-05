@@ -35,7 +35,7 @@ int sortBucket(struct bucket * b)
     for(index = 0; index < size; index++)
     {
         secondPtr = firstPtr = b-> front;
-        while(secondPtr != NULL)
+        while(secondPtr != NULL && secondPtr -> next != NULL)
         {
             secondPtr = secondPtr -> next;
             if(secondPtr->data < firstPtr -> data)
