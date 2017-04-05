@@ -154,10 +154,20 @@ void masterCode(int buckets, char* fileName)
     }
     */
     //sort buckets
-    gettimeofday(&sortTime, NULL);
     for(index = 0; index < numBucket; index++)
     {
+		
+    	gettimeofday(&sortTime, NULL);
         sortBucket(&bucketArray[index]);
+
+		gettimeofday(&endTime, NULL);
+
+
+		timersub(&endTime, &sortTime, &diffTime); //calc diff time
+		//converts time struct to float
+		elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+		//prints result
+		printf("%f from %d",elapsedTime, 0 );
     }
     //stop time
     gettimeofday(&endTime, NULL);
