@@ -162,7 +162,7 @@ cat > SBBuckParB28S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB28S${i}_%J.out
 #SBATCH --ntasks 28
-#SBATCH --nodes 8
+#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -182,9 +182,9 @@ cat > SBBuckParB32S${i} << EOF
 srun ~/cs415_Su/PA3/build/mpi_bucketParallel 32 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 #36
-cat > SBBuckParB366S${i} << EOF
+cat > SBBuckParB36S${i} << EOF
 #!/bin/bash
-#SBATCH -o BParB4S${i}_%J.out
+#SBATCH -o BParB36S${i}_%J.out
 #SBATCH --ntasks 36
 #SBATCH --nodes 5
 #SBATCH --time=00:07:00
@@ -290,7 +290,7 @@ cat > SBBuckParB28S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB28S${i}_%J.out
 #SBATCH --ntasks 28
-#SBATCH --nodes 8
+#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -310,9 +310,9 @@ cat > SBBuckParB32S${i} << EOF
 srun ~/cs415_Su/PA3/build/mpi_bucketParallel 32 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 #36
-cat > SBBuckParB366S${i} << EOF
+cat > SBBuckParB36S${i} << EOF
 #!/bin/bash
-#SBATCH -o BParB4S${i}_%J.out
+#SBATCH -o BParB36S${i}_%J.out
 #SBATCH --ntasks 36
 #SBATCH --nodes 5
 #SBATCH --time=00:07:00
@@ -321,6 +321,7 @@ cat > SBBuckParB366S${i} << EOF
 
 srun ~/cs415_Su/PA3/build/mpi_bucketParallel 36 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
+
 done
 
 
