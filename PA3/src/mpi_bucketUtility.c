@@ -85,11 +85,11 @@ int sortBucket(struct bucket * b)
                 previousPtr -> next = holderPtr;
                 holderPtr -> next = currentPtr;
             }
-        }*/
+        }
 
 
 
-   }
+   }*/
 
    return 0;
 }
