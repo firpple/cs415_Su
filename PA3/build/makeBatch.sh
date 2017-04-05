@@ -137,7 +137,6 @@ cat > SBBuckParB20S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB20S${i}_%J.out
 #SBATCH --ntasks 20
-#SBATCH --nodes 3
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -149,7 +148,6 @@ cat > SBBuckParB24S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB24S${i}_%J.out
 #SBATCH --ntasks 24
-#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -162,7 +160,6 @@ cat > SBBuckParB28S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB28S${i}_%J.out
 #SBATCH --ntasks 28
-#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -174,7 +171,6 @@ cat > SBBuckParB32S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB32S${i}_%J.out
 #SBATCH --ntasks 32
-#SBATCH --nodes 5
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -186,7 +182,6 @@ cat > SBBuckParB36S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB36S${i}_%J.out
 #SBATCH --ntasks 36
-#SBATCH --nodes 5
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -265,7 +260,6 @@ cat > SBBuckParB20S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB20S${i}_%J.out
 #SBATCH --ntasks 20
-#SBATCH --nodes 3
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -277,7 +271,6 @@ cat > SBBuckParB24S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB24S${i}_%J.out
 #SBATCH --ntasks 24
-#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -290,7 +283,6 @@ cat > SBBuckParB28S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB28S${i}_%J.out
 #SBATCH --ntasks 28
-#SBATCH --nodes 4
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -302,7 +294,6 @@ cat > SBBuckParB32S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB32S${i}_%J.out
 #SBATCH --ntasks 32
-#SBATCH --nodes 5
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
@@ -314,7 +305,6 @@ cat > SBBuckParB36S${i} << EOF
 #!/bin/bash
 #SBATCH -o BParB36S${i}_%J.out
 #SBATCH --ntasks 36
-#SBATCH --nodes 5
 #SBATCH --time=00:07:00
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
