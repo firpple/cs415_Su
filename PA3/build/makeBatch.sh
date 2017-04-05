@@ -16,7 +16,7 @@ cat > SBBuckSeqB2S${i} << EOF
 srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 
-for((k = 4; k <=36 ; k += 4))
+for((k = 4; k <=24 ; k += 4))
 do
 #echo "hello"
 cat > SBBuckSeqB${k}S${i} << EOF
@@ -50,7 +50,7 @@ cat > SBBuckSeqB2S${i} << EOF
 srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 
-for((k = 4; k <=36 ; k += 4))
+for((k = 4; k <=24 ; k += 4))
 do
 #echo "hello"
 cat > SBBuckSeqB${k}S${i} << EOF
@@ -72,6 +72,7 @@ done
 #parallel stuffs
 for((i = 100; i <=10000; i *= 10))
 do
+
 #2
 cat > SBBuckParB2S${i} << EOF
 #!/bin/bash
@@ -153,40 +154,6 @@ cat > SBBuckParB24S${i} << EOF
 #SBATCH --mail-type=ALL
 
 srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-
-#28
-cat > SBBuckParB28S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB28S${i}_%J.out
-#SBATCH --ntasks 28
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 28 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-#32
-cat > SBBuckParB32S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB32S${i}_%J.out
-#SBATCH --ntasks 32
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 32 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-#36
-cat > SBBuckParB36S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB36S${i}_%J.out
-#SBATCH --ntasks 36
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 36 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 
 done
@@ -276,40 +243,6 @@ cat > SBBuckParB24S${i} << EOF
 #SBATCH --mail-type=ALL
 
 srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-
-#28
-cat > SBBuckParB28S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB28S${i}_%J.out
-#SBATCH --ntasks 28
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 28 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-#32
-cat > SBBuckParB32S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB32S${i}_%J.out
-#SBATCH --ntasks 32
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 32 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
-EOF
-#36
-cat > SBBuckParB36S${i} << EOF
-#!/bin/bash
-#SBATCH -o BParB36S${i}_%J.out
-#SBATCH --ntasks 36
-#SBATCH --time=00:07:00
-#SBATCH --mail-user=pikmin898@gmail.com
-#SBATCH --mail-type=ALL
-
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 36 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
 EOF
 
 done
