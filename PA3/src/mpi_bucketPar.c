@@ -19,7 +19,7 @@
 #define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
-#define  PRINT      0
+#define  PRINT      1
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*, int);
@@ -229,7 +229,7 @@ void masterCode(int buckets, char* fileName)
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     //prints result
-    printf("%f,",elapsedTime );
+    //printf("%f,",elapsedTime );
     
     //print buckets
     
