@@ -165,7 +165,7 @@ void masterCode(int buckets, char* fileName)
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
-    //printf("%f,",elapsedTime );
+    printf("%f,",elapsedTime );
     //printBucket(&bucketArray[0],0);
     //prints the sorted bucket
     if(PRINT)
