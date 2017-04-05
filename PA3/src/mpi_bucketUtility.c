@@ -19,7 +19,36 @@
 //sorts a single bucket
 int sortBucket(struct bucket * b)
 {
-   struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
+    int size, holder;
+    int index;
+    struct bucketNode * firstPtr, *secondPtr;
+    
+    //determine size
+    size = 0;
+    firstPtr = b-> front;
+    while(firstPtr != NULL)
+    {
+        firstPtr = firstPtr -> next;
+        size++;
+    }
+
+    for(index = 0; index < size; index++)
+    {
+        secondPtr = firstPtr = b-> front;
+        while(secondPtr != NULL)
+        {
+            secondPtr = secondPtr -> next;
+            if(secondPtr->data < firstPtr -> data)
+            {
+                holder = secondPtr -> data;
+                secondPtr -> data = firstPtr -> data;
+                firstPtr -> data = holder;
+            }
+            firstPtr = secondPtr;
+        }
+    }
+
+   /*struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
    unsorted = b->front;
    b->front = NULL;
@@ -56,7 +85,7 @@ int sortBucket(struct bucket * b)
                 previousPtr -> next = holderPtr;
                 holderPtr -> next = currentPtr;
             }
-        }
+        }*/
 
 
 
