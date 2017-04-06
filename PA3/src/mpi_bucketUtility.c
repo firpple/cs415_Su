@@ -56,6 +56,14 @@ int sortBucket(struct bucket * b)
 			}
 		}
     }
+	firstPtr = b->front;
+	for(index = 0; index <size; index++)
+	{
+		firstPtr -> data = sortArray[index];
+		//printf("%d ", sortArray[index]);
+		firstPtr = firstPtr -> next; 
+	}
+	free(sortArray);
 	/*
    struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
