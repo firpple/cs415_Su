@@ -38,10 +38,10 @@ int sortBucket(struct bucket * b)
 	for(index = 0; index <size; index++)
 	{
 		sortArray[index]= firstPtr -> data;
-		printf("%d ", sortArray[index]);
+		//printf("%d ", sortArray[index]);
 		firstPtr = firstPtr -> next; 
 	}
-	printf("\n");
+	//printf("\n");
 
 
     for(index = 0; index < size; index++)
