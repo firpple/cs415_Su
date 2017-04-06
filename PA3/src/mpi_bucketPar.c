@@ -301,6 +301,10 @@ void slaveCode(int buckets, char* fileName, int rank)
     
     struct bucket * bucketPtr;
     struct bucketNode * newNode;
+
+    struct timeval endTime, diffTime;
+    struct timeval sortTime;
+
     int size;
     int * unsortedArray;
     int indexIn, indexOut;
@@ -380,8 +384,17 @@ void slaveCode(int buckets, char* fileName, int rank)
         printBucket(bucketPtr, rank);
     }
     MPI_Barrier(MPI_COMM_WORLD);//sync 2
-    
+	
+	gettimeofday(&sortTime, NULL);   
     sortBucket(bucketPtr);
+	gettimeofday(&endTime, NULL);
+
+
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+    //prints result
+    printf("%f from %d",elapsedTime, rank );
     if(PRINT)
     {
         //printBucket(bucketPtr, rank);
