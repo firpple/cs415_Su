@@ -3,7 +3,7 @@
 * DESCRIPTION:
 *   Calculates the bucketsort image sequential. 
 * AUTHOR: Evan Su
-* LAST REVISED: 03/13/17
+* LAST REVISED: 04/5/17
 ******************************************************************************/
 //libraries
 #include "mpi.h"
@@ -20,7 +20,7 @@
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
 #define  PRINT      0
-#define SORTONLY 	1
+#define SORTONLY 	0
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*, int);
@@ -36,8 +36,6 @@ void slaveCode(int, char*, int);
  *          The slave calls the slave function
  *          Both functions will run until computations are over.
  *
- *  Note: The slave functions does nothing, it is a placeholder
- *        for parallel code. 
  *          
  */
 int main (int argc, char *argv[])
@@ -73,7 +71,6 @@ int main (int argc, char *argv[])
     else
     {
         //slave code
-        //this code does nothing, placeholder for parallel.
 	    slaveCode(atoi(argv[1]),argv[2], taskid);
     }
 
@@ -89,22 +86,23 @@ int main (int argc, char *argv[])
  *  
  *  Brief: bucketsort code for the master node
  *  
- *  Detail: The master node will create an image char array.
- *          The image array is filled using calc pixel.
- *          The image array is then written to a file.
+ *  Detail: The master node will readin the numbers from the given file name
+ *          The master node will send a portion of the numbers to each slave
+ *          Then, the portion remaining is sorted using bucket sort
+ *          
  *  
  */
 void masterCode(int buckets, char* fileName)
 {
-    struct bucket * bucketArray;
+    //struct bucket * bucketArray;
     struct bucket * bucketPtr;
     int numBucket = buckets;
     int arraySize;
     int *unsortedArray;
     int *sendBuffer;
-    int index;
+    //int index;
     int result;
-    int bucketNumber;
+    //int bucketNumber;
     int rowSize;
     int indexIn, indexOut;
     int size;
@@ -125,13 +123,14 @@ void masterCode(int buckets, char* fileName)
     result = fscanf(fin,"%d",&arraySize);
     if(result == 0)
     {
+        //if fscanf was unable to read the file, send a kill command 
+        //to all processes
         fclose(fin);
         rowSize = -1;
         for(indexOut = 1; indexOut < buckets; indexOut++)
         {
             MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         }
-        //printf("rowSize: %d\n", rowSize);
         return;
     }
     
@@ -140,18 +139,22 @@ void masterCode(int buckets, char* fileName)
     //send rows out
     for(indexOut = 1; indexOut < numBucket; indexOut++)
     {
+        //sends the size of the buffer to the slave
         MPI_Send(&rowSize, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         for(indexIn = 0; indexIn < rowSize; indexIn++)
         {
+            //reads the numbers into a buffer
             result = fscanf(fin,"%d",&sendBuffer[indexIn]);
         }
+        //sends the buffer to the slave
         MPI_Send(sendBuffer, rowSize, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
     }
-    //
+    //the remaining rows are for the master
     size = arraySize - rowSize* (numBucket- 1);
     unsortedArray = (int*)malloc(sizeof(int)*size);
     for(indexOut = 0; indexOut < size; indexOut ++)
     {
+        //reads numbers into the master's set
         result = fscanf(fin,"%d",&unsortedArray[indexOut]);
     }
     fclose(fin);
@@ -167,12 +170,11 @@ void masterCode(int buckets, char* fileName)
     sendBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
     recvBuckets = (int *)malloc(sizeof(int)*numBucket * 2* rowSize);
 
-    MPI_Barrier(MPI_COMM_WORLD); //sync 1
-    //printf("started time\n");
+    MPI_Barrier(MPI_COMM_WORLD); //sync begin sorting
     //start time
     gettimeofday(&startTime, NULL);
-    //fill buckets
-    MPI_Barrier(MPI_COMM_WORLD); //sync 11
+    MPI_Barrier(MPI_COMM_WORLD); //sync timing has begun
+    //fill small buckets
     for(indexOut = 0; indexOut < size; indexOut++ )
     {
         bucketIndex = (int)(unsortedArray[indexOut]/(MAXINT/ (float) buckets));
@@ -181,7 +183,7 @@ void masterCode(int buckets, char* fileName)
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
-    //ready buckets to send
+    //ready buckets to send by transfering them to a 1d array
     currentIndex = 0;
     for(indexOut = 0; indexOut < numBucket; indexOut++ )
     {
@@ -200,7 +202,6 @@ void masterCode(int buckets, char* fileName)
     {
         for(indexIn = 0; indexIn < recvBuckets[((indexOut +1)%numBucket)*2*rowSize]; indexIn++)
         {
-            //printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
             newNode = (struct bucketNode *)malloc(sizeof(struct bucketNode));
             newNode->next = bucketPtr->front;
             newNode->data = recvBuckets[((indexOut +1)%numBucket)*2*rowSize + indexIn +1];
@@ -208,33 +209,25 @@ void masterCode(int buckets, char* fileName)
         }
     }
     
-    MPI_Barrier(MPI_COMM_WORLD);//sync 2
     if(PRINT)
     {
         printBucket(bucketPtr, 0);
     }
+    //start sorting
     gettimeofday(&sortTime, NULL);
     sortBucket(&bucketPtr[0]);
 	gettimeofday(&endTime, NULL);
-
-
-    timersub(&endTime, &sortTime, &diffTime); //calc diff time
-    //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-    //prints result
 	
 	if(SORTONLY)
 	{
+        //calculates sort time exculsively.        
+        timersub(&endTime, &sortTime, &diffTime); //calc diff time
+        //converts time struct to float
+        elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     	printf("%f,",elapsedTime );
 	}    
 
-	//printBucket(bucketPtr, 0);
-
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
-    for(indexOut = 1; indexOut<numBucket; indexOut++)
-    {
-        MPI_Recv(&result, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
+    MPI_Barrier(MPI_COMM_WORLD);//sync sorting done
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -246,40 +239,12 @@ void masterCode(int buckets, char* fileName)
 	{
     	printf("%f,",elapsedTime );
 	}
-
-    timersub(&endTime, &sortTime, &diffTime); //calc diff time
-    //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-    //prints result
-    //printf("%f,",elapsedTime );
     
     //print buckets
-    
     if(PRINT)
     {
-        //printBucket(bucketPtr, 0);
+        printBucket(bucketPtr, 0);
     }
-    /*for(indexOut = 0; indexOut < buckets; indexOut++ )
-    {
-        //printf("Tucket %d:", indexOut);
-        for(indexIn = 0; indexIn < smallBuckets[indexOut][0]; indexIn++)
-        {
-        //    printf("%d ", smallBuckets[indexOut][indexIn+1]);
-        }
-        //printf("\n");
-    }
-
-    for(indexOut = 0; indexOut < numBucket; indexOut++ )
-    {
-        //printf("zucket %d:", indexOut);
-        
-        for(indexIn = 0; indexIn < recvBuckets[indexOut*2*rowSize]; indexIn++)
-        {
-        //    printf("%d ", recvBuckets[indexOut*2*rowSize + indexIn +1]);
-        }
-        //printf("\n");
-    }
-*/
 
 
     //free memory
@@ -299,7 +264,8 @@ void masterCode(int buckets, char* fileName)
  *  
  *  Brief: bucketsort code for the slave node
  *  
- *  Detail: The slave node does nothing in sequential calculations
+ *  Detail: The slave recieves the unsorted array with its size
+ *          The slave puts bucket sorts the array
  *  
  */
 void slaveCode(int buckets, char* fileName, int rank)
@@ -320,7 +286,7 @@ void slaveCode(int buckets, char* fileName, int rank)
     int currentIndex;
     int bucketIndex, nextIndex;
     int numBucket = buckets;
-    MPI_Status status;
+    //MPI_Status status;
 
 
     MPI_Recv(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -340,8 +306,8 @@ void slaveCode(int buckets, char* fileName, int rank)
     sendBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     recvBuckets = (int *)malloc(sizeof(int)*buckets*2*size);
     
-    MPI_Barrier(MPI_COMM_WORLD); //sync 1
-    MPI_Barrier(MPI_COMM_WORLD); //sync 11
+    MPI_Barrier(MPI_COMM_WORLD); //sync begin sorting
+    MPI_Barrier(MPI_COMM_WORLD); //sync timing has begun
     //fill buckets
     
     for(indexOut = 0; indexOut < size; indexOut++ )
@@ -349,14 +315,10 @@ void slaveCode(int buckets, char* fileName, int rank)
         bucketIndex = (int)(unsortedArray[indexOut]/(MAXINT/ (float) buckets));
         nextIndex = smallBuckets[bucketIndex][0] + 1;
         smallBuckets[bucketIndex][0]++;
-        
-        //printf("%d %d %d\n", unsortedArray[indexOut], bucketIndex, nextIndex);
-        //printf("%d\n",smallBuckets[bucketIndex][nextIndex]);
         smallBuckets[bucketIndex][nextIndex] = unsortedArray[indexOut]; 
         
     }
     
-//MPI_Recv(unsortedArray, size, MPI_INT, MASTER, ARRAYTAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     //ready buckets to send
     currentIndex = 0;
     for(indexOut = 0; indexOut < buckets; indexOut++ )
@@ -389,7 +351,6 @@ void slaveCode(int buckets, char* fileName, int rank)
     {
         printBucket(bucketPtr, rank);
     }
-    MPI_Barrier(MPI_COMM_WORLD);//sync 2
 	
 	gettimeofday(&sortTime, NULL);   
     sortBucket(bucketPtr);
@@ -407,10 +368,9 @@ void slaveCode(int buckets, char* fileName, int rank)
 	}
     if(PRINT)
     {
-        //printBucket(bucketPtr, rank);
+        printBucket(bucketPtr, rank);
     }
-    MPI_Barrier(MPI_COMM_WORLD);//sync 3
-    MPI_Send(&size, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);//sync 3 sorting done
     //free memory
     
     free(unsortedArray);
@@ -424,8 +384,6 @@ void slaveCode(int buckets, char* fileName, int rank)
     free(sendBuckets);
     free(recvBuckets);
     deleteBucket(bucketPtr, 1);
-    //printf("%d got\n", size);
-    //printf("hello from slave");
 }
 
 

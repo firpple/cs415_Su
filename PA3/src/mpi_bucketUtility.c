@@ -3,7 +3,7 @@
 * DESCRIPTION:
 *   Implementations of utility functions for bucket sort
 * AUTHOR: Evan Su (modified for c usage)
-* LAST REVISED: 03/13/17
+* LAST REVISED: 04/5/17
 ******************************************************************************/
 //libraries and complier directives
 #include <stdio.h>
@@ -20,6 +20,7 @@
 int sortBucket(struct bucket * b)
 {
 	/*
+    //bubble sort, currently disabled
     int size, holder;
     int index;
     struct bucketNode * firstPtr, *secondPtr;

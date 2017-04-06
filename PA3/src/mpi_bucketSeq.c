@@ -1,9 +1,9 @@
 /******************************************************************************
 * FILE: mpi_bucketSeq.c
 * DESCRIPTION:
-*   Calculates the bucketsort image sequential. 
+*   Calculates the bucketsort sequential. 
 * AUTHOR: Evan Su
-* LAST REVISED: 03/13/17
+* LAST REVISED: 04/5/17
 ******************************************************************************/
 //libraries
 #include "mpi.h"
@@ -87,10 +87,10 @@ int main (int argc, char *argv[])
  *  
  *  Brief: bucketsort code for the master node
  *  
- *  Detail: The master node will create an image char array.
- *          The image array is filled using calc pixel.
- *          The image array is then written to a file.
- *  
+ *  Detail: The master node will readin the numbers from the given file name
+ *          The master node will send a portion of the numbers to each slave
+ *          Then, the portion remaining is sorted using bucket sort
+ *          
  */
 void masterCode(int buckets, char* fileName)
 {
@@ -147,13 +147,6 @@ void masterCode(int buckets, char* fileName)
         }
     }    
     
-    //print buckets
-    /*
-    for(index = 0; index < numBucket; index++)
-    {
-        printBucket(&bucketArray[index],index);
-    }
-    */
     //sort buckets
     for(index = 0; index < numBucket; index++)
     {
@@ -167,7 +160,7 @@ void masterCode(int buckets, char* fileName)
 		timersub(&endTime, &sortTime, &diffTime); //calc diff time
 		//converts time struct to float
 		elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-		//prints result
+		//prints sort time
 		if(SORTONLY)
 		{
 			printf("%f,",elapsedTime );
@@ -190,9 +183,6 @@ void masterCode(int buckets, char* fileName)
 
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
-    //prints result
-    //printf("%f,",elapsedTime );
-    //printBucket(&bucketArray[0],0);
     //prints the sorted bucket
     if(PRINT)
     {
