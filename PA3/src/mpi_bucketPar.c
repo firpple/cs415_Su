@@ -213,7 +213,7 @@ void masterCode(int buckets, char* fileName)
         printBucket(bucketPtr, 0);
     }
     gettimeofday(&sortTime, NULL);
-    sortBucket(bucketPtr);
+    sortBucket(&bucketPtr[0]);
 	gettimeofday(&endTime, NULL);
 
 
