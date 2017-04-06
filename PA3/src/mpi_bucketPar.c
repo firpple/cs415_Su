@@ -304,7 +304,7 @@ void slaveCode(int buckets, char* fileName, int rank)
 
     struct timeval endTime, diffTime;
     struct timeval sortTime;
-
+	float elapsedTime;
     int size;
     int * unsortedArray;
     int indexIn, indexOut;
