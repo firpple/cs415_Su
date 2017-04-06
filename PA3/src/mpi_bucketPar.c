@@ -221,8 +221,11 @@ void masterCode(int buckets, char* fileName)
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     //prints result
-    printf("%f from %d",elapsedTime, 0 );
-    
+	
+	if(SORTONLY)
+	{
+    	printf("%f,",elapsedTime );
+	}    
 
 	//printBucket(bucketPtr, 0);
 
@@ -238,8 +241,10 @@ void masterCode(int buckets, char* fileName)
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
-    printf("%f,",elapsedTime );
-
+	if(!SORTONLY)
+	{
+    	printf("%f,",elapsedTime );
+	}
 
     timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
@@ -394,7 +399,11 @@ void slaveCode(int buckets, char* fileName, int rank)
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     //prints result
-    printf("%f from %d",elapsedTime, rank );
+	
+	if(SORTONLY)
+	{
+    	printf("%f,",elapsedTime);
+	}
     if(PRINT)
     {
         //printBucket(bucketPtr, rank);

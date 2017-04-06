@@ -167,7 +167,10 @@ void masterCode(int buckets, char* fileName)
 		//converts time struct to float
 		elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 		//prints result
-		printf("%f from %d",elapsedTime, 0 );
+		if(SORTONLY)
+		{
+			printf("%f,",elapsedTime );
+		}
     }
     //stop time
     gettimeofday(&endTime, NULL);
@@ -176,10 +179,14 @@ void masterCode(int buckets, char* fileName)
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
-    printf("%f,",elapsedTime );
+	if(!SORTONLY)
+	{
+    	printf("%f,",elapsedTime );
+	}
     //calc sort time
     timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
+
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
