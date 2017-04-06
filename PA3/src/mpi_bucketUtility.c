@@ -19,12 +19,12 @@
 //sorts a single bucket
 int sortBucket(struct bucket * b)
 {
-	/*
+	
     //bubble sort, currently disabled
     int size, holder;
-    int index;
+    int index, indexIn;
     struct bucketNode * firstPtr, *secondPtr;
-    
+    int * sortArray;
     //determine size
     size = 0;
     firstPtr = b-> front;
@@ -33,23 +33,30 @@ int sortBucket(struct bucket * b)
         firstPtr = firstPtr -> next;
         size++;
     }
+	sortArray = (int*) malloc(sizeof(int) * size);
+	firstPtr = b->front;
+	for(index = 0; index <size; index++)
+	{
+		sortArray[index]= firstPtr -> data;
+		printf("%d ", sortArray[index]);
+		firstPtr = firstPtr -> next; 
+	}
+	printf("\n");
+
 
     for(index = 0; index < size; index++)
     {
-        secondPtr = firstPtr = b-> front;
-        while(secondPtr != NULL && secondPtr -> next != NULL)
-        {
-            secondPtr = secondPtr -> next;
-            if(secondPtr->data < firstPtr -> data)
-            {
-                holder = secondPtr -> data;
-                secondPtr -> data = firstPtr -> data;
-                firstPtr -> data = holder;
-            }
-            firstPtr = secondPtr;
-        }
-    }*/
-
+        for(indexIn = 0; indexIn < size - 1; indexIn++)
+		{
+			if(sortArray[indexIn] > sortArray[indexIn + 1])
+			{
+				holder = sortArray[indexIn];
+				sortArray[indexIn] = sortArray[indexIn + 1];
+				sortArray[indexIn] = holder;
+			}
+		}
+    }
+	/*
    struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
    unsorted = b->front;
@@ -92,7 +99,7 @@ int sortBucket(struct bucket * b)
 
 
    }
-
+	*/
    return 0;
 }
 
