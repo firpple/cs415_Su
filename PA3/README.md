@@ -35,17 +35,23 @@ The program must be ran using sbatch.
 cd build
 mpicc -Wall -c mpi_bucketUtility.c -lpmi
 mpicc -Wall -o mpi_bucketSeq ../src/mpi_bucketSeq.c mpi_bucketUtility.o -lpmi
-mpicc -Wall -o mpi_bucketStatic ../src/mpi_bucketStatic.c mpi_bucketUtility.o -lpmi
-mpicc -Wall -o mpi_bucketDynamic ../src/mpi_bucketDynamic.c mpi_bucketUtility.o -lpmi
-cd scripts
+mpicc -Wall -o mpi_bucketParallel ../src/mpi_bucketPar.c mpi_bucketUtility.o -lpmi
+
+cd unsorted
+./testScript.sh
+cd ..
+
 ./makeBatch.sh
-sbatch SBBuckSeqB16S100
+
+sbatch scripts/SBBuckSeqB16S100
+#or
+./runBatch.sh
 ```
 
 
 To clean the files, run this command:
 ```bash
-rm mpi_bucketSeq mpi_bucketStatic mpi_bucketDynamic mpi_bucketUtility.o
+rm mpi_bucketSeq mpi_bucketParallel mpi_bucketUtility.o
 ```
 
 
@@ -55,9 +61,11 @@ The makefile works as expected and must be updated with new files added in.
 ```bash
 cd build
 make
-cd scripts
+cd unsorted
+./testScript.sh
+cd ..
 ./makeBatch.sh
-sbatch SBBuckSeqB16S100
+./runBatch.sh
 ```
 
 
