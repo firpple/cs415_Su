@@ -111,7 +111,7 @@ void masterCode(int buckets, int genSize)
     //fin = fopen(fileName, "r");
     //get array
     //read the size of list
-    result = genSize
+    result = genSize;
     if(result == 0)
     {
         //fclose(fin);
