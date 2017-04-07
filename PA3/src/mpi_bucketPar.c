@@ -120,7 +120,7 @@ void masterCode(int buckets, int genSize)
     //read the size of list
     //result = fscanf(fin,"%d",&arraySize);
     arraySize = genSize;
-    if(result == 0)
+    if(arraySize == 0)
     {
         //if number is zero, send a kill command 
         //to all processes
