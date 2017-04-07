@@ -22,70 +22,7 @@
 //sorts a single bucket
 int sortBucket(struct bucket * b)
 {
-	
-    //bubble sort, currently disabled
-    int size, holder;
-    int index, indexIn;
-    struct bucketNode * firstPtr;//, *secondPtr;
-    int * sortArray;
-    int debugcount = 0;
-    
-    struct timeval endTime, diffTime;
-    struct timeval sortTime;
-    float elapsedTime;
-    
-
-    //determine size
-    size = 0;
-    firstPtr = b-> front;
-    while(firstPtr != NULL)
-    {
-        firstPtr = firstPtr -> next;
-        size++;
-    }
-	sortArray = (int*) malloc(sizeof(int) * size);
-	firstPtr = b->front;
-	for(index = 0; index <size; index++)
-	{
-		sortArray[index]= firstPtr -> data;
-		//printf("%d ", sortArray[index]);
-		firstPtr = firstPtr -> next; 
-	}
-	//printf("\n");
-
-
-    gettimeofday(&sortTime, NULL);
-    for(index = 0; index < size; index++)
-    {
-        for(indexIn = 0; indexIn < size - 1; indexIn++)
-		{
-			if(sortArray[indexIn] > sortArray[indexIn + 1])
-			{
-				holder = sortArray[indexIn];
-				sortArray[indexIn] = sortArray[indexIn + 1];
-				sortArray[indexIn + 1] = holder;
-                debugcount++;
-			}
-		}
-    }
-    gettimeofday(&endTime, NULL);
-    //calculates sort time exculsively.        
-    timersub(&endTime, &sortTime, &diffTime); //calc diff time
-    //converts time struct to float
-    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-	//printf("[%f for count of %d,]",elapsedTime, debugcount );
-
-
-	firstPtr = b->front;
-	for(index = 0; index <size; index++)
-	{
-		firstPtr -> data = sortArray[index];
-		//printf("%d ", sortArray[index]);
-		firstPtr = firstPtr -> next; 
-	}
-	free(sortArray);
-	/*
-   struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
+    struct bucketNode * currentPtr, *holderPtr, *unsorted, *previousPtr;
 
    unsorted = b->front;
    b->front = NULL;
@@ -127,7 +64,71 @@ int sortBucket(struct bucket * b)
 
 
    }
-	*/
+    free(sortArray);
+	/*
+    //bubble sort, currently disabled
+    int size, holder;
+    int index, indexIn;
+    struct bucketNode * firstPtr;//, *secondPtr;
+    int * sortArray;
+    int debugcount = 0;
+    
+    struct timeval endTime, diffTime;
+    struct timeval sortTime;
+    float elapsedTime;
+    
+
+    //determine size
+    size = 0;
+    firstPtr = b-> front;
+    while(firstPtr != NULL)
+    {
+        firstPtr = firstPtr -> next;
+        size++;
+    }
+	sortArray = (int*) malloc(sizeof(int) * size);
+	firstPtr = b->front;
+    //pulls items from bucket to array
+	for(index = 0; index <size; index++)
+	{
+		sortArray[index]= firstPtr -> data;
+		//printf("%d ", sortArray[index]);
+		firstPtr = firstPtr -> next; 
+	}
+	//printf("\n");
+
+    //sorts array
+    gettimeofday(&sortTime, NULL);
+    for(index = 0; index < size; index++)
+    {
+        for(indexIn = 0; indexIn < size - 1; indexIn++)
+		{
+			if(sortArray[indexIn] > sortArray[indexIn + 1])
+			{
+				holder = sortArray[indexIn];
+				sortArray[indexIn] = sortArray[indexIn + 1];
+				sortArray[indexIn + 1] = holder;
+                debugcount++;
+			}
+		}
+    }
+    gettimeofday(&endTime, NULL);
+    //calculates sort time exculsively.        
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+	//printf("[%f for count of %d,]",elapsedTime, debugcount );
+
+    puts the items in the array to the buckets
+	firstPtr = b->front;
+	for(index = 0; index <size; index++)
+	{
+		firstPtr -> data = sortArray[index];
+		//printf("%d ", sortArray[index]);
+		firstPtr = firstPtr -> next; 
+	}
+	free(sortArray);*/
+	
    return 0;
 }
 
