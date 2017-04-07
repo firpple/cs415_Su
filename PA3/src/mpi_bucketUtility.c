@@ -63,7 +63,7 @@ int sortBucket(struct bucket * b)
 			{
 				holder = sortArray[indexIn];
 				sortArray[indexIn] = sortArray[indexIn + 1];
-				sortArray[indexIn] = holder;
+				sortArray[indexIn + 1] = holder;
                 debugcount++;
 			}
 		}
