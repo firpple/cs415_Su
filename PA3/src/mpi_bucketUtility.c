@@ -73,7 +73,7 @@ int sortBucket(struct bucket * b)
     timersub(&endTime, &sortTime, &diffTime); //calc diff time
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-	printf("[%f for count of %d,]",elapsedTime, debugcount );
+	//printf("[%f for count of %d,]",elapsedTime, debugcount );
 
 
 	firstPtr = b->front;
