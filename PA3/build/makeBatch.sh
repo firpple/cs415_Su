@@ -1,7 +1,7 @@
 #!/bin/bash
 cd scripts
 #sequential
-for((i = 100; i <=10000; i *= 10))
+for((i = 100; i <=10000000; i *= 10))
 do
 
 #makes 2 buckets
@@ -13,7 +13,7 @@ cat > SBBuckSeqB2S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ${i}
 EOF
 
 for((k = 4; k <=24 ; k += 4))
@@ -27,7 +27,7 @@ cat > SBBuckSeqB${k}S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketSequential ${k} ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketSequential ${k} ${i}
 EOF
 
 done
@@ -35,7 +35,7 @@ done
 done
 
 #more sequential
-for i in 100000 150000 200000 250000 300000
+for i in 100000000 200000000 400000000 800000000
 do
 
 #makes 2 buckets
@@ -47,7 +47,7 @@ cat > SBBuckSeqB2S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketSequential 2 ${i}
 EOF
 
 for((k = 4; k <=24 ; k += 4))
@@ -61,7 +61,7 @@ cat > SBBuckSeqB${k}S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketSequential ${k} ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketSequential ${k} ${i}
 EOF
 
 done
@@ -70,7 +70,7 @@ done
 
 
 #parallel stuffs
-for((i = 100; i <=10000; i *= 10))
+for((i = 100; i <=10000000; i *= 10))
 do
 
 #2
@@ -83,7 +83,7 @@ cat > SBBuckParB2S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 2 ${i}
 EOF
 #4
 cat > SBBuckParB4S${i} << EOF
@@ -95,7 +95,7 @@ cat > SBBuckParB4S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 4 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 4 ${i}
 EOF
 #8
 cat > SBBuckParB8S${i} << EOF
@@ -107,7 +107,7 @@ cat > SBBuckParB8S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 8 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 8 ${i}
 EOF
 #12
 cat > SBBuckParB12S${i} << EOF
@@ -119,7 +119,7 @@ cat > SBBuckParB12S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 12 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 12 ${i}
 EOF
 #16
 cat > SBBuckParB16S${i} << EOF
@@ -131,7 +131,7 @@ cat > SBBuckParB16S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 16 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 16 ${i}
 EOF
 #20
 cat > SBBuckParB20S${i} << EOF
@@ -142,7 +142,7 @@ cat > SBBuckParB20S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 20 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 20 ${i}
 EOF
 #24
 cat > SBBuckParB24S${i} << EOF
@@ -153,13 +153,13 @@ cat > SBBuckParB24S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ${i}
 EOF
 
 done
 
 
-for i in 100000 150000 200000 250000 300000
+for i in 100000000 200000000 400000000 800000000
 do
 
 #2
@@ -172,7 +172,7 @@ cat > SBBuckParB2S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 2 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 2 ${i}
 EOF
 #4
 cat > SBBuckParB4S${i} << EOF
@@ -184,7 +184,7 @@ cat > SBBuckParB4S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 4 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 4 ${i}
 EOF
 #8
 cat > SBBuckParB8S${i} << EOF
@@ -196,7 +196,7 @@ cat > SBBuckParB8S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 8 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 8 ${i}
 EOF
 #12
 cat > SBBuckParB12S${i} << EOF
@@ -208,7 +208,7 @@ cat > SBBuckParB12S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 12 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 12 ${i}
 EOF
 #16
 cat > SBBuckParB16S${i} << EOF
@@ -220,7 +220,7 @@ cat > SBBuckParB16S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 16 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 16 ${i}
 EOF
 #20
 cat > SBBuckParB20S${i} << EOF
@@ -231,7 +231,7 @@ cat > SBBuckParB20S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 20 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 20 ${i}
 EOF
 #24
 cat > SBBuckParB24S${i} << EOF
@@ -242,7 +242,7 @@ cat > SBBuckParB24S${i} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ~/cs415_Su/PA3/build/unsorted/unsort_N${i}
+srun ~/cs415_Su/PA3/build/mpi_bucketParallel 24 ${i}
 EOF
 
 done
