@@ -188,7 +188,7 @@ void masterCode(int buckets, char* fileName)
     {
         for(index = 0; index < numBucket; index++)
         {
-            //printBucket(&bucketArray[index],index);
+            printBucket(&bucketArray[index],index);
         }
     }    
     
