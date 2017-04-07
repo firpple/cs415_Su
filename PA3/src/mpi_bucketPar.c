@@ -19,8 +19,8 @@
 #define  ARRAYTAG   1
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
-#define  PRINT      0
-#define SORTONLY 	1
+#define  PRINT      1
+#define SORTONLY 	0
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*, int);
