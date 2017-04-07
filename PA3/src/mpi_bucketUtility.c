@@ -64,7 +64,6 @@ int sortBucket(struct bucket * b)
 
 
    }
-    free(sortArray);
 	/*
     //bubble sort, currently disabled
     int size, holder;
