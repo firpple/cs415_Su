@@ -117,7 +117,7 @@ void masterCode(int buckets, int genSize)
         //fclose(fin);
         return;
     }
-    unsortedArray = (int *) malloc(arraySize * sizeof(int));
+    unsortedArray = (int *) malloc(genSize * sizeof(int));
     //read the list
     srand(0);
     for(index = 0; index < arraySize; index++)
