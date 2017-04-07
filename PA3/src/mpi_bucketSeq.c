@@ -122,7 +122,7 @@ void masterCode(int buckets, int genSize)
     srand(0);
     for(index = 0; index < arraySize; index++)
     {
-        unsortedArray[index] = rand()% MAXSIZE
+        unsortedArray[index] = rand()% MAXSIZE;
     }
     
     //fclose(fin);
