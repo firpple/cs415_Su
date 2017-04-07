@@ -111,13 +111,13 @@ void masterCode(int buckets, int genSize)
     //fin = fopen(fileName, "r");
     //get array
     //read the size of list
-    result = genSize;
-    if(result == 0)
+    arraySize = genSize;
+    if(arraySize == 0)
     {
         //fclose(fin);
         return;
     }
-    unsortedArray = (int *) malloc(genSize * sizeof(int));
+    unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
     srand(0);
     for(index = 0; index < arraySize; index++)
