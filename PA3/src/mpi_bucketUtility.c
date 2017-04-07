@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+
 #include "mpi_bucketUtility.h"
 #ifdef _WIN32
   #define WRITE_FLAGS "wb"
@@ -23,8 +25,15 @@ int sortBucket(struct bucket * b)
     //bubble sort, currently disabled
     int size, holder;
     int index, indexIn;
-    struct bucketNode * firstPtr, *secondPtr;
+    struct bucketNode * firstPtr;//, *secondPtr;
     int * sortArray;
+    int debugcount = 0;
+    
+    struct timeval endTime, diffTime;
+    struct timeval sortTime;
+    float elapsedTime;
+    
+
     //determine size
     size = 0;
     firstPtr = b-> front;
@@ -44,6 +53,7 @@ int sortBucket(struct bucket * b)
 	//printf("\n");
 
 
+    gettimeofday(&sortTime, NULL);
     for(index = 0; index < size; index++)
     {
         for(indexIn = 0; indexIn < size - 1; indexIn++)
@@ -53,9 +63,18 @@ int sortBucket(struct bucket * b)
 				holder = sortArray[indexIn];
 				sortArray[indexIn] = sortArray[indexIn + 1];
 				sortArray[indexIn] = holder;
+                debugcount++;
 			}
 		}
     }
+    gettimeofday(&endTime, NULL);
+    //calculates sort time exculsively.        
+    timersub(&endTime, &sortTime, &diffTime); //calc diff time
+    //converts time struct to float
+    elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+	printf("%f for count of %d,",elapsedTime, debugcount );
+
+
 	firstPtr = b->front;
 	for(index = 0; index <size; index++)
 	{
