@@ -18,7 +18,8 @@
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define SORTONLY 	0
+#define SORTONLY 	1
+#define MAXSIZE 1000
 //function declarations
 void masterCode(int, char*);
 void slaveCode(int, char*);
@@ -64,7 +65,7 @@ int main (int argc, char *argv[])
     if (taskid == MASTER)
     {
 	    //master code
-	    masterCode(atoi(argv[1]),argv[2]);
+	    masterCode(atoi(argv[1]),atoi(argv[2]));
 
 
     }
@@ -92,7 +93,7 @@ int main (int argc, char *argv[])
  *          Then, the portion remaining is sorted using bucket sort
  *          
  */
-void masterCode(int buckets, char* fileName)
+void masterCode(int buckets, int genSize)
 {
     struct bucket * bucketArray;
     int numBucket = buckets;
@@ -102,28 +103,29 @@ void masterCode(int buckets, char* fileName)
     int result;
     int bucketNumber;
     struct bucketNode * newNode;
-    FILE *fin;
+    //FILE *fin;
     struct timeval startTime, endTime, diffTime;
     struct timeval sortTime;
     float elapsedTime = 0;
 
-    fin = fopen(fileName, "r");
+    //fin = fopen(fileName, "r");
     //get array
     //read the size of list
-    result = fscanf(fin,"%d",&arraySize);
+    result = genSize
     if(result == 0)
     {
-        fclose(fin);
+        //fclose(fin);
         return;
     }
     unsortedArray = (int *) malloc(arraySize * sizeof(int));
     //read the list
+    srand(0);
     for(index = 0; index < arraySize; index++)
     {
-        result = fscanf(fin,"%d", &unsortedArray[index]);
+        unsortedArray[index] = rand()% MAXSIZE
     }
     
-    fclose(fin);
+    //fclose(fin);
     //make buckets
     bucketArray = makeBucket(numBucket);
     //start time
@@ -188,7 +190,7 @@ void masterCode(int buckets, char* fileName)
     {
         for(index = 0; index < numBucket; index++)
         {
-            //printBucket(&bucketArray[index],index);
+            printBucket(&bucketArray[index],index);
         }
     }    
     
