@@ -128,6 +128,7 @@ void masterCode(int buckets, char* fileName)
     bucketArray = makeBucket(numBucket);
     //start time
     gettimeofday(&startTime, NULL);
+    printf("started Time\n");
     //fill buckets
     for(index = 0; index < arraySize; index++)
     {
@@ -139,6 +140,7 @@ void masterCode(int buckets, char* fileName)
         bucketArray[bucketNumber].front =  newNode;
 
     }
+    printf("started Time\n");
     if(PRINT)
     {
         for(index = 0; index < numBucket; index++)
@@ -166,6 +168,7 @@ void masterCode(int buckets, char* fileName)
 			printf("%f,",elapsedTime );
 		}
     }
+    printf("started Time\n");
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
