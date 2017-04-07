@@ -20,10 +20,10 @@
 #define  SECTOMICRO 1000000
 #define  MAXINT     1000
 #define  PRINT      0
-#define SORTONLY 	0
+#define SORTONLY 	1
 //function declarations
-void masterCode(int, int);
-void slaveCode(int, int);
+void masterCode(int, char*);
+void slaveCode(int, char*, int);
 
 //Main function
 /*
@@ -64,14 +64,14 @@ int main (int argc, char *argv[])
     if (taskid == MASTER)
     {
 	    //master code
-	    masterCode(atoi(argv[1]),atoi(argv[2]));
+	    masterCode(atoi(argv[1]),argv[2]);
 
 
     }
     else
     {
         //slave code
-	    slaveCode(atoi(argv[1]),taskid);
+	    slaveCode(atoi(argv[1]),argv[2], taskid);
     }
 
     MPI_Finalize();
@@ -92,7 +92,7 @@ int main (int argc, char *argv[])
  *          
  *  
  */
-void masterCode(int buckets, int genSize)
+void masterCode(int buckets, char* fileName)
 {
     //struct bucket * bucketArray;
     struct bucket * bucketPtr;
@@ -112,18 +112,20 @@ void masterCode(int buckets, int genSize)
     int bucketIndex, nextIndex;
     int currentIndex;
     struct bucketNode * newNode;
+    FILE *fin;
     struct timeval startTime, endTime, diffTime;
     struct timeval sortTime;
     float elapsedTime = 0;
 
+    fin = fopen(fileName, "r");
     //get array
     //read the size of list
-    //result = fscanf(fin,"%d",&arraySize);
-    arraySize = genSize;
-    if(arraySize == 0)
+    result = fscanf(fin,"%d",&arraySize);
+    if(result == 0)
     {
-        //if number is zero, send a kill command 
+        //if fscanf was unable to read the file, send a kill command 
         //to all processes
+        fclose(fin);
         rowSize = -1;
         for(indexOut = 1; indexOut < buckets; indexOut++)
         {
@@ -142,8 +144,7 @@ void masterCode(int buckets, int genSize)
         for(indexIn = 0; indexIn < rowSize; indexIn++)
         {
             //reads the numbers into a buffer
-            //result = fscanf(fin,"%d",&sendBuffer[indexIn]);
-            sendBuffer[indexIn] = rand()%MAXINT;
+            result = fscanf(fin,"%d",&sendBuffer[indexIn]);
         }
         //sends the buffer to the slave
         MPI_Send(sendBuffer, rowSize, MPI_INT, indexOut, ARRAYTAG, MPI_COMM_WORLD);
@@ -154,10 +155,9 @@ void masterCode(int buckets, int genSize)
     for(indexOut = 0; indexOut < size; indexOut ++)
     {
         //reads numbers into the master's set
-        //result = fscanf(fin,"%d",&unsortedArray[indexOut]);
-        unsortedArray[indexOut] = rand()%MAXINT;
+        result = fscanf(fin,"%d",&unsortedArray[indexOut]);
     }
-    //fclose(fin);
+    fclose(fin);
     //make buckets
     bucketPtr = makeBucket(1);
     smallBuckets = (int **)malloc(sizeof(int*)*numBucket);
@@ -268,7 +268,7 @@ void masterCode(int buckets, int genSize)
  *          The slave puts bucket sorts the array
  *  
  */
-void slaveCode(int buckets, int rank)
+void slaveCode(int buckets, char* fileName, int rank)
 {
     
     struct bucket * bucketPtr;
