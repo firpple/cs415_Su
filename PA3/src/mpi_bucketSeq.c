@@ -21,7 +21,7 @@
 #define SORTONLY 	1
 #define MAXSIZE 1000
 //function declarations
-void masterCode(int, char*);
+void masterCode(int, int);
 void slaveCode(int, char*);
 
 //Main function
