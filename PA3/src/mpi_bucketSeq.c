@@ -17,7 +17,7 @@
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
-#define  PRINT      1
+#define  PRINT      0
 #define SORTONLY 	0
 //function declarations
 void masterCode(int, char*);
