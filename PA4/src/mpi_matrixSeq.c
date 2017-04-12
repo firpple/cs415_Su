@@ -100,12 +100,29 @@ void masterCode(int size)
     struct timeval sortTime;
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
-
+	int indexIn, indexOut;
 
     //make matrix
+	matrixA = (int **)malloc(sizeof(int*) * size);
+	matrixB = (int **)malloc(sizeof(int*) * size);
+	matrixC = (int **)malloc(sizeof(int*) * size);
+	for (indexIn = 0; indexIn < size; indexIn ++)
+	{
+		matrixA[indexIn] = (int*)malloc(sizeof(int)* size);
+		matrixB[indexIn] = (int*)malloc(sizeof(int)* size);		
+		matrixC[indexIn] = (int*)malloc(sizeof(int)* size);
+	}
 	
+
     //fill matrix
-    
+    for(indexOut = 0; indexOut < size; indexOut++)
+	{
+		for(indexIn = 0; indexIn < size; indexIn++)
+		{
+			matrixA[indexOut][indexIn] = indexIn + indexOut;
+			matrixB[indexOut][indexIn] = indexIn + indexOut;
+		}
+	}
     
     
     //start time
@@ -120,7 +137,17 @@ void masterCode(int size)
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
     //prints result
+	//time
 	printf("%f,",elapsedTime );
+	//print matrixs
+	//matrix A
+	printf("matrix A:\n");
+	printMatrix(matrixA, size);
+	//matrix B
+	printf("matrix B:\n");
+	printMatrix(matrixB, size);
+	//matrix C
+	printf("matrix C:\n");
 	
 }
 
