@@ -119,8 +119,8 @@ void masterCode(int size)
 	{
 		for(indexIn = 0; indexIn < size; indexIn++)
 		{
-			matrixA[indexOut][indexIn] = indexIn + indexOut;
-			matrixB[indexOut][indexIn] = indexIn + indexOut;
+			matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
+			matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
 		}
 	}
     
@@ -140,6 +140,7 @@ void masterCode(int size)
 	//time
 	printf("%f,",elapsedTime );
 	//print matrixs
+	printf("\n");
 	//matrix A
 	printf("matrix A:\n");
 	printMatrix(matrixA, size);
@@ -171,5 +172,13 @@ void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int le
 
 void printMatrix(int **matrix, int length)
 {
-
+	int indexIn, indexOut;
+	for(indexOut = 0; indexOut < length; indexOut++)
+	{
+		for(indexIn = 0; indexIn < length; indexIn++)
+		{
+			printf("%5d", matrix[indexOut][indexIn]);
+		}
+		printf("\n");
+	}
 }
