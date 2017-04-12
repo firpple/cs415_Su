@@ -17,7 +17,7 @@
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define SORTONLY 	0
+#define	 PRINTMATRIX	0
 //function declarations
 void masterCode(int);
 void slaveCode(int,int);
@@ -144,17 +144,19 @@ void masterCode(int size)
 	//time
 	printf("%f,",elapsedTime );
 	//print matrixs
-	printf("\n");
-	//matrix A
-	printf("matrix A:\n");
-	printMatrix(matrixA, size);
-	//matrix B
-	printf("matrix B:\n");
-	printMatrix(matrixB, size);
-	//matrix C
-	printf("matrix C:\n");
-	printMatrix(matrixC, size);
-	
+	if(PRINTMATRIX)
+	{
+		printf("\n");
+		//matrix A
+		printf("matrix A:\n");
+		printMatrix(matrixA, size);
+		//matrix B
+		printf("matrix B:\n");
+		printMatrix(matrixB, size);
+		//matrix C
+		printf("matrix C:\n");
+		printMatrix(matrixC, size);
+	}
 }
 
 /*
