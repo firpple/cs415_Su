@@ -121,6 +121,7 @@ void masterCode(int size)
 		{
 			matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
 			matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
+			matrixC[indexOut][indexIn] = 0;
 		}
 	}
     
@@ -129,7 +130,7 @@ void masterCode(int size)
     gettimeofday(&startTime, NULL);
 
     //matrix multiplication
-	
+	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -149,6 +150,7 @@ void masterCode(int size)
 	printMatrix(matrixB, size);
 	//matrix C
 	printf("matrix C:\n");
+	printMatrix(matrixC, size);
 	
 }
 
@@ -167,7 +169,17 @@ void slaveCode(int buckets, int rank)
 
 void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int length)
 {
-	
+	int indexIn, indexOut, indexSub;
+	for(indexOut = 0; indexOut < length; indexOut++)
+	{
+		for(indexIn = 0; indexIn < length; indexIn++)
+		{
+			for(indexSub = 0; indexSub < length; indexSub++)
+			{
+				matrixResult[indexOut][indexIn] += matrixA[indexOut][indexSub]*matrixB[indexSub][indexIn];
+			}
+		}
+	}
 }
 
 void printMatrix(int **matrix, int length)
