@@ -97,10 +97,10 @@ int main (int argc, char *argv[])
 void masterCode(int size)
 {
     struct timeval startTime, endTime, diffTime;
-    struct timeval sortTime;
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
 	int indexIn, indexOut;
+	int counter = 0;
 
     //make matrix
 	matrixA = (int **)malloc(sizeof(int*) * size);
@@ -119,8 +119,11 @@ void masterCode(int size)
 	{
 		for(indexIn = 0; indexIn < size; indexIn++)
 		{
-			matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
-			matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
+			//matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
+			//matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
+			
+			matrixA[indexOut][indexIn] = counter++;
+			matrixB[indexOut][indexIn] = counter++;
 			matrixC[indexOut][indexIn] = 0;
 		}
 	}
