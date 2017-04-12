@@ -35,4 +35,4 @@ $(OUTMATRIXPAR): $(FILEMATRIXPAR)
 #	sbatch Timing.sh
 
 clean:
-	-@if rm $(OUTBUCKETUTL) $(OUTBUCKETSEQ) $(OUTBUCKETPAR) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
+	-@if rm $(OUTMATRIXSEQ) $(OUTMATRIXPAR) 2>/dev/null || true; then echo "Cleaned"; else echo "Nothing to clean"; fi
