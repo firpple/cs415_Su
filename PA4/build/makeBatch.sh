@@ -13,7 +13,7 @@ cat > SBMatrixSeqS${k} << EOF
 #SBATCH --mail-user=pikmin898@gmail.com
 #SBATCH --mail-type=ALL
 
-srun ~/cs415_Su/PA3/build/mpi_matrixSequential ${k}
+srun ~/cs415_Su/PA4/build/mpi_matrixSequential ${k}
 EOF
 
 done
