@@ -1,7 +1,7 @@
 #!/bin/bash
 cd scripts
 #sequential
-for k in 2640 2520 2400 2280 2160 2040 1440 1020
+for k in 2640 2520 2400 2280 2160 2040 1020 600 360
 do
 
 #echo "hello"
