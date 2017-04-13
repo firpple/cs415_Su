@@ -15,7 +15,7 @@ do
         #echo "try to batch $sbatchfil"
         TEST=$(squeue -o"%.18i %.9P %.20j %.20u %.8T %.10M %.9l %.6D %R")
 
-        while [[ "$TEST" =~ "evansu-" ]]
+        while [[ "$TEST" =~ "evansu" ]]
         do
             sleep 1s
             TEST=$(squeue -o"%.18i %.9P %.20j %.20u %.8T %.10M %.9l %.6D %R")
