@@ -366,7 +366,11 @@ void slaveCode(int size, int rank, int length)
 		}
 	}
 
-
+	//initalizes cannons
+	row = rank/length;
+	col = rank%length;
+	matrixInitCannon(row,col,length,sendBuffer,recvBuffer, tileA, tileB);
+	
 
 	//prints tiles
 	if(PRINTMATRIX)
