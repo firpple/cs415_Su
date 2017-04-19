@@ -25,8 +25,13 @@
 void masterCode(int, int);
 void slaveCode(int,int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
+void matrixInitCannon(int, int, int, int, int *, int *, int **)
 
 void printMatrix(int **, int );
+
+void rotateRow(int , int, int *, int*, int **);
+void rotateCol(int , int, int *, int*, int **);
+
 
 //Main function
 /*
@@ -413,3 +418,19 @@ void printMatrix(int **matrix, int length)
 		printf("\n");
 	}
 }
+
+void matrixInitCannon(int left, int right, int up, int down, 
+		int * sendBuffer, int * recvBuffer, int **matrix)
+{
+
+}
+
+void rotateRow(int left, int right, int * sendBuffer, int * recvBuffer, int **matrix)
+{
+	
+}
+void rotateCol(int up, int down, int * sendBuffer, int * recvBuffer, int **matrix)
+{
+
+}
+
