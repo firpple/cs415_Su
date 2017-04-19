@@ -133,6 +133,7 @@ void masterCode(int size, int length)
 	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut, indexSub;
 	int counter = 0;
+	int tileLength = size/length;
 
     //make matrix
 	matrixA = (int **)malloc(sizeof(int*) * size);
@@ -146,18 +147,18 @@ void masterCode(int size, int length)
 	}
 	
 	//make tiles
-	tileA = (int **)malloc(sizeof(int*) * length);
-	tileB = (int **)malloc(sizeof(int*) * length);
-	tileC = (int **)malloc(sizeof(int*) * length);
-	for (indexIn = 0; indexIn < length; indexIn ++)
+	tileA = (int **)malloc(sizeof(int*) * tileLength);
+	tileB = (int **)malloc(sizeof(int*) * tileLength);
+	tileC = (int **)malloc(sizeof(int*) * tileLength);
+	for (indexIn = 0; indexIn < tileLength; indexIn ++)
 	{
-		tileA[indexIn] = (int*)calloc(length, sizeof(int));
-		tileB[indexIn] = (int*)calloc(length, sizeof(int));		
-		tileC[indexIn] = (int*)calloc(length, sizeof(int));
+		tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
+		tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));		
+		tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
 	}
 	//make comm buffers
-	sendBuffer = (int *)malloc(sizeof(int) * length * length);
-	recvBuffer = (int *)malloc(sizeof(int) * length * length);
+	sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
+	recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
     //fill matrix
 	srand(0);
@@ -175,14 +176,14 @@ void masterCode(int size, int length)
 	}
     
     //gives everyone data
-	for(indexOut = 0; indexOut < length* length; indexOut++)
+	for(indexOut = 0; indexOut < tileLength* tileLength; indexOut++)
 	{
 		if(indexOut == 0)
 		{
 			//master
-			for(indexIn = 0; indexIn < length; indexIn++)
+			for(indexIn = 0; indexIn < tileLength; indexIn++)
 			{
-				for(indexSub = 0; indexSub < length; indexSub++)
+				for(indexSub = 0; indexSub < tileLength; indexSub++)
 				{
 					tileA[indexIn][indexSub] = matrixA[indexIn][indexSub];
 					tileB[indexIn][indexSub] = matrixB[indexIn][indexSub];
@@ -199,18 +200,18 @@ void masterCode(int size, int length)
 			sendRow = indexOut/length;
 			sendCol = indexOut%length;
 			//fills send buffer
-			for(indexIn = 0; indexIn < length; indexIn++)
+			for(indexIn = 0; indexIn < tileLength; indexIn++)
 			{
-				for(indexSub = 0; indexSub < length; indexSub++)
+				for(indexSub = 0; indexSub < tileLength; indexSub++)
 				{
-					sendBuffer[indexIn*length + indexSub] = 
-							matrixA[sendRow*length + indexIn]
-							[sendCol*length + indexSub];
+					sendBuffer[indexIn*tileLength + indexSub] = 
+							matrixA[sendRow*tileLength + indexIn]
+							[sendCol*tileLength + indexSub];
 				}
 			}
 
 			//sends tile A
-			MPI_Send(sendBuffer, length*length, 
+			MPI_Send(sendBuffer, tileLength*tileLength, 
 					MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 			//<><><
 		}
@@ -304,25 +305,26 @@ void slaveCode(int size, int rank, int length)
 	int indexIn, indexOut, indexSub;
 	int **tileA, **tileB, **tileC;
 	int *sendBuffer, *recvBuffer;
-
+	int tileLength;
+	tileLength = size/length;
 	//make tiles
-	tileA = (int **)malloc(sizeof(int*) * length);
-	tileB = (int **)malloc(sizeof(int*) * length);
-	tileC = (int **)malloc(sizeof(int*) * length);
-	for (indexIn = 0; indexIn < length; indexIn ++)
+	tileA = (int **)malloc(sizeof(int*) * tileLength);
+	tileB = (int **)malloc(sizeof(int*) * tileLength);
+	tileC = (int **)malloc(sizeof(int*) * tileLength);
+	for (indexIn = 0; indexIn < tileLength; indexIn ++)
 	{
-		tileA[indexIn] = (int*)calloc(length, sizeof(int));
-		tileB[indexIn] = (int*)calloc(length, sizeof(int));		
-		tileC[indexIn] = (int*)calloc(length, sizeof(int));
+		tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
+		tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));		
+		tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
 	}
-	sendBuffer = (int *)malloc(sizeof(int) * length * length);
-	recvBuffer = (int *)malloc(sizeof(int) * length * length);
+	sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
+	recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 	//recv data
-	MPI_Recv(recvBuffer, length*length, 
+	MPI_Recv(recvBuffer, tileLength*tileLength, 
 			MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-	for(indexOut = 0; indexOut < length; indexOut++)
+	for(indexOut = 0; indexOut < tileLength; indexOut++)
 	{
-		for(indexIn = 0; indexIn < length; indexIn++)
+		for(indexIn = 0; indexIn < tileLength; indexIn++)
 		{
 			tileA[indexOut][indexIn] = recvBuffer[indexOut*length + indexIn];
 		}
@@ -347,7 +349,7 @@ void slaveCode(int size, int rank, int length)
 	}
 
 	//free memory
-	for(indexIn = 0; indexIn < length; indexIn++)
+	for(indexIn = 0; indexIn < tileLength; indexIn++)
 	{
 		free(tileA[indexIn]);
 		free(tileB[indexIn]);
