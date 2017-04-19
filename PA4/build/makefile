@@ -12,7 +12,7 @@ FILEMATRIXSEQ = ../src/mpi_matrixSeq.c
 OUTMATRIXPAR = mpi_matrixParallel
 FILEMATRIXPAR = ../src/mpi_matrixPar.c
 
-all: $(OUTMATRIXSEQ)
+all: $(OUTMATRIXSEQ) $(OUTMATRIXPAR)
 
 $(OUTMATRIXSEQ): $(FILEMATRIXSEQ)
 	$(CC) $(CXXFLAGS) -o $(OUTMATRIXSEQ) $(FILEMATRIXSEQ) $(LIBS)
