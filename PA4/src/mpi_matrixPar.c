@@ -25,7 +25,7 @@
 void masterCode(int, int);
 void slaveCode(int,int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
-void matrixInitCannon(int, int, int, int, int *, int *, int **)
+void matrixInitCannon(int, int, int, int, int *, int *, int **);
 
 void printMatrix(int **, int );
 
