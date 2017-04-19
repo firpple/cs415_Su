@@ -269,7 +269,7 @@ void masterCode(int size, int rank, int length)
 	
 	if(PRINTMATRIX)
 	{
-		matrixMultipleSquare(matrixA, matrixB, matrixC, size);
+		//matrixMultipleSquare(matrixA, matrixB, matrixC, size);
 	}
     //stop time
     gettimeofday(&endTime, NULL);
