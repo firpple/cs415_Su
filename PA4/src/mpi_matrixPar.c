@@ -426,7 +426,7 @@ void printMatrix(int **matrix, int length)
 }
 
 void matrixInitCannon(int row,int col, int length, 
-		int * sendBuffer, int * recvBuffer, int **matrixA, int**matrixB);
+		int * sendBuffer, int * recvBuffer, int **matrixA, int**matrixB)
 {
 	int index;
 	int up, down, left, right;
