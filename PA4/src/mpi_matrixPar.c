@@ -201,7 +201,6 @@ void masterCode(int size, int length)
 			sendRow = indexOut/length;
 			sendCol = indexOut%length;
 			//fills send buffer
-			printf("slave:\n");
 			for(indexIn = 0; indexIn < tileLength; indexIn++)
 			{
 				for(indexSub = 0; indexSub < tileLength; indexSub++)
@@ -209,10 +208,7 @@ void masterCode(int size, int length)
 					sendBuffer[indexIn*tileLength + indexSub] = 
 							matrixA[sendRow*tileLength + indexIn]
 							[sendCol*tileLength + indexSub];
-					printf("row:%d col%d value%d", sendRow*tileLength + indexIn, sendCol*tileLength + indexSub, matrixA[sendRow*tileLength + indexIn]
-							[sendCol*tileLength + indexSub]);
 				}
-				printf("\n");
 			}
 
 			//sends tile A
@@ -331,7 +327,7 @@ void slaveCode(int size, int rank, int length)
 	{
 		for(indexIn = 0; indexIn < tileLength; indexIn++)
 		{
-			tileA[indexOut][indexIn] = recvBuffer[indexOut*length + indexIn];
+			tileA[indexOut][indexIn] = recvBuffer[indexOut*tileLength + indexIn];
 		}
 	}
 
