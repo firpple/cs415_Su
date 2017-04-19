@@ -482,7 +482,7 @@ void matrixInitCannon(int row,int col, int length, int matrixLength,
 	{
 		rotateRow(left, right, length, matrixLength, sendBuffer, recvBuffer, matrixA);
 	}
-	
+	MPI_Barrier(MPI_COMM_WORLD);
 	for(index = 0; index < col; index++)
 	{
 		rotateCol(up, down, length, matrixLength, sendBuffer, recvBuffer, matrixB);
