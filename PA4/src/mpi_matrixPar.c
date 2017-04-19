@@ -128,7 +128,7 @@ void masterCode(int size, int length)
 	int **matrixA, **matrixB, **matrixC;
 	int **tileA, **tileB, **tileC;
 	int *sendBuffer, *recvBuffer;
-	int indexIn, indexOut;
+	int indexIn, indexOut, indexSub;
 	int counter = 0;
 
     //make matrix
@@ -202,7 +202,7 @@ void masterCode(int size, int length)
 							[(indexOut%length)*length + indexSub];
 				}
 			}
-			
+			//<><><
 		}
 	}
 
