@@ -137,6 +137,7 @@ void masterCode(int size, int rank, int length)
 	int **tileA, **tileB, **tileC;
 	int sendRow, sendCol;
 	int row, col;
+	int up, down, left, right;
 	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut, indexSub;
 	int counter = 0;
