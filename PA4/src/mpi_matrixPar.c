@@ -314,7 +314,7 @@ void slaveCode(int size, int rank, int length)
 	sendBuffer = (int *)malloc(sizeof(int) * length * length);
 	recvBuffer = (int *)malloc(sizeof(int) * length * length);
 	//recv data
-	MPI_Send(recvBuffer, length*length, 
+	MPI_Recv(recvBuffer, length*length, 
 			MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 	//for()
 
