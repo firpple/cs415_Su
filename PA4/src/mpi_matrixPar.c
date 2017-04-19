@@ -204,6 +204,10 @@ void masterCode(int size, int length)
 							[(indexOut%length)*length + indexSub];
 				}
 			}
+
+			//sends tile A
+			MPI_Send(sendBuffer, length*length, 
+					MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 			//<><><
 		}
 	}
@@ -310,6 +314,8 @@ void slaveCode(int size, int rank, int length)
 	sendBuffer = (int *)malloc(sizeof(int) * length * length);
 	recvBuffer = (int *)malloc(sizeof(int) * length * length);
 	//recv data
+	MPI_Send(recvBuffer, length*length, 
+			MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 	//for()
 
 
