@@ -206,6 +206,18 @@ void masterCode(int size, int length)
 		}
 	}
 
+rc/mpi_matrixPar.c' has modification time 1.4 s in the future
+mpicc -Wall -o mpi_matrixParallel ../src/mpi_matrixPar.c -lpmi
+../src/mpi_matrixPar.c: In function ‘masterCode’:
+../src/mpi_matrixPar.c:132:6: warning: unused variable ‘counter’ [-Wunused-variable]
+  int counter = 0;
+      ^
+../src/mpi_matrixPar.c:130:20: warning: variable ‘recvBuffer’ set but not used [-Wunused-but-set-variable]
+  int *sendBuffer, *recvBuffer;
+                    ^
+../src/mpi_matrixPar.c: In function ‘slaveCode’:
+../src/mpi_matrixPar.c:306:6: error: expected expression before ‘)’ token
+  for()
 
     //start time
     gettimeofday(&startTime, NULL);
@@ -303,7 +315,7 @@ void slaveCode(int size, int rank, int length)
 	sendBuffer = (int *)malloc(sizeof(int) * length * length);
 	recvBuffer = (int *)malloc(sizeof(int) * length * length);
 	//recv data
-	for()
+	//for()
 
 
 
