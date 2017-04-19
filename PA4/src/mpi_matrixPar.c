@@ -85,10 +85,12 @@ int main (int argc, char *argv[])
 			break;
 		default:
 			validSize = FALSE;
+			break;
 	}
 	if(validSize == FALSE)
 	{
 		printf("invalid size\n");
+		printf("size: %d", length);
 	}
     else if (taskid == MASTER)
     {
