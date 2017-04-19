@@ -464,7 +464,7 @@ void rotateRow(int left, int right, int matrixLength, int * sendBuffer, int * re
 		}
 	}
 	MPI_Send(sendBuffer, matrixLength*matrixLength, 
-			MPI_INT, left, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_INT, left, TAG, MPI_COMM_WORLD);
 
 	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
 			MPI_INT, right, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
