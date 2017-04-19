@@ -25,7 +25,8 @@
 void masterCode(int, int);
 void slaveCode(int,int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
-void matrixInitCannon(int, int, int, int, int *, int *, int **);
+void matrixInitCannon(int ,int, int, 
+		int *, int *, int **, int**);
 
 void printMatrix(int **, int );
 
@@ -135,6 +136,7 @@ void masterCode(int size, int length)
 	int **matrixA, **matrixB, **matrixC;
 	int **tileA, **tileB, **tileC;
 	int sendRow, sendCol;
+	int row, col;
 	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut, indexSub;
 	int counter = 0;
@@ -238,9 +240,13 @@ void masterCode(int size, int length)
 	}
 
 
-
+			
+	row = indexOut/length;
+	col = indexOut%length;
     //start time
     gettimeofday(&startTime, NULL);
+	
+	matrixInitCannon(row,col,length,sendBuffer,recvBuffer, tileA, tileB);
 
     //matrix multiplication
 	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
@@ -419,10 +425,26 @@ void printMatrix(int **matrix, int length)
 	}
 }
 
-void matrixInitCannon(int left, int right, int up, int down, 
-		int * sendBuffer, int * recvBuffer, int **matrix)
+void matrixInitCannon(int row,int col, int length, 
+		int * sendBuffer, int * recvBuffer, int **matrixA, int**matrixB);
 {
+	int index;
+	int up, down, left, right;
+	up = ((row - 1)%length)*length + row;
+	down = ((row + 1)%length)*length + row;
+	left = row *length + (row  - 1) %length;
+	right = row *length + (row  + 1) %length;
 
+	printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right)
+	for(index = 0; index < row; index++)
+	{
+		rotateRow(left, right, sendBuffer, recvBuffer, matrixA);
+	}
+	
+	for(index = 0; index < col; index++)
+	{
+		rotateRow(left, right, sendBuffer, recvBuffer, matrixA);
+	}
 }
 
 void rotateRow(int left, int right, int * sendBuffer, int * recvBuffer, int **matrix)
