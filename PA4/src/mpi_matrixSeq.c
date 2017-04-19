@@ -17,7 +17,7 @@
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define	 PRINTMATRIX	0
+#define	 PRINTMATRIX	1
 #define  RANGE		100
 //function declarations
 void masterCode(int);
