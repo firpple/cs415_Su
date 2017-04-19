@@ -331,6 +331,7 @@ void slaveCode(int size, int rank, int length)
 	int indexIn, indexOut, indexSub;
 	int **tileA, **tileB, **tileC;
 	int *sendBuffer, *recvBuffer;
+	int row, col;
 	int tileLength;
 	tileLength = size/length;
 	//printf("%d %d %d\n", tileLength, size, length);
