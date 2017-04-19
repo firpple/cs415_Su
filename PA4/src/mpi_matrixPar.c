@@ -463,14 +463,22 @@ void rotateRow(int left, int right, int matrixLength, int * sendBuffer, int * re
 			sendBuffer[indexOut* matrixLength + indexIn] = matrix[indexOut][indexIn];
 		}
 	}
-	//if()
-	/*
+	if(left%length%2 == 0)
+	{
 	MPI_Send(sendBuffer, matrixLength*matrixLength, 
 			MPI_INT, left, TAG, MPI_COMM_WORLD);
 
 	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
 			MPI_INT, right, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-	*/
+	}
+	else
+	{
+		MPI_Recv(recvBuffer, matrixLength*matrixLength, 
+			MPI_INT, right, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);		
+		
+		MPI_Send(sendBuffer, matrixLength*matrixLength, 
+			MPI_INT, left, TAG, MPI_COMM_WORLD);
+	}
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
 	{
 		for(indexIn = 0; indexIn < matrixLength; indexIn++)
