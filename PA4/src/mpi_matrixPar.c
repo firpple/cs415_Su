@@ -435,7 +435,7 @@ void matrixInitCannon(int row,int col, int length,
 	left = row *length + (row  - 1) %length;
 	right = row *length + (row  + 1) %length;
 
-	printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right)
+	printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right);
 	for(index = 0; index < row; index++)
 	{
 		rotateRow(left, right, sendBuffer, recvBuffer, matrixA);
