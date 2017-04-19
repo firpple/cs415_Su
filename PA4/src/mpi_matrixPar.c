@@ -200,7 +200,7 @@ void masterCode(int size, int length)
 				for(indexSub = 0; indexSub < length; indexSub++)
 				{
 					sendBuffer[indexIn*length + indexSub] = 
-							matrixA[indexIn*length]
+							matrixA[indexOut/length + indexIn]
 							[(indexOut%length)*length + indexSub];
 				}
 			}
