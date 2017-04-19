@@ -430,9 +430,9 @@ void matrixInitCannon(int row,int col, int length,
 {
 	int index;
 	int up, down, left, right;
-	up = ((row - 1)%length)*length + row;
+	up = ((row + length - 1)%length)*length + row;
 	down = ((row + 1)%length)*length + row;
-	left = row *length + (row  - 1) %length;
+	left = row *length + (row + length - 1) %length;
 	right = row *length + (row  + 1) %length;
 
 	printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right);
