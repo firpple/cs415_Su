@@ -30,8 +30,8 @@ void matrixInitCannon(int ,int, int, int,
 
 void printMatrix(int **, int );
 
-void rotateRow(int , int, int, int *, int*, int **);
-void rotateCol(int , int, int, int *, int*, int **);
+void rotateRow(int , int, int, int, int *, int*, int **);
+void rotateCol(int , int, int, int, int *, int*, int **);
 
 
 //Main function
@@ -444,16 +444,16 @@ void matrixInitCannon(int row,int col, int length, int matrixLength,
 	//printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right);
 	for(index = 0; index < row; index++)
 	{
-		rotateRow(left, right, matrixLength, sendBuffer, recvBuffer, matrixA);
+		rotateRow(left, right, length, matrixLength, sendBuffer, recvBuffer, matrixA);
 	}
 	
 	for(index = 0; index < col; index++)
 	{
-		rotateCol(up, down, matrixLength, sendBuffer, recvBuffer, matrixB);
+		rotateCol(up, down, length, matrixLength, sendBuffer, recvBuffer, matrixB);
 	}
 }
 
-void rotateRow(int left, int right, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
+void rotateRow(int left, int right, int length, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
 {
 	int indexIn, indexOut;
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
@@ -487,7 +487,7 @@ void rotateRow(int left, int right, int matrixLength, int * sendBuffer, int * re
 		}
 	}
 }
-void rotateCol(int up, int down, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
+void rotateCol(int up, int down, int length, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
 {
 
 }
