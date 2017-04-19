@@ -22,7 +22,7 @@
 #define  TRUE		1
 #define  FALSE		0
 //function declarations
-void masterCode(int, int);
+void masterCode(int, int, int);
 void slaveCode(int,int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
 void matrixInitCannon(int ,int, int, 
@@ -101,7 +101,7 @@ int main (int argc, char *argv[])
     else if (taskid == MASTER)
     {
 	    //master code
-	    masterCode(atoi(argv[1]), length);
+	    masterCode(atoi(argv[1]), taskid, length);
 
 
     }
@@ -129,7 +129,7 @@ int main (int argc, char *argv[])
  *          Then, the portion remaining is sorted using bucket sort
  *          
  */
-void masterCode(int size, int length)
+void masterCode(int size, int rank, int length)
 {
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
@@ -241,8 +241,8 @@ void masterCode(int size, int length)
 
 
 			
-	row = indexOut/length;
-	col = indexOut%length;
+	row = rank/length;
+	col = rank%length;
     //start time
     gettimeofday(&startTime, NULL);
 	
