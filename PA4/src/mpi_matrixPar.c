@@ -176,7 +176,8 @@ void masterCode(int size, int length)
 	}
     
     //gives everyone data
-	for(indexOut = 0; indexOut < tileLength* tileLength; indexOut++)
+	//for goes from 0 to max num of slaves
+	for(indexOut = 0; indexOut < length*length; indexOut++)
 	{
 		if(indexOut == 0)
 		{
