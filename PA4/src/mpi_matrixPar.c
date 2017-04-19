@@ -201,6 +201,7 @@ void masterCode(int size, int length)
 			sendRow = indexOut/length;
 			sendCol = indexOut%length;
 			//fills send buffer
+			printf("slave:\n");
 			for(indexIn = 0; indexIn < tileLength; indexIn++)
 			{
 				for(indexSub = 0; indexSub < tileLength; indexSub++)
