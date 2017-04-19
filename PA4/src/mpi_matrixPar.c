@@ -333,6 +333,7 @@ void slaveCode(int size, int rank, int length)
 	int *sendBuffer, *recvBuffer;
 	int tileLength;
 	tileLength = size/length;
+	printf("%d %d %d\n", tileLength, size, length);
 	//make tiles
 	tileA = (int **)malloc(sizeof(int*) * tileLength);
 	tileB = (int **)malloc(sizeof(int*) * tileLength);
