@@ -449,16 +449,32 @@ void matrixInitCannon(int row,int col, int length, int matrixLength,
 	
 	for(index = 0; index < col; index++)
 	{
-		rotateRow(left, right, matrixLength, sendBuffer, recvBuffer, matrixA);
+		rotateCol(up, down, matrixLength, sendBuffer, recvBuffer, matrixB);
 	}
 }
 
 void rotateRow(int left, int right, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
 {
-	int index;
-	for(index = 0; index < matrixLength; index++)
+	int indexIn, indexOut;
+	for(indexOut = 0; indexOut < matrixLength; indexOut++)
 	{
+		for(indexIn = 0; indexIn < matrixLength; indexIn++)
+		{
+			sendBuffer[indexOut* matrixLength + indexIn] = matrix[indexOut][indexIn];
+		}
+	}
+	MPI_Send(sendBuffer, matrixLength*matrixLength, 
+			MPI_INT, left, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
+			MPI_INT, right, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	
+	for(indexOut = 0; indexOut < matrixLength; indexOut++)
+	{
+		for(indexIn = 0; indexIn < matrixLength; indexIn++)
+		{
+			matrix[indexOut][indexIn] = recvBuffer[indexOut* matrixLength + indexIn];
+		}
 	}
 }
 void rotateCol(int up, int down, int matrixLength, int * sendBuffer, int * recvBuffer, int **matrix)
