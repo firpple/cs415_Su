@@ -17,7 +17,7 @@
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define	 PRINTMATRIX	1
+#define	 PRINTMATRIX	0
 #define  RANGE		100
 #define  TRUE		1
 #define  FALSE		0
@@ -266,7 +266,11 @@ void masterCode(int size, int rank, int length)
 	}
 
     //matrix multiplication
-	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
+	
+	if(PRINTMATRIX)
+	{
+		matrixMultipleSquare(matrixA, matrixB, matrixC, size);
+	}
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -473,7 +477,7 @@ void matrixInitCannon(int row,int col, int length, int matrixLength,
 	left = row *length + (col + length - 1) %length;
 	right = row *length + (col  + 1) %length;
 
-	printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right);
+	//printf("me: %d, U:%d, D:%d, L:%d, R:%d\n", row*length +col, up, down, left, right);
 	for(index = 0; index < row; index++)
 	{
 		rotateRow(left, right, length, matrixLength, sendBuffer, recvBuffer, matrixA);
