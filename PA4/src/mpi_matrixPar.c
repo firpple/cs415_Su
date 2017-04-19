@@ -66,7 +66,7 @@ int main (int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD,&taskid);
     MPI_Get_processor_name(hostname, &len);
 	
-	switch(taskid)
+	switch(numtask)
 	{
 		case 4:
 			length = 2;
