@@ -215,6 +215,20 @@ void masterCode(int size, int length)
 			MPI_Send(sendBuffer, tileLength*tileLength, 
 					MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 			//<><><
+
+			for(indexIn = 0; indexIn < tileLength; indexIn++)
+			{
+				for(indexSub = 0; indexSub < tileLength; indexSub++)
+				{
+					sendBuffer[indexIn*tileLength + indexSub] = 
+							matrixB[sendRow*tileLength + indexIn]
+							[sendCol*tileLength + indexSub];
+				}
+			}
+
+			//sends tile A
+			MPI_Send(sendBuffer, tileLength*tileLength, 
+					MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 		}
 	}
 
@@ -328,6 +342,15 @@ void slaveCode(int size, int rank, int length)
 		for(indexIn = 0; indexIn < tileLength; indexIn++)
 		{
 			tileA[indexOut][indexIn] = recvBuffer[indexOut*tileLength + indexIn];
+		}
+	}
+	MPI_Recv(recvBuffer, tileLength*tileLength, 
+			MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	for(indexOut = 0; indexOut < tileLength; indexOut++)
+	{
+		for(indexIn = 0; indexIn < tileLength; indexIn++)
+		{
+			tileB[indexOut][indexIn] = recvBuffer[indexOut*tileLength + indexIn];
 		}
 	}
 
