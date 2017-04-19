@@ -126,6 +126,7 @@ void masterCode(int size, int length)
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
+	int **tileA, **tileB, **tileC;
 	int indexIn, indexOut;
 	int counter = 0;
 
@@ -140,6 +141,17 @@ void masterCode(int size, int length)
 		matrixC[indexIn] = (int*)malloc(sizeof(int)* size);
 	}
 	
+	//make tiles
+	tileA = (int **)malloc(sizeof(int*) * length);
+	tileB = (int **)malloc(sizeof(int*) * length);
+	tileC = (int **)malloc(sizeof(int*) * length);
+	for (indexIn = 0; indexIn < size; indexIn ++)
+	{
+		tileA[indexIn] = (int*)malloc(sizeof(int)* length);
+		tileB[indexIn] = (int*)malloc(sizeof(int)* length);		
+		tileC[indexIn] = (int*)malloc(sizeof(int)* length);
+	}
+
 
     //fill matrix
 	srand(0);
@@ -157,6 +169,8 @@ void masterCode(int size, int length)
 	}
     
     
+
+
     //start time
     gettimeofday(&startTime, NULL);
 
@@ -185,6 +199,28 @@ void masterCode(int size, int length)
 		printf("matrix C:\n");
 		printMatrix(matrixC, size);
 	}
+
+	//free memory
+	for(indexIn = 0; indexIn < size; indexIn++)
+	{
+		free(matrixA[indexIn]);
+		free(matrixB[indexIn]);
+		free(matrixC[indexIn]);
+	}
+	free(matrixA);
+	free(matrixB);
+	free(matrixC);
+
+
+	for(indexIn = 0; indexIn < length; indexIn++)
+	{
+		free(tileA[indexIn]);
+		free(tileB[indexIn]);
+		free(tileC[indexIn]);
+	}
+	free(tileA);
+	free(tileB);
+	free(tileC);
 }
 
 /*

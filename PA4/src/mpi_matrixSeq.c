@@ -159,6 +159,17 @@ void masterCode(int size)
 		printf("matrix C:\n");
 		printMatrix(matrixC, size);
 	}
+
+	//free memory
+	for(indexIn = 0; indexIn < size; indexIn++)
+	{
+		free(matrixA[indexIn]);
+		free(matrixB[indexIn]);
+		free(matrixC[indexIn]);
+	}
+	free(matrixA);
+	free(matrixB);
+	free(matrixC);
 }
 
 /*
@@ -196,7 +207,7 @@ void printMatrix(int **matrix, int length)
 	{
 		for(indexIn = 0; indexIn < length; indexIn++)
 		{
-			printf("%5d", matrix[indexOut][indexIn]);
+			printf("%8d", matrix[indexOut][indexIn]);
 		}
 		printf("\n");
 	}
