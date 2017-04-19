@@ -245,6 +245,7 @@ void masterCode(int size, int length)
 	{
 		printf("\n");
 		//matrix A
+		printf("Rank: %d\n", 0);
 		printf("Tile A:\n");
 		printMatrix(tileA, length);
 		//matrix B
@@ -265,7 +266,7 @@ void masterCode(int size, int length)
 	free(matrixA);
 	free(matrixB);
 	free(matrixC);
-	printf("freed matrix\n");
+	//printf("freed matrix\n");
 
 	for(indexIn = 0; indexIn < length; indexIn++)
 	{
@@ -276,7 +277,7 @@ void masterCode(int size, int length)
 	free(tileA);
 	free(tileB);
 	free(tileC);
-	printf("freed tiles\n");
+	//printf("freed tiles\n");
 	free(sendBuffer);
 	free(recvBuffer);
 }
@@ -318,6 +319,7 @@ void slaveCode(int size, int rank, int length)
 	{
 		printf("\n");
 		//matrix A
+		printf("Rank: %d\n", rank);
 		printf("Tile A:\n");
 		printMatrix(tileA, length);
 		//matrix B
