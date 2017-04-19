@@ -127,6 +127,7 @@ void masterCode(int size, int length)
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
 	int **tileA, **tileB, **tileC;
+	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut;
 	int counter = 0;
 
@@ -151,7 +152,9 @@ void masterCode(int size, int length)
 		tileB[indexIn] = (int*)malloc(sizeof(int)* length);		
 		tileC[indexIn] = (int*)malloc(sizeof(int)* length);
 	}
-
+	//make comm buffers
+	sendBuffer = (int *)malloc(sizeof(int) * length * length);
+	recvBuffer = (int *)malloc(sizeof(int) * length * length);
 
     //fill matrix
 	srand(0);
@@ -168,7 +171,40 @@ void masterCode(int size, int length)
 		}
 	}
     
-    
+    //gives everyone data
+	for(indexOut = 0; indexOut < length* length; indexOut++)
+	{
+		if(indexOut == 0)
+		{
+			//master
+			for(indexIn = 0; indexIn < length; indexIn++)
+			{
+				for(indexSub = 0; indexSub < length; indexSub++)
+				{
+					tileA[indexIn][indexSub] = matrixA[indexIn][indexSub];
+					tileB[indexIn][indexSub] = matrixB[indexIn][indexSub];
+				}
+			}
+
+
+
+		}
+		else
+		{
+			//slaves
+			//fills send buffer
+			for(indexIn = 0; indexIn < length; indexIn++)
+			{
+				for(indexSub = 0; indexSub < length; indexSub++)
+				{
+					sendBuffer[indexIn*length + indexSub] = 
+							matrixA[indexIn*length]
+							[(indexOut%length)*length + indexSub];
+				}
+			}
+			
+		}
+	}
 
 
     //start time
@@ -186,6 +222,7 @@ void masterCode(int size, int length)
 	//time
 	printf("%f,",elapsedTime );
 	//print matrixs
+	/*
 	if(PRINTMATRIX)
 	{
 		printf("\n");
@@ -198,6 +235,21 @@ void masterCode(int size, int length)
 		//matrix C
 		printf("matrix C:\n");
 		printMatrix(matrixC, size);
+	}
+	*/
+	//prints tiles
+	if(PRINTMATRIX)
+	{
+		printf("\n");
+		//matrix A
+		printf("Tile A:\n");
+		printMatrix(tileA, length);
+		//matrix B
+		printf("Tile B:\n");
+		printMatrix(tileB, length);
+		//matrix C
+		printf("Tile C:\n");
+		printMatrix(tileC, length);
 	}
 
 	//free memory
@@ -234,6 +286,52 @@ void masterCode(int size, int length)
 void slaveCode(int size, int rank, int length)
 {
     //printf("hello from slave");
+	int indexIn, indexOut, indexSub;
+	int **tileA, **tileB, **tileC;
+	int *sendBuffer, *recvBuffer;
+
+	//make tiles
+	tileA = (int **)malloc(sizeof(int*) * length);
+	tileB = (int **)malloc(sizeof(int*) * length);
+	tileC = (int **)malloc(sizeof(int*) * length);
+	for (indexIn = 0; indexIn < size; indexIn ++)
+	{
+		tileA[indexIn] = (int*)malloc(sizeof(int)* length);
+		tileB[indexIn] = (int*)malloc(sizeof(int)* length);		
+		tileC[indexIn] = (int*)malloc(sizeof(int)* length);
+	}
+	sendBuffer = (int *)malloc(sizeof(int) * length * length);
+	recvBuffer = (int *)malloc(sizeof(int) * length * length);
+	//recv data
+	for()
+
+
+
+	//prints tiles
+	if(PRINTMATRIX)
+	{
+		printf("\n");
+		//matrix A
+		printf("Tile A:\n");
+		printMatrix(tileA, length);
+		//matrix B
+		printf("Tile B:\n");
+		printMatrix(tileB, length);
+		//matrix C
+		printf("Tile C:\n");
+		printMatrix(tileC, length);
+	}
+
+	//free memory
+	for(indexIn = 0; indexIn < length; indexIn++)
+	{
+		free(tileA[indexIn]);
+		free(tileB[indexIn]);
+		free(tileC[indexIn]);
+	}
+	free(tileA);
+	free(tileB);
+	free(tileC);
 }
 
 void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int length)
