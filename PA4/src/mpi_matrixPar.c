@@ -247,6 +247,11 @@ void masterCode(int size, int rank, int length)
     gettimeofday(&startTime, NULL);
 	
 	matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
+	//runs cannons
+	up = ((row + length - 1)%length)*length + col;
+	down = ((row + 1)%length)*length + col;
+	left = row *length + (col + length - 1) %length;
+	right = row *length + (col  + 1) %length;
 
     //matrix multiplication
 	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
@@ -332,6 +337,8 @@ void slaveCode(int size, int rank, int length)
 	int **tileA, **tileB, **tileC;
 	int *sendBuffer, *recvBuffer;
 	int row, col;
+
+	int up, down, left, right;
 	int tileLength;
 	tileLength = size/length;
 	//printf("%d %d %d\n", tileLength, size, length);
@@ -371,7 +378,11 @@ void slaveCode(int size, int rank, int length)
 	row = rank/length;
 	col = rank%length;
 	matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
-	
+	//runs cannons
+	up = ((row + length - 1)%length)*length + col;
+	down = ((row + 1)%length)*length + col;
+	left = row *length + (col + length - 1) %length;
+	right = row *length + (col  + 1) %length;
 
 	//prints tiles
 	if(PRINTMATRIX)
