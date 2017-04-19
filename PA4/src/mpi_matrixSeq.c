@@ -18,6 +18,7 @@
 #define  SECTOMICRO 1000000
 #define  PRINT      0
 #define	 PRINTMATRIX	0
+#define  RANGE		100
 //function declarations
 void masterCode(int);
 void slaveCode(int,int);
@@ -115,6 +116,7 @@ void masterCode(int size)
 	
 
     //fill matrix
+	srand(0);
     for(indexOut = 0; indexOut < size; indexOut++)
 	{
 		for(indexIn = 0; indexIn < size; indexIn++)
@@ -122,8 +124,8 @@ void masterCode(int size)
 			//matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
 			//matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
 			
-			matrixA[indexOut][indexIn] = counter++;
-			matrixB[indexOut][indexIn] = counter++;
+			matrixA[indexOut][indexIn] = rand() %RANGE;
+			matrixB[indexOut][indexIn] = rand() %RANGE;
 			matrixC[indexOut][indexIn] = 0;
 		}
 	}
