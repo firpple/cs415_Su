@@ -257,13 +257,13 @@ void masterCode(int size, int length)
 		//matrix A
 		printf("Rank: %d\n", 0);
 		printf("Tile A:\n");
-		printMatrix(tileA, length);
+		printMatrix(tileA, tileLength);
 		//matrix B
 		printf("Tile B:\n");
-		printMatrix(tileB, length);
+		printMatrix(tileB, tileLength);
 		//matrix C
 		printf("Tile C:\n");
-		printMatrix(tileC, length);
+		printMatrix(tileC, tileLength);
 	}
 
 	//free memory
@@ -340,13 +340,13 @@ void slaveCode(int size, int rank, int length)
 		//matrix A
 		printf("Rank: %d\n", rank);
 		printf("Tile A:\n");
-		printMatrix(tileA, length);
+		printMatrix(tileA, tileLength);
 		//matrix B
 		printf("Tile B:\n");
-		printMatrix(tileB, length);
+		printMatrix(tileB, tileLength);
 		//matrix C
 		printf("Tile C:\n");
-		printMatrix(tileC, length);
+		printMatrix(tileC, tileLength);
 	}
 
 	//free memory
