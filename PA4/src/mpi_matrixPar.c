@@ -253,6 +253,16 @@ void masterCode(int size, int rank, int length)
 	down = ((row + 1)%length)*length + col;
 	left = row *length + (col + length - 1) %length;
 	right = row *length + (col  + 1) %length;
+	
+	matrixMultipleSquare(matrixA, matrixB, matrixC, tileLength);
+
+	for(indexOut = 0; indexOut < length -1; indexOut ++)
+	{
+		rotateRow(left, right, length, tileLength, sendBuffer, recvBuffer, matrixA);
+		rotateCol(up, down, length, tileLength, sendBuffer, recvBuffer, matrixB);
+		
+		matrixMultipleSquare(matrixA, matrixB, matrixC, tileLength);
+	}
 
     //matrix multiplication
 	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
@@ -385,6 +395,15 @@ void slaveCode(int size, int rank, int length)
 	left = row *length + (col + length - 1) %length;
 	right = row *length + (col  + 1) %length;
 
+	matrixMultipleSquare(matrixA, matrixB, matrixC, tileLength);
+
+	for(indexOut = 0; indexOut < length -1; indexOut ++)
+	{
+		rotateRow(left, right, length, tileLength, sendBuffer, recvBuffer, matrixA);
+		rotateCol(up, down, length, tileLength, sendBuffer, recvBuffer, matrixB);
+		
+		matrixMultipleSquare(matrixA, matrixB, matrixC, tileLength);
+	}
 	//prints tiles
 	if(PRINTMATRIX)
 	{
