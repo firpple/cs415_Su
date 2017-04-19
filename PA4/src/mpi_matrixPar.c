@@ -303,7 +303,7 @@ void masterCode(int size, int rank, int length)
 	free(matrixC);
 	//printf("freed matrix\n");
 
-	for(indexIn = 0; indexIn < length; indexIn++)
+	for(indexIn = 0; indexIn < tileLength; indexIn++)
 	{
 		free(tileA[indexIn]);
 		free(tileB[indexIn]);
@@ -333,7 +333,7 @@ void slaveCode(int size, int rank, int length)
 	int *sendBuffer, *recvBuffer;
 	int tileLength;
 	tileLength = size/length;
-	printf("%d %d %d\n", tileLength, size, length);
+	//printf("%d %d %d\n", tileLength, size, length);
 	//make tiles
 	tileA = (int **)malloc(sizeof(int*) * tileLength);
 	tileB = (int **)malloc(sizeof(int*) * tileLength);
