@@ -129,6 +129,7 @@ void masterCode(int size, int length)
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
 	int **tileA, **tileB, **tileC;
+	int sendRow, sendCol;
 	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut, indexSub;
 	int counter = 0;
@@ -194,14 +195,17 @@ void masterCode(int size, int length)
 		else
 		{
 			//slaves
+			//calculates the coordinate			
+			sendRow = indexOut/length;
+			sendCol = indexOut%length;
 			//fills send buffer
 			for(indexIn = 0; indexIn < length; indexIn++)
 			{
 				for(indexSub = 0; indexSub < length; indexSub++)
 				{
 					sendBuffer[indexIn*length + indexSub] = 
-							matrixA[(indexOut/length)*length + indexIn]
-							[(indexOut%length)*length + indexSub];
+							matrixA[sendRow*length + indexIn]
+							[sendCol*length + indexSub];
 				}
 			}
 
