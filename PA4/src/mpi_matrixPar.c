@@ -500,7 +500,7 @@ void rotateRow(int left, int right, int length, int matrixLength, int * sendBuff
 		}
 	}
 	//printf("sending to %d, recv from: %d", left, right);
-	if((left/length)%2 == 0)
+	if((left/length)%2 == 1)
 	{
 	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
 			MPI_INT, right, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -534,7 +534,7 @@ void rotateCol(int up, int down, int length, int matrixLength, int * sendBuffer,
 		}
 	}
 	//printf("sending to %d, recv from: %d", left, right);
-	if((up%length)%2 == 0)
+	if((up%length)%2 == 1)
 	{
 	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
 			MPI_INT, down, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
