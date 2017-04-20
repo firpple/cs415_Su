@@ -533,11 +533,11 @@ void rotateCol(int up, int down, int length, int matrixLength, int * sendBuffer,
 	}
 	//printf("sending to %d, recv from: %d", left, right);
 	
-	MPI_Send(sendBuffer, matrixLength*matrixLength, 
-			MPI_INT, up, TAG, MPI_COMM_WORLD);
+	//MPI_Send(sendBuffer, matrixLength*matrixLength, 
+	//		MPI_INT, up, TAG, MPI_COMM_WORLD);
 
-	MPI_Recv(recvBuffer, matrixLength*matrixLength, 
-			MPI_INT, down, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	//MPI_Recv(recvBuffer, matrixLength*matrixLength, 
+	//		MPI_INT, down, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 	
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
 	{
