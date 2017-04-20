@@ -511,6 +511,7 @@ void rotateRow(int left, int right, int length, int matrixLength, int * sendBuff
 
 	
 	MPI_Wait(&reqRecv, &statRecv);
+	MPI_Wait(&reqSend, &statRecv);
 
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
 	{
@@ -542,7 +543,8 @@ void rotateCol(int up, int down, int length, int matrixLength, int * sendBuffer,
 			MPI_INT, down, TAG, MPI_COMM_WORLD, &reqRecv);
 
 	
-	MPI_Wait(&reqRecv, &statRecv);
+	MPI_Wait(&reqRecv, &statRecv);	
+	MPI_Wait(&reqSend, &statRecv);
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
 	{
 		for(indexIn = 0; indexIn < matrixLength; indexIn++)
