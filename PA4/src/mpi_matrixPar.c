@@ -505,12 +505,12 @@ void rotateRow(int left, int right, int length, int matrixLength, int * sendBuff
 	
 
 	MPI_Irecv(recvBuffer, matrixLength*matrixLength, 
-			MPI_INT, right, TAG, MPI_COMM_WORLD, reqRecv);
+			MPI_INT, right, TAG, MPI_COMM_WORLD, &reqRecv);
 
 	MPI_Isend(sendBuffer, matrixLength*matrixLength, 
-			MPI_INT, left, TAG, MPI_COMM_WORLD, reqSend);
+			MPI_INT, left, TAG, MPI_COMM_WORLD, &reqSend);
 	
-	MPI_Wait(reqRecv, statRecv)
+	MPI_Wait(&reqRecv, statRecv);
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
