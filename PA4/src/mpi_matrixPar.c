@@ -140,7 +140,6 @@ void masterCode(int size, int rank, int length)
 	int up, down, left, right;
 	int *sendBuffer, *recvBuffer;
 	int indexIn, indexOut, indexSub;
-	int counter = 0;
 	int tileLength = size/length;
 
     //make matrix
@@ -349,7 +348,7 @@ void masterCode(int size, int rank, int length)
 void slaveCode(int size, int rank, int length)
 {
     //printf("hello from slave");
-	int indexIn, indexOut, indexSub;
+	int indexIn, indexOut;
 	int **tileA, **tileB, **tileC;
 	int *sendBuffer, *recvBuffer;
 	int row, col;
@@ -510,7 +509,7 @@ void rotateRow(int left, int right, int length, int matrixLength, int * sendBuff
 	MPI_Isend(sendBuffer, matrixLength*matrixLength, 
 			MPI_INT, left, TAG, MPI_COMM_WORLD, &reqSend);
 	
-	MPI_Wait(&reqRecv, statRecv);
+	MPI_Wait(&reqRecv, &statRecv);
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	for(indexOut = 0; indexOut < matrixLength; indexOut++)
