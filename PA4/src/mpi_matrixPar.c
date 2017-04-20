@@ -243,6 +243,8 @@ void masterCode(int size, int rank, int length)
 			
 	row = rank/length;
 	col = rank%length;
+
+	MPI_Barrier(MPI_COMM_WORLD);
     //start time
     gettimeofday(&startTime, NULL);
 	
@@ -270,6 +272,8 @@ void masterCode(int size, int rank, int length)
 	{
 		//matrixMultipleSquare(matrixA, matrixB, matrixC, size);
 	}
+
+	MPI_Barrier(MPI_COMM_WORLD);
     //stop time
     gettimeofday(&endTime, NULL);
     timersub(&endTime, &startTime, &diffTime); //calc diff time
@@ -389,6 +393,7 @@ void slaveCode(int size, int rank, int length)
 		}
 	}
 
+	MPI_Barrier(MPI_COMM_WORLD);// started time
 	//initalizes cannons
 	row = rank/length;
 	col = rank%length;
@@ -408,6 +413,8 @@ void slaveCode(int size, int rank, int length)
 		
 		matrixMultipleSquare(tileA, tileB, tileC, tileLength);
 	}
+	
+	MPI_Barrier(MPI_COMM_WORLD);//stop time
 	//prints tiles
 	if(PRINTMATRIX)
 	{
