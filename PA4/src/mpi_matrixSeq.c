@@ -1,10 +1,17 @@
 /******************************************************************************
 * FILE: mpi_matrixSeq.c
 * DESCRIPTION:
-*   Calculates the matrix sequential. 
+*   Calculates the matrix sequential. Prints the execution time
+*
+* Usage:
+*   $ srun -n<cores> mpi_matrixSequential <size> <file1> <file2>
+*   $ #to read numbers in from file, set size to 0
+*   $ #to generate numbers at rand(predetermined), set size > 0
+*
 * AUTHOR: Evan Su
 * LAST REVISED: 04/5/17
 ******************************************************************************/
+
 //libraries
 #include "mpi.h"
 #include <sys/time.h>
@@ -48,6 +55,14 @@ void readMatrix(int**, int**, int, FILE *, FILE *);
  *
  *  Note: The slave functions does nothing, it is a placeholder
  *        for parallel code. 
+ *
+ *  Parameters:
+ *        int argc: number of command line arguements
+ *
+ *        char *argv[]: command line arguements
+ *              argv[1]: size of matrix
+ *              argv[2]: file name A
+ *              argv[3]: file name B
  *          
  */
 int main (int argc, char *argv[])
@@ -105,6 +120,15 @@ int main (int argc, char *argv[])
  *          matrix multiple the two files
  *          
  *          prints the results
+ *
+ *  Parameters:
+ *        int size: length of matrix
+ *
+ *        char * fileA: name of file of matrix 1 
+ *
+ *        char * fileB: name of file of matrix 2
+ *
+ *  notes: the function will only read from file if size is 0 or less.
  */
 void masterCode(int size, char * fileA, char * fileB)
 {
@@ -142,7 +166,7 @@ void masterCode(int size, char * fileA, char * fileB)
             fclose(finA);
             fclose(finB);
             //exits
-            return 0;
+            return;
         }
 
         //make matrix
@@ -207,12 +231,18 @@ void masterCode(int size, char * fileA, char * fileB)
 /*
  *  Function name: slaveCode
  *  
- *  Brief: bucketsort code for the slave node
+ *  Brief: matrix multiplication code for the slave node
  *  
  *  Detail: The slave node does nothing in sequential calculations
  *  
+ *  parameters:
+ *        int size: length of matrix
+ *
+ *        int rank: rank of the slave
+ *  
+ *  
  */
-void slaveCode(int buckets, int rank)
+void slaveCode(int size, int rank)
 {
     //printf("hello from slave");
 }
@@ -224,10 +254,22 @@ void slaveCode(int buckets, int rank)
  *  
  *  Detail: matrix multiples matrixA and matrixB. Stores result in matrixResults
  *          by adding the values to the matrixResults.
+ *
+ *  Parameters:
+ *        int ** matrixA: first matrix multplicand
+ *
+ *        int ** matrixB: second matrix multplicand
+ *
+ *        int ** matrixResult: product matrix
+ *
+ *        int length: length of the matrix
+ *
+ *  Notes: The matrix must be initilized and pointing to a 2d array
  */
 void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int length)
 {
     int indexIn, indexOut, indexSub;
+
     for(indexOut = 0; indexOut < length; indexOut++)
     {
         for(indexIn = 0; indexIn < length; indexIn++)
@@ -248,10 +290,16 @@ void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int le
  *  Brief: prints the matrix
  *  
  *  Detail: prints matrix using a for loop
+ *
+ *  Parameters:
+ *        int **matrix: matrix to print
+ *
+ *        int length: length of the matrix
  */
 void printMatrix(int **matrix, int length)
 {
     int indexIn, indexOut;
+
     for(indexOut = 0; indexOut < length; indexOut++)
     {
         for(indexIn = 0; indexIn < length; indexIn++)
@@ -268,6 +316,9 @@ void printMatrix(int **matrix, int length)
  *  Brief: make Matrix
  *  
  *  Detail: makes the matrix of size*size using calloc and malloc
+ *
+ *  Parameters:
+ *        int size: length of the matrix
  */
 int ** makeMatrix(int size)
 {
@@ -288,6 +339,10 @@ int ** makeMatrix(int size)
  *  Brief: makeMatrix
  *  
  *  Detail: frees the matrix memory
+ *  Parameters:
+ *        int **matrix: matrix to free
+ *
+ *        int size: length of the matrix
  */
 void freeMatrix(int ** matrix, int size)
 {
@@ -305,6 +360,13 @@ void freeMatrix(int ** matrix, int size)
  *  Brief: fills matrixA and B with numbers
  *  
  *  Detail: fills matrixA and matrixB with rand()
+ *
+ *  Parameters:
+ *        int **matrixA: matrix 1 to fill
+ *
+ *        int **matrixB: matrix 2 to fill
+ *
+ *        int size: length of the matrix
  *
  *  Notes:  srand must be seeded before the function call
  */
@@ -330,6 +392,17 @@ void fillMatrix(int** matrixA, int **matrixB, int size)
  *  
  *  Detail: matrixA is filled with numbers from finA 
  *          matrixB is filled with numberes from finB
+ *
+ *  Parameters:
+ *        int **matrixA: matrix 1 to fill
+ *
+ *        int **matrixB: matrix 2 to fill
+ *
+ *        int size: length of the matrix
+ *
+ *        FILE * finA: pointer to the matrix 1 data
+ *
+ *        FILE * finB: pointer to the matrix 2 data
  *
  *  Notes:  finA and finB must point to a file before using this function
  */
