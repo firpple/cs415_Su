@@ -17,7 +17,7 @@
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define	 PRINTMATRIX	0
+#define	 PRINTMATRIX	1
 #define  RANGE		100
 //function declarations
 void masterCode(int);
@@ -28,6 +28,8 @@ void printMatrix(int **, int );
 
 int ** makeMatrix(int);
 void freeMatrix(int**, int);
+void fillMatrix(int**, int);
+void readMatrix(int**, char*, char*);
 
 //Main function
 /*
@@ -91,11 +93,9 @@ int main (int argc, char *argv[])
 /*
  *  Function name: masterCode
  *  
- *  Brief: bucketsort code for the master node
+ *  Brief: matrix multiplication for the master node
  *  
- *  Detail: The master node will readin the numbers from the given file name
- *          The master node will send a portion of the numbers to each slave
- *          Then, the portion remaining is sorted using bucket sort
+ *  Detail: 
  *          
  */
 void masterCode(int size)
@@ -206,7 +206,8 @@ void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int le
 		{
 			for(indexSub = 0; indexSub < length; indexSub++)
 			{
-				matrixResult[indexOut][indexIn] += matrixA[indexOut][indexSub]*matrixB[indexSub][indexIn];
+				matrixResult[indexOut][indexIn] += 
+						matrixA[indexOut][indexSub]*matrixB[indexSub][indexIn];
 			}
 		}
 	}
