@@ -29,7 +29,7 @@ void printMatrix(int **, int );
 int ** makeMatrix(int);
 void freeMatrix(int**, int);
 void fillMatrix(int**, int**, int);
-void readMatrix(int**, int**, char*, char*);
+void readMatrix(int**, int**, int, FILE *, FILE *);
 
 //Main function
 /*
@@ -73,8 +73,6 @@ int main (int argc, char *argv[])
     {
 	    //master code
 	    masterCode(atoi(argv[1]), argv[2], argv[3]);
-
-
     }
     else
     {
@@ -104,15 +102,35 @@ void masterCode(int size, char * fileA, char * fileB)
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
 	int indexIn, indexOut;
+	FILE * finA, * finB;
 	srand(0);
-    //make matrix
-	matrixA = makeMatrix(size);
-	matrixB = makeMatrix(size);
-	matrixC = makeMatrix(size);
 
     //fill matrix
-	fillMatrix(matrixA, matrixB, size);
-    
+	if(size > 0)
+	{
+		//make matrix
+		matrixA = makeMatrix(size);
+		matrixB = makeMatrix(size);
+		matrixC = makeMatrix(size);
+		fillMatrix(matrixA, matrixB, size);
+    }
+	else
+	{
+		finA = fopen(fileA,"r");
+		finB = fopen(fileB,"r");
+
+		fscanf(finA, "%d", &size);
+		fscanf(finB, "%d", &size);
+
+		matrixA = makeMatrix(size);
+		matrixB = makeMatrix(size);
+		matrixC = makeMatrix(size);
+
+		readMatrix(matrixA, matrixB, size, finA, finB);
+		
+		fclose(finA);
+		fclose(finB);
+	}
     //start time
     gettimeofday(&startTime, NULL);
 
@@ -236,7 +254,9 @@ void fillMatrix(int** matrixA, int **matrixB, int size)
 		}
 	}
 }
-void readMatrix(int** matrixA, int** matrixB, char* fileA, char* fileB)
+void readMatrix(int** matrixA, int** matrixB, int size, FILE * finA, FILE * finB)
 {
+	int indexIn, indexOut;
 	
+
 }
