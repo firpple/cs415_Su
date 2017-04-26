@@ -12,22 +12,26 @@
 #include <stdlib.h>
 
 //define constants
-#define  MASTER		0
+#define  MASTER        0
 #define  SLAVE      1
 #define  TAG        0
 #define  SECTOMICRO 1000000
 #define  PRINT      0
-#define	 PRINTMATRIX	1
-#define  RANGE		100
+#define     PRINTMATRIX    1
+#define  RANGE        100
+
+
 //function declarations
 void masterCode(int, char*, char*);
 void slaveCode(int,int);
+
 void matrixMultipleSquare(int **, int**, int**, int);
 
 void printMatrix(int **, int );
 
 int ** makeMatrix(int);
 void freeMatrix(int**, int);
+
 void fillMatrix(int**, int**, int);
 void readMatrix(int**, int**, int, FILE *, FILE *);
 
@@ -71,14 +75,14 @@ int main (int argc, char *argv[])
 
     if (taskid == MASTER)
     {
-	    //master code
-	    masterCode(atoi(argv[1]), argv[2], argv[3]);
+        //master code
+        masterCode(atoi(argv[1]), argv[2], argv[3]);
     }
     else
     {
         //slave code
         //this code does nothing, placeholder for parallel.
-	    slaveCode(atoi(argv[1]), taskid);
+        slaveCode(atoi(argv[1]), taskid);
     }
 
     MPI_Finalize();
@@ -106,86 +110,98 @@ void masterCode(int size, char * fileA, char * fileB)
 {
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
-	int **matrixA, **matrixB, **matrixC;
-	int scanResult;
-	//int indexIn, indexOut;
-	FILE * finA, * finB;
-	srand(0);
+    int **matrixA, **matrixB, **matrixC;
+    int scanResult;
+    //int indexIn, indexOut;
+    FILE * finA, * finB;
+    srand(0);
 
     //fill matrix
-	if(size > 0)
-	{
-		//make matrix
-		matrixA = makeMatrix(size);
-		matrixB = makeMatrix(size);
-		matrixC = makeMatrix(size);
-		fillMatrix(matrixA, matrixB, size);
+    if(size > 0)
+    {
+        //make matrix
+        matrixA = makeMatrix(size);
+        matrixB = makeMatrix(size);
+        matrixC = makeMatrix(size);
+        //fill matrix
+        fillMatrix(matrixA, matrixB, size);
     }
-	else
-	{
-		finA = fopen(fileA,"r");
-		finB = fopen(fileB,"r");
+    else
+    {
+        //open files
+        finA = fopen(fileA,"r");
+        finB = fopen(fileB,"r");
 
-		scanResult = fscanf(finA, "%d", &size);
-		scanResult = fscanf(finB, "%d", &size);		
-		if(scanResult == 0)
-		{
-			printf("read error\n");
-		}
+        //scans the size
+        scanResult = fscanf(finA, "%d", &size);
+        scanResult = fscanf(finB, "%d", &size);        
+        if(scanResult == 0)
+        {
+            //issues with the scan
+            printf("read error\n");
+            fclose(finA);
+            fclose(finB);
+            //exits
+            return 0;
+        }
 
-		matrixA = makeMatrix(size);
-		matrixB = makeMatrix(size);
-		matrixC = makeMatrix(size);
+        //make matrix
+        matrixA = makeMatrix(size);
+        matrixB = makeMatrix(size);
+        matrixC = makeMatrix(size);
 
-		readMatrix(matrixA, matrixB, size, finA, finB);
-		
-		fclose(finA);
-		fclose(finB);
-	}
+        //fill matrix from file
+        readMatrix(matrixA, matrixB, size, finA, finB);
+        
+        //close files
+        fclose(finA);
+        fclose(finB);
+    }
+
     //start time
     gettimeofday(&startTime, NULL);
 
     //matrix multiplication
-	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
+    matrixMultipleSquare(matrixA, matrixB, matrixC, size);
 
     //stop time
     gettimeofday(&endTime, NULL);
 
-	 //calc diff time
+     //calc diff time
     timersub(&endTime, &startTime, &diffTime);
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
     //prints result in microseconds
-	printf("%f,",elapsedTime );
+    printf("%f,",elapsedTime );
 
-	//print matrixs
-	if(PRINTMATRIX)
-	{
-		//new line the results
-		printf("\n");
+    //print matrixs
+    if(PRINTMATRIX)
+    {
+        //new line the results
+        printf("\n");
 
-		//matrix A
-		printf("matrix A:\n");
-		printMatrix(matrixA, size);
+        //matrix A
+        printf("matrix A:\n");
+        printMatrix(matrixA, size);
 
-		//matrix B
-		printf("matrix B:\n");
-		printMatrix(matrixB, size);
+        //matrix B
+        printf("matrix B:\n");
+        printMatrix(matrixB, size);
 
-		//matrix C
-		printf("matrix C:\n");
-		printMatrix(matrixC, size);
-	}
+        //matrix C
+        printf("matrix C:\n");
+        printMatrix(matrixC, size);
+    }
 
-	//free memory
-	freeMatrix(matrixA, size);
-	matrixA = NULL;
+    //free memory
+    freeMatrix(matrixA, size);
+    matrixA = NULL;
 
-	freeMatrix(matrixB, size);
-	matrixB = NULL;
+    freeMatrix(matrixB, size);
+    matrixB = NULL;
 
-	freeMatrix(matrixC, size);
-	matrixC = NULL;
+    freeMatrix(matrixC, size);
+    matrixC = NULL;
 }
 
 /*
@@ -207,22 +223,23 @@ void slaveCode(int buckets, int rank)
  *  Brief: matrix multiplication two matrixes and stores into the results
  *  
  *  Detail: matrix multiples matrixA and matrixB. Stores result in matrixResults
- *			by adding the values to the matrixResults.
+ *          by adding the values to the matrixResults.
  */
 void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int length)
 {
-	int indexIn, indexOut, indexSub;
-	for(indexOut = 0; indexOut < length; indexOut++)
-	{
-		for(indexIn = 0; indexIn < length; indexIn++)
-		{
-			for(indexSub = 0; indexSub < length; indexSub++)
-			{
-				matrixResult[indexOut][indexIn] += 
-						matrixA[indexOut][indexSub]*matrixB[indexSub][indexIn];
-			}
-		}
-	}
+    int indexIn, indexOut, indexSub;
+    for(indexOut = 0; indexOut < length; indexOut++)
+    {
+        for(indexIn = 0; indexIn < length; indexIn++)
+        {
+            for(indexSub = 0; indexSub < length; indexSub++)
+            {
+                //adds the results to the matrixresult
+                matrixResult[indexOut][indexIn] += 
+                        matrixA[indexOut][indexSub]*matrixB[indexSub][indexIn];
+            }
+        }
+    }
 }
 
 /*
@@ -230,20 +247,21 @@ void matrixMultipleSquare(int **matrixA, int**matrixB, int**matrixResult, int le
  *  
  *  Brief: prints the matrix
  *  
- *  Detail: prints matrix
+ *  Detail: prints matrix using a for loop
  */
 void printMatrix(int **matrix, int length)
 {
-	int indexIn, indexOut;
-	for(indexOut = 0; indexOut < length; indexOut++)
-	{
-		for(indexIn = 0; indexIn < length; indexIn++)
-		{
-			printf("%8d", matrix[indexOut][indexIn]);
-		}
-		printf("\n");
-	}
+    int indexIn, indexOut;
+    for(indexOut = 0; indexOut < length; indexOut++)
+    {
+        for(indexIn = 0; indexIn < length; indexIn++)
+        {
+            printf("%8d", matrix[indexOut][indexIn]);
+        }
+        printf("\n");
+    }
 }
+
 /*
  *  Function name: makeMatrix
  *  
@@ -253,16 +271,17 @@ void printMatrix(int **matrix, int length)
  */
 int ** makeMatrix(int size)
 {
-	int index;
-	int **tempPtr;
+    int index;
+    int **tempPtr;
 
-	tempPtr = (int **)malloc(sizeof(int*) * size);	
-	for (index = 0; index < size; index ++)
-	{
-		tempPtr[index] = (int*)calloc(size ,sizeof(int));
-	}
-	return tempPtr;
+    tempPtr = (int **)malloc(sizeof(int*) * size);    
+    for (index = 0; index < size; index ++)
+    {
+        tempPtr[index] = (int*)calloc(size ,sizeof(int));
+    }
+    return tempPtr;
 }
+
 /*
  *  Function name: freeMatrix
  *  
@@ -272,49 +291,66 @@ int ** makeMatrix(int size)
  */
 void freeMatrix(int ** matrix, int size)
 {
-	int index;
-	for(index = 0; index < size; index++)
-	{
-		free(matrix[index]);
-	}
-	free(matrix);
+    int index;
+    for(index = 0; index < size; index++)
+    {
+        free(matrix[index]);
+    }
+    free(matrix);
 }
+
 /*
- *  Function name: makeMatrixmakeMatrix
+ *  Function name: fillMatrix
  *  
- *  Brief: makeMatrix
+ *  Brief: fills matrixA and B with numbers
  *  
- *  Detail: frees the matrix
+ *  Detail: fills matrixA and matrixB with rand()
+ *
+ *  Notes:  srand must be seeded before the function call
  */
 void fillMatrix(int** matrixA, int **matrixB, int size)
 {
-	int indexOut, indexIn;
+    int indexOut, indexIn;
 
     for(indexOut = 0; indexOut < size; indexOut++)
-	{
-		for(indexIn = 0; indexIn < size; indexIn++)
-		{
-			matrixA[indexOut][indexIn] = rand() %RANGE;
-			matrixB[indexOut][indexIn] = rand() %RANGE;
-		}
-	}
+    {
+        for(indexIn = 0; indexIn < size; indexIn++)
+        {
+            //fills matrix of A and B at [indexOut][indexIn] with rand numbers
+            matrixA[indexOut][indexIn] = rand() %RANGE;
+            matrixB[indexOut][indexIn] = rand() %RANGE;
+        }
+    }
 }
+
+/*
+ *  Function name: readMatrix
+ *  
+ *  Brief: fills matrixA and matrixB from files
+ *  
+ *  Detail: matrixA is filled with numbers from finA 
+ *          matrixB is filled with numberes from finB
+ *
+ *  Notes:  finA and finB must point to a file before using this function
+ */
 void readMatrix(int** matrixA, int** matrixB, int size, FILE * finA, FILE * finB)
 {
-	int indexIn, indexOut;
-	int scanResult;
-	
-	for(indexOut = 0; indexOut < size; indexOut ++)
-	{
-		for(indexIn = 0; indexIn < size; indexIn++)
-		{
-			scanResult = fscanf(finA, "%d", &matrixA[indexOut][indexIn]);
-			scanResult = fscanf(finB, "%d", &matrixB[indexOut][indexIn]);
-			if(scanResult == 0)
-			{
-				printf("read error\n");
-			}
-		}
-	}
+    int indexIn, indexOut;
+    int scanResult;
+    
+    for(indexOut = 0; indexOut < size; indexOut ++)
+    {
+        for(indexIn = 0; indexIn < size; indexIn++)
+        {
+            //reads the numbers into matrixA and matrixB
+            scanResult = fscanf(finA, "%d", &matrixA[indexOut][indexIn]);
+            scanResult = fscanf(finB, "%d", &matrixB[indexOut][indexIn]);
+            if(scanResult == 0)
+            {
+                //read error
+                printf("read error\n");
+            }
+        }
+    }
 
 }
