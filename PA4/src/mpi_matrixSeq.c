@@ -101,7 +101,8 @@ void masterCode(int size, char * fileA, char * fileB)
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
-	int indexIn, indexOut;
+	int scanResult;
+	//int indexIn, indexOut;
 	FILE * finA, * finB;
 	srand(0);
 
@@ -119,8 +120,8 @@ void masterCode(int size, char * fileA, char * fileB)
 		finA = fopen(fileA,"r");
 		finB = fopen(fileB,"r");
 
-		fscanf(finA, "%d", &size);
-		fscanf(finB, "%d", &size);
+		scanResult = fscanf(finA, "%d", &size);
+		scanResult = fscanf(finB, "%d", &size);
 
 		matrixA = makeMatrix(size);
 		matrixB = makeMatrix(size);
@@ -257,6 +258,15 @@ void fillMatrix(int** matrixA, int **matrixB, int size)
 void readMatrix(int** matrixA, int** matrixB, int size, FILE * finA, FILE * finB)
 {
 	int indexIn, indexOut;
+	int scanResult;
 	
+	for(indexOut = 0; indexOut < size; indexOut ++)
+	{
+		for(indexIn = 0; indexIn < size; indexIn++)
+		{
+			scanResult = fscanf(finA, "%d", &matrixA[indexOut][indexIn]);
+			scanResult = fscanf(finB, "%d", &matrixB[indexOut][indexIn]);
+		}
+	}
 
 }
