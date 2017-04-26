@@ -107,7 +107,7 @@ void masterCode(int size)
 	int counter = 0;
 
     //make matrix
-	matrixA = (int **)malloc(sizeof(int*) * size);
+	/*matrixA = (int **)malloc(sizeof(int*) * size);
 	matrixB = (int **)malloc(sizeof(int*) * size);
 	matrixC = (int **)malloc(sizeof(int*) * size);
 	for (indexIn = 0; indexIn < size; indexIn ++)
@@ -115,8 +115,10 @@ void masterCode(int size)
 		matrixA[indexIn] = (int*)malloc(sizeof(int)* size);
 		matrixB[indexIn] = (int*)malloc(sizeof(int)* size);		
 		matrixC[indexIn] = (int*)malloc(sizeof(int)* size);
-	}
-	
+	}*/
+	matrixA = makeMatrix(size);
+	matrixB = makeMatrix(size);
+	matrixC = makeMatrix(size);
 
     //fill matrix
 	srand(0);
@@ -164,6 +166,7 @@ void masterCode(int size)
 	}
 
 	//free memory
+	/*
 	for(indexIn = 0; indexIn < size; indexIn++)
 	{
 		free(matrixA[indexIn]);
@@ -172,7 +175,13 @@ void masterCode(int size)
 	}
 	free(matrixA);
 	free(matrixB);
-	free(matrixC);
+	free(matrixC);*/
+	freeMatrix(matrixA, size);
+	matrixA = NULL;
+	freeMatrix(matrixB, size);
+	matrixB = NULL;
+	freeMatrix(matrixC, size);
+	matrixC = NULL;
 }
 
 /*
