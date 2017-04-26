@@ -26,6 +26,9 @@ void matrixMultipleSquare(int **, int**, int**, int);
 
 void printMatrix(int **, int );
 
+int ** makeMatrix(int);
+void freeMatrix(int**, int);
+
 //Main function
 /*
  *  Function name: main
@@ -212,3 +215,26 @@ void printMatrix(int **matrix, int length)
 		printf("\n");
 	}
 }
+
+int ** makeMatrix(int size)
+{
+	int index;
+	int **tempPtr;
+
+	tempPtr = (int **)malloc(sizeof(int*) * size);	
+	for (index = 0; index < size; index ++)
+	{
+		tempPtr[index] = (int*)calloc(size ,sizeof(int));
+	}
+	return tempPtr;
+}
+void freeMatrix(int ** matrix, int size)
+{
+	int index;
+	for(index = 0; index < size; index++)
+	{
+		free(matrix[index]);
+	}
+	free(matrix);
+}
+
