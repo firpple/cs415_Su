@@ -20,7 +20,7 @@
 #define	 PRINTMATRIX	1
 #define  RANGE		100
 //function declarations
-void masterCode(int);
+void masterCode(int, char*, char*);
 void slaveCode(int,int);
 void matrixMultipleSquare(int **, int**, int**, int);
 
@@ -72,7 +72,7 @@ int main (int argc, char *argv[])
     if (taskid == MASTER)
     {
 	    //master code
-	    masterCode(atoi(argv[1]));
+	    masterCode(atoi(argv[1]), argv[2], argv[3]);
 
 
     }
@@ -98,7 +98,7 @@ int main (int argc, char *argv[])
  *  Detail: 
  *          
  */
-void masterCode(int size)
+void masterCode(int size, char * fileA, char * fileB)
 {
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
@@ -106,31 +106,11 @@ void masterCode(int size)
 	int indexIn, indexOut;
 	srand(0);
     //make matrix
-	/*matrixA = (int **)malloc(sizeof(int*) * size);
-	matrixB = (int **)malloc(sizeof(int*) * size);
-	matrixC = (int **)malloc(sizeof(int*) * size);
-	for (indexIn = 0; indexIn < size; indexIn ++)
-	{
-		matrixA[indexIn] = (int*)malloc(sizeof(int)* size);
-		matrixB[indexIn] = (int*)malloc(sizeof(int)* size);		
-		matrixC[indexIn] = (int*)malloc(sizeof(int)* size);
-	}*/
 	matrixA = makeMatrix(size);
 	matrixB = makeMatrix(size);
 	matrixC = makeMatrix(size);
 
     //fill matrix
-	/*
-    for(indexOut = 0; indexOut < size; indexOut++)
-	{
-		for(indexIn = 0; indexIn < size; indexIn++)
-		{
-			matrixA[indexOut][indexIn] = rand() %RANGE;
-			matrixB[indexOut][indexIn] = rand() %RANGE;
-			matrixC[indexOut][indexIn] = 0;
-		}
-	}
-    */
 	fillMatrix(matrixA, matrixB, size);
     
     //start time
@@ -138,25 +118,31 @@ void masterCode(int size)
 
     //matrix multiplication
 	matrixMultipleSquare(matrixA, matrixB, matrixC, size);
+
     //stop time
     gettimeofday(&endTime, NULL);
-    timersub(&endTime, &startTime, &diffTime); //calc diff time
+
+	 //calc diff time
+    timersub(&endTime, &startTime, &diffTime);
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
-
     //prints result in microseconds
-	//time
 	printf("%f,",elapsedTime );
+
 	//print matrixs
 	if(PRINTMATRIX)
 	{
+		//new line the results
 		printf("\n");
+
 		//matrix A
 		printf("matrix A:\n");
 		printMatrix(matrixA, size);
+
 		//matrix B
 		printf("matrix B:\n");
 		printMatrix(matrixB, size);
+
 		//matrix C
 		printf("matrix C:\n");
 		printMatrix(matrixC, size);
@@ -165,8 +151,10 @@ void masterCode(int size)
 	//free memory
 	freeMatrix(matrixA, size);
 	matrixA = NULL;
+
 	freeMatrix(matrixB, size);
 	matrixB = NULL;
+
 	freeMatrix(matrixC, size);
 	matrixC = NULL;
 }
