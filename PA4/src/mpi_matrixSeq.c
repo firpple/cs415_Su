@@ -20,12 +20,12 @@
 
 //define constants
 #define  MASTER        0
-#define  SLAVE      1
-#define  TAG        0
-#define  SECTOMICRO 1000000
-#define  PRINT      0
-#define     PRINTMATRIX    1
-#define  RANGE        100
+#define  SLAVE         1
+#define  TAG           0
+#define  SECTOMICRO    1000000
+#define  PRINT         0
+#define  PRINTMATRIX   1
+#define  RANGE         100
 
 
 /*function declarations*******************************************************/
@@ -479,5 +479,4 @@ void readMatrix(int** matrixA, int** matrixB, int size, FILE * finA, FILE * finB
             }
         }
     }
-
 }
