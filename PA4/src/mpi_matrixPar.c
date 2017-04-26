@@ -66,6 +66,11 @@ void fillMatrix(int**, int**, int);
 void readMatrix(int**, int**, int, FILE *, FILE *);
 
 
+int calcUpNeighbor(int, int, int);
+int calcDownNeighbor(int, int, int);
+int calcLeftNeighbor(int, int, int);
+int calcRightNeighbor(int, int, int);
+
 /*function declarations*******************************************************/
 
 
@@ -776,5 +781,24 @@ void readMatrix(int** matrixA, int** matrixB, int size, FILE * finA, FILE * finB
             }
         }
     }
+}
+
+
+
+int calcUpNeighbor(int row, int col, int length)
+{
+    return ((row + length - 1)%length)*length + col;
+}
+int calcDownNeighbor(int row, int col, int length)
+{
+    return ((row + 1)%length)*length + col;
+}
+int calcLeftNeighbor(int row, int col, int length)
+{
+    return row *length + (col + length - 1) %length;
+}
+int calcRightNeighbor(int row, int col, int length)
+{
+    return row *length + (col  + 1) %length;
 }
 
