@@ -28,19 +28,73 @@
 #define  RANGE        100
 
 
-//function declarations
+/*function declarations*******************************************************/
+
+/*
+ *  Function name: masterCode
+ *  
+ *  Brief: matrix multiplication for the master node
+ */
 void masterCode(int, char*, char*);
+
+/*
+ *  Function name: slaveCode
+ *  
+ *  Brief: matrix multiplication code for the slave node
+ */
 void slaveCode(int,int);
 
+
+/*
+ *  Function name: matrixMultipleSquare
+ *  
+ *  Brief: matrix multiplication two matrixes and stores into the results
+ */
 void matrixMultipleSquare(int **, int**, int**, int);
 
+
+/*
+ *  Function name: printMatrix
+ *  
+ *  Brief: prints the matrix
+ */
 void printMatrix(int **, int );
 
+
+/*
+ *  Function name: makeMatrix
+ *  
+ *  Brief: make Matrix
+ */
 int ** makeMatrix(int);
+
+
+/*
+ *  Function name: freeMatrix
+ *  
+ *  Brief: frees Matrix memory
+ */
 void freeMatrix(int**, int);
 
+
+/*
+ *  Function name: fillMatrix
+ *  
+ *  Brief: fills matrixA and B with numbers
+ */  
 void fillMatrix(int**, int**, int);
+
+
+/*
+ *  Function name: readMatrix
+ *  
+ *  Brief: fills matrixA and matrixB from files
+ */
 void readMatrix(int**, int**, int, FILE *, FILE *);
+
+
+/*function declarations*******************************************************/
+
 
 //Main function
 /*
@@ -336,7 +390,7 @@ int ** makeMatrix(int size)
 /*
  *  Function name: freeMatrix
  *  
- *  Brief: makeMatrix
+ *  Brief: frees Matrix memory
  *  
  *  Detail: frees the matrix memory
  *  Parameters:
