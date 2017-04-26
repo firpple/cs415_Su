@@ -13,14 +13,14 @@
 
 //define constants
 #define  MASTER        0
-#define  SLAVE      1
-#define  TAG        0
-#define  SECTOMICRO 1000000
-#define  PRINT      0
-#define  PRINTMATRIX    0
-#define  RANGE        100
-#define  TRUE        1
-#define  FALSE        0
+#define  SLAVE         1
+#define  TAG           0
+#define  SECTOMICRO    1000000
+#define  PRINT         0
+#define  PRINTMATRIX   1
+#define  RANGE         100
+#define  TRUE          1
+#define  FALSE         0
 
 /*function declarations*******************************************************/
 void masterCode(int, int, int);
