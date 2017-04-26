@@ -28,8 +28,8 @@ void printMatrix(int **, int );
 
 int ** makeMatrix(int);
 void freeMatrix(int**, int);
-void fillMatrix(int**, int);
-void readMatrix(int**, char*, char*);
+void fillMatrix(int**, int**, int);
+void readMatrix(int**, int**, char*, char*);
 
 //Main function
 /*
@@ -104,8 +104,7 @@ void masterCode(int size)
     float elapsedTime = 0;
 	int **matrixA, **matrixB, **matrixC;
 	int indexIn, indexOut;
-	int counter = 0;
-
+	srand(0);
     //make matrix
 	/*matrixA = (int **)malloc(sizeof(int*) * size);
 	matrixB = (int **)malloc(sizeof(int*) * size);
@@ -121,20 +120,18 @@ void masterCode(int size)
 	matrixC = makeMatrix(size);
 
     //fill matrix
-	srand(0);
+	/*
     for(indexOut = 0; indexOut < size; indexOut++)
 	{
 		for(indexIn = 0; indexIn < size; indexIn++)
 		{
-			//matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
-			//matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
-			
 			matrixA[indexOut][indexIn] = rand() %RANGE;
 			matrixB[indexOut][indexIn] = rand() %RANGE;
 			matrixC[indexOut][indexIn] = 0;
 		}
 	}
-    
+    */
+	fillMatrix(matrixA, matrixB, size);
     
     //start time
     gettimeofday(&startTime, NULL);
@@ -147,7 +144,7 @@ void masterCode(int size)
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
 
-    //prints result
+    //prints result in microseconds
 	//time
 	printf("%f,",elapsedTime );
 	//print matrixs
@@ -166,16 +163,6 @@ void masterCode(int size)
 	}
 
 	//free memory
-	/*
-	for(indexIn = 0; indexIn < size; indexIn++)
-	{
-		free(matrixA[indexIn]);
-		free(matrixB[indexIn]);
-		free(matrixC[indexIn]);
-	}
-	free(matrixA);
-	free(matrixB);
-	free(matrixC);*/
 	freeMatrix(matrixA, size);
 	matrixA = NULL;
 	freeMatrix(matrixB, size);
@@ -248,3 +235,20 @@ void freeMatrix(int ** matrix, int size)
 	free(matrix);
 }
 
+void fillMatrix(int** matrixA, int **matrixB, int size)
+{
+	int indexOut, indexIn;
+
+    for(indexOut = 0; indexOut < size; indexOut++)
+	{
+		for(indexIn = 0; indexIn < size; indexIn++)
+		{
+			matrixA[indexOut][indexIn] = rand() %RANGE;
+			matrixB[indexOut][indexIn] = rand() %RANGE;
+		}
+	}
+}
+void readMatrix(int** matrixA, int** matrixB, char* fileA, char* fileB)
+{
+	
+}
