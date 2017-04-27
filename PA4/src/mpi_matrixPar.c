@@ -10,6 +10,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 //define constants
 #define  MASTER        0
@@ -193,7 +194,7 @@ int main (int argc, char *argv[])
     //determines the square root of the number of processes
     //assumes the number of task is 0 < task <=36 and is can evenly
     //square root
-    switch(numtasks)
+    /*switch(numtasks)
     {
         case 4:
             length = 2;
@@ -213,7 +214,8 @@ int main (int argc, char *argv[])
         default:
             validSize = FALSE;
             break;
-    }
+    }*/
+    length = (int) sqrt(numtasks);
 
     //checks for valid size
     if(validSize == FALSE)
