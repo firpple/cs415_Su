@@ -12,16 +12,21 @@
 #include <stdlib.h>
 #include <math.h>
 
+//define variables
+
+#define  PRINTMASTER   1 //1: prints matrix, 0: does not print matrix
+#define  PRINTTIME     1 //1: prints time, 0: does not print time
+#define  RANGE         100 //changes the max number that can be generated
+
+  //dont touch these three unless you know what you are doing
+#define  PRINTMATRIX   0
+#define  PRINT         0
+
 //define constants
 #define  MASTER        0
 #define  SLAVE         1
 #define  TAG           0
 #define  SECTOMICRO    1000000
-#define  PRINT         0
-#define  PRINTMATRIX   0
-#define  PRINTMASTER   1
-#define  PRINTTIME     1
-#define  RANGE         100
 #define  TRUE          1
 #define  FALSE         0
 
@@ -192,37 +197,8 @@ int main (int argc, char *argv[])
     MPI_Get_processor_name(hostname, &len);
     
     //determines the square root of the number of processes
-    //assumes the number of task is 0 < task <=36 and is can evenly
-    //square root
-    /*switch(numtasks)
-    {
-        case 4:
-            length = 2;
-            break;
-        case 9:
-            length = 3;
-            break;
-        case 16:
-            length = 4;
-            break;
-        case 25:
-            length = 5;
-            break;
-        case 36:
-            length = 6;
-            break;
-        default:
-            validSize = FALSE;
-            break;
-    }*/
     length = (int) sqrt(numtasks);
 
-    //checks for valid size
-    if(validSize == FALSE)
-    {
-        printf("invalid size\n");
-        printf("size: %d", length);
-    }
     else if (taskid == MASTER)
     {
         //calls master code
@@ -230,7 +206,7 @@ int main (int argc, char *argv[])
 
 
     }
-    else
+    else 
     {
         //slave code
         slaveCode( taskid, length);
