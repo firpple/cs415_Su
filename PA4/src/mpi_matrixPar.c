@@ -71,6 +71,9 @@ int calcDownNeighbor(int, int, int);
 int calcLeftNeighbor(int, int, int);
 int calcRightNeighbor(int, int, int);
 
+
+void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** matrix);
+void consolidateMatrixSlave( int tileLength, int meshLength, int rank, int** tile);
 /*function declarations*******************************************************/
 
 
@@ -214,6 +217,9 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
 
 
 
+    //*****************************************************/
+    //***Read Matrix **************************************/
+    //*****************************************************/
 
     if(size > 0)
     {
@@ -250,6 +256,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
         }
 
         tileLength = size/length;
+
         //make matrix
         matrixA = makeMatrix(size);
         matrixB = makeMatrix(size);
@@ -272,6 +279,10 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
+    
+    //*****************************************************/
+    //***Start Matrix Send*********************************/
+    //*****************************************************/
     //gives everyone data
     //for goes from 0 to max num of slaves
     for(indexOut = 0; indexOut < length*length; indexOut++)
@@ -279,6 +290,8 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
         if(indexOut == 0)
         {
             //master
+            //copys the first tile of the matrix to the master's
+            //tile
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
                 for(indexSub = 0; indexSub < tileLength; indexSub++)
@@ -299,7 +312,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
             sendRow = indexOut/length;
             sendCol = indexOut%length;
 
-            //fills send buffer
+            //fills send buffer with tile A
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
                 for(indexSub = 0; indexSub < tileLength; indexSub++)
@@ -314,6 +327,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
             MPI_Send(sendBuffer, tileLength*tileLength, 
                     MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 
+            //fills send buffer with tile B
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
                 for(indexSub = 0; indexSub < tileLength; indexSub++)
@@ -324,7 +338,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
                 }
             }
 
-            //sends tile A
+            //sends tile B
             MPI_Send(sendBuffer, tileLength*tileLength, 
                     MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
         }
@@ -334,21 +348,28 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     //calculates the row and col of the master node
     row = rank/length;
     col = rank%length;
+    
+    //*****************************************************/
+    //***Start Matrix Multiply*****************************/
+    //*****************************************************/
 
     MPI_Barrier(MPI_COMM_WORLD);//barrier start time
     //start time
     gettimeofday(&startTime, NULL);
     
-    matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
     //runs cannons
+    matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
+
+    //calculates neighbors
     up = calcUpNeighbor(row, col, length);
     down = calcDownNeighbor(row, col, length);
     left = calcLeftNeighbor(row, col, length);
     right = calcRightNeighbor(row, col, length);
     
-    
+    //matrix multiply
     matrixMultipleSquare(tileA, tileB, tileC, tileLength);
 
+    //Rotates matrix and multiply
     for(indexOut = 0; indexOut < length -1; indexOut ++)
     {
         rotateRow(left, right, length, tileLength, sendBuffer, recvBuffer, tileA);
@@ -358,11 +379,19 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     }
 
     MPI_Barrier(MPI_COMM_WORLD);//barrier end time
+
     //stop time
     gettimeofday(&endTime, NULL);
-    timersub(&endTime, &startTime, &diffTime); //calc diff time
+    //calc diff time
+    timersub(&endTime, &startTime, &diffTime);
     //converts time struct to float
     elapsedTime = (diffTime.tv_sec * SECTOMICRO + diffTime.tv_usec); 
+
+
+    //*****************************************************/
+    //***Print Results*************************************/
+    //*****************************************************/
+
 
     //prints result in microseconds
     printf("%f,",elapsedTime );
@@ -456,10 +485,15 @@ void slaveCode(int rank, int length)
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
 
-    //recv data
+    //*****************************************************/
+    //***Recieve Matrix Data*******************************/
+    //*****************************************************/
+
+    //recv data of tile A
     MPI_Recv(recvBuffer, tileLength*tileLength, 
             MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+    //transfer data to tile A
     for(indexOut = 0; indexOut < tileLength; indexOut++)
     {
         for(indexIn = 0; indexIn < tileLength; indexIn++)
@@ -468,9 +502,11 @@ void slaveCode(int rank, int length)
         }
     }
 
+    //recv data of tile B
     MPI_Recv(recvBuffer, tileLength*tileLength, 
             MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+    //transfer data to tile B
     for(indexOut = 0; indexOut < tileLength; indexOut++)
     {
         for(indexIn = 0; indexIn < tileLength; indexIn++)
@@ -478,23 +514,28 @@ void slaveCode(int rank, int length)
             tileB[indexOut][indexIn] = recvBuffer[indexOut*tileLength + indexIn];
         }
     }
-
+    //*****************************************************/
+    //***Matrix Multiply***********************************/
+    //*****************************************************/
     MPI_Barrier(MPI_COMM_WORLD);//barrier start time
 
-    //initalizes cannons
+    //calculates coordinates of self
     row = rank/length;
     col = rank%length;
 
-    matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
-
-    //runs cannons
+    //calculates neighbors
     up = calcUpNeighbor(row, col, length);
     down = calcDownNeighbor(row, col, length);
     left = calcLeftNeighbor(row, col, length);
     right = calcRightNeighbor(row, col, length);
 
+    //initalizes cannons
+    matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
+
+    //matrix multiply
     matrixMultipleSquare(tileA, tileB, tileC, tileLength);
 
+    //rotates tiles and matrix multiply
     for(indexOut = 0; indexOut < length -1; indexOut ++)
     {
         rotateRow(left, right, length, tileLength, sendBuffer, recvBuffer, tileA);
@@ -504,6 +545,11 @@ void slaveCode(int rank, int length)
     }
     
     MPI_Barrier(MPI_COMM_WORLD);//barrier end time
+
+
+    //*****************************************************/
+    //***Print Results*************************************/
+    //*****************************************************/
 
     //prints tiles
     if(PRINTMATRIX)
@@ -816,16 +862,66 @@ int calcUpNeighbor(int row, int col, int length)
 {
     return ((row + length - 1)%length)*length + col;
 }
+
 int calcDownNeighbor(int row, int col, int length)
 {
     return ((row + 1)%length)*length + col;
 }
+
 int calcLeftNeighbor(int row, int col, int length)
 {
     return row *length + (col + length - 1) %length;
 }
+
 int calcRightNeighbor(int row, int col, int length)
 {
     return row *length + (col  + 1) %length;
 }
 
+
+void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** matrix)
+{
+    int indexIn, indexOut;
+    int row, col;
+    //int recvTileNum;
+    //puts masters tile in matrix
+    for(indexOut = 0; indexOut < tileLength; indexOut++)
+    {
+        for(indexIn = 0; indexIn < tileLength; indexIn++)
+        {
+            matrix[indexOut][indexIn] = tile[indexOut][indexIn]; 
+        }
+    }
+
+    for(indexOut = 1; indexOut < meshLength * meshLength; indexOut++)
+    {
+        row = rank/length;
+        col = rank%length;
+        for(indexIn = 0; indexIn < tileLength; indexIn++)
+        {
+            MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
+                    MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        }
+        
+        MPI_Barrier(MPI_COMM_WORLD);
+    }    
+}
+
+void consolidateMatrixSlave( int tileLength, int meshLength, int rank, int** tile)
+{
+    
+    int indexIn, indexOut;
+    for(indexOut = 1; indexOut < meshLength * meshLength; indexOut++)
+    {
+        if(rank == indexOut)
+        {
+            for(indexIn = 0; indexIn < tileLength; indexIn++)
+            {
+                MPI_Send(&tile[indexIn], tileLength, 
+                        MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+                
+            }
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }    
+}
