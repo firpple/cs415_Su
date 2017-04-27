@@ -900,8 +900,8 @@ void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** 
         col = indexOut%meshLength;
         for(indexIn = 0; indexIn < tileLength; indexIn++)
         {
-            MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
-                    MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            //MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
+            //        MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }    
@@ -917,8 +917,8 @@ void consolidateMatrixSlave( int tileLength, int meshLength, int rank, int** til
         {
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
-                MPI_Send(&tile[indexIn], tileLength, 
-                        MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+                //MPI_Send(&tile[indexIn], tileLength, 
+                //        MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
                 
             }
         }
