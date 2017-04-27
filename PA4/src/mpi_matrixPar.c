@@ -895,8 +895,8 @@ void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** 
 
     for(indexOut = 1; indexOut < meshLength * meshLength; indexOut++)
     {
-        row = rank/meshLength;
-        col = rank%meshLength;
+        row = indexOut/meshLength;
+        col = indexOut%meshLength;
         for(indexIn = 0; indexIn < tileLength; indexIn++)
         {
             MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
