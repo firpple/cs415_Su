@@ -391,7 +391,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     //*****************************************************/
     //***Print Results*************************************/
     //*****************************************************/
-
+    consolidateMatrixMaster(tileLength, length, tileC, matrixC);
 
     //prints result in microseconds
     printf("%f,",elapsedTime );
@@ -551,6 +551,7 @@ void slaveCode(int rank, int length)
     //***Print Results*************************************/
     //*****************************************************/
 
+    consolidateMatrixSlave(tileLength, length, rank, tileC);
     //prints tiles
     if(PRINTMATRIX)
     {
@@ -902,7 +903,6 @@ void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** 
             MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
                     MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
-        
         MPI_Barrier(MPI_COMM_WORLD);
     }    
 }
