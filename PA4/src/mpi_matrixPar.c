@@ -920,7 +920,7 @@ void consolidateMatrixSlave( int tileLength, int meshLength, int rank, int** til
         {
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
-                MPI_Send(&tile[indexIn], tileLength, 
+                MPI_Send(tile[indexIn], tileLength, 
                         MPI_INT, MASTER, TAG, MPI_COMM_WORLD);
                 
             }
