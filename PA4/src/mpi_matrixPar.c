@@ -23,7 +23,7 @@
 #define  FALSE         0
 
 /*function declarations*******************************************************/
-void masterCode(int, int, int);
+void masterCode(int, int, int, char *, char *);
 void slaveCode(int,int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
 void matrixInitCannon(int ,int, int, int, 
@@ -156,7 +156,7 @@ int main (int argc, char *argv[])
     else if (taskid == MASTER)
     {
         //calls master code
-        masterCode(atoi(argv[1]), taskid, length);
+        masterCode(atoi(argv[1]), taskid, length, argv[2], argv[3]);
 
 
     }
@@ -196,7 +196,7 @@ int main (int argc, char *argv[])
  *
  *  notes: the function will only read from file if size is 0 or less.
  *///<><><<><><><><
-void masterCode(int size, int rank, int length)
+void masterCode(int size, int rank, int length, char * fileA, char * fileB)
 {
     struct timeval startTime, endTime, diffTime;
     float elapsedTime = 0;
@@ -304,10 +304,10 @@ void masterCode(int size, int rank, int length)
     
     matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
     //runs cannons
-    up = ((row + length - 1)%length)*length + col;
-    down = ((row + 1)%length)*length + col;
-    left = row *length + (col + length - 1) %length;
-    right = row *length + (col  + 1) %length;
+    up = calcUpNeighbor(row, col, length);
+    down = calcDownNeighbor(row, col, length);
+    left = calcLeftNeighbor(row, col, length);
+    right = calcRightNeighbor(row, col, length);
     
     
     matrixMultipleSquare(tileA, tileB, tileC, tileLength);
@@ -448,10 +448,10 @@ void slaveCode(int size, int rank, int length)
     matrixInitCannon(row,col,length,tileLength,sendBuffer,recvBuffer, tileA, tileB);
 
     //runs cannons
-    up = ((row + length - 1)%length)*length + col;
-    down = ((row + 1)%length)*length + col;
-    left = row *length + (col + length - 1) %length;
-    right = row *length + (col  + 1) %length;
+    up = calcUpNeighbor(row, col, length);
+    down = calcDownNeighbor(row, col, length);
+    left = calcLeftNeighbor(row, col, length);
+    right = calcRightNeighbor(row, col, length);
 
     matrixMultipleSquare(tileA, tileB, tileC, tileLength);
 
