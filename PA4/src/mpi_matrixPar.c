@@ -902,9 +902,12 @@ void consolidateMatrixMaster(int tileLength, int meshLength, int ** tile, int** 
         col = indexOut%meshLength;
         for(indexIn = 0; indexIn < tileLength; indexIn++)
         {
-            MPI_Recv(recvRow, tileLength, 
+            //MPI_Recv(recvRow, tileLength, 
+            //        MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            //printf("%10d, %10d\n", recvRow[0], recvRow[1]);
+            
+            MPI_Recv(&matrix[row* tileLength + indexIn][col* tileLength], tileLength, 
                     MPI_INT, indexOut, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            printf("%10d, %10d\n", recvRow[0], recvRow[1]);
         }
         MPI_Barrier(MPI_COMM_WORLD);
     }    
