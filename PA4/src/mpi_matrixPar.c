@@ -447,16 +447,6 @@ void slaveCode(int size, int rank, int length)
 
     tileLength = size/length;
     //make tiles
-	/*
-    tileA = (int **)malloc(sizeof(int*) * tileLength);
-    tileB = (int **)malloc(sizeof(int*) * tileLength);
-    tileC = (int **)malloc(sizeof(int*) * tileLength);
-    for (indexIn = 0; indexIn < tileLength; indexIn ++)
-    {
-        tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
-        tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));        
-        tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
-    }*/
 	
     tileA = makeMatrix(tileLength);
     tileB = makeMatrix(tileLength);
@@ -539,16 +529,8 @@ void slaveCode(int size, int rank, int length)
     }
 
     //free memory
-/*    for(indexIn = 0; indexIn < tileLength; indexIn++)
-    {
-        free(tileA[indexIn]);
-        free(tileB[indexIn]);
-        free(tileC[indexIn]);
-    }
-    free(tileA);
-    free(tileB);
-    free(tileC);
-*/
+
+	//free matrix
     freeMatrix(tileA, tileLength);
 	tileA = NULL;
 
@@ -557,6 +539,8 @@ void slaveCode(int size, int rank, int length)
 
     freeMatrix(tileC, tileLength);
 	tileC = NULL;
+
+	//frees com buffers
     free(sendBuffer);
     free(recvBuffer);
 }
