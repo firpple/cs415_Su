@@ -214,12 +214,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
 
 
 
-    //make comm buffers
-    sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
-    recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
-    //fill matrix
-    
     if(size > 0)
     {
         tileLength = size/length;
@@ -272,6 +267,10 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
         fclose(finB);
     }
     
+    //make comm buffers
+    sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
+    recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
+
     //gives everyone data
     //for goes from 0 to max num of slaves
     for(indexOut = 0; indexOut < length*length; indexOut++)
