@@ -210,31 +210,11 @@ void masterCode(int size, int rank, int length)
     int tileLength = size/length;
 
     //make matrix
-	/*
-    matrixA = (int **)malloc(sizeof(int*) * size);
-    matrixB = (int **)malloc(sizeof(int*) * size);
-    matrixC = (int **)malloc(sizeof(int*) * size);
-    for (indexIn = 0; indexIn < size; indexIn ++)
-    {
-        matrixA[indexIn] = (int*)calloc(size ,sizeof(int));
-        matrixB[indexIn] = (int*)calloc(size ,sizeof(int));        
-        matrixC[indexIn] = (int*)calloc(size ,sizeof(int));
-    }
-    */
 	matrixA = makeMatrix(size);
 	matrixB = makeMatrix(size);
 	matrixC = makeMatrix(size);
 
     //make tiles
-/*    tileA = (int **)malloc(sizeof(int*) * tileLength);
-    tileB = (int **)malloc(sizeof(int*) * tileLength);
-    tileC = (int **)malloc(sizeof(int*) * tileLength);
-    for (indexIn = 0; indexIn < tileLength; indexIn ++)
-    {
-        tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
-        tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));        
-        tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
-    }*/
     tileA = makeMatrix(tileLength);
     tileB = makeMatrix(tileLength);
     tileC = makeMatrix(tileLength);
@@ -393,17 +373,7 @@ void masterCode(int size, int rank, int length)
     freeMatrix(matrixC, tileLength);
 	matrixC = NULL;
 
-/*    for(indexIn = 0; indexIn < size; indexIn++)
-    {
-        free(matrixA[indexIn]);
-        free(matrixB[indexIn]);
-        free(matrixC[indexIn]);
-    }
-    free(matrixA);
-    free(matrixB);
-    free(matrixC);
-*/
-
+	//frees tiles
     freeMatrix(tileA, tileLength);
 	tileA = NULL;
 
@@ -412,17 +382,7 @@ void masterCode(int size, int rank, int length)
 
     freeMatrix(tileC, tileLength);
 	tileC = NULL;
-/*
-    for(indexIn = 0; indexIn < tileLength; indexIn++)
-    {
-        free(tileA[indexIn]);
-        free(tileB[indexIn]);
-        free(tileC[indexIn]);
-    }
-    free(tileA);
-    free(tileB);
-    free(tileC);
-*/
+
     //free send buffers
     free(sendBuffer);
     free(recvBuffer);
