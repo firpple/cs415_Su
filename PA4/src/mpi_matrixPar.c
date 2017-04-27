@@ -207,17 +207,9 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     int up, down, left, right;
     int *sendBuffer, *recvBuffer;
     int indexIn, indexOut, indexSub;
-    int tileLength = size/length;
+    int tileLength;
+    srand(0);
 
-    //make matrix
-	matrixA = makeMatrix(size);
-	matrixB = makeMatrix(size);
-	matrixC = makeMatrix(size);
-
-    //make tiles
-    tileA = makeMatrix(tileLength);
-    tileB = makeMatrix(tileLength);
-    tileC = makeMatrix(tileLength);
 
 
     //make comm buffers
@@ -225,18 +217,57 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
     //fill matrix
-    srand(0);
-    for(indexOut = 0; indexOut < size; indexOut++)
+    
+    if(size > 0)
     {
-        for(indexIn = 0; indexIn < size; indexIn++)
+        tileLength = size/length;
+        //make matrix
+	    matrixA = makeMatrix(size);
+	    matrixB = makeMatrix(size);
+	    matrixC = makeMatrix(size);
+
+        //make tiles
+        tileA = makeMatrix(tileLength);
+        tileB = makeMatrix(tileLength);
+        tileC = makeMatrix(tileLength);
+        fillMatrix(matrixA, matrixB, size);
+    }
+    else
+    {
+        //open files
+        finA = fopen(fileA,"r");
+        finB = fopen(fileB,"r");
+
+        //scans the size
+        scanResult = fscanf(finA, "%d", &size);
+        scanResult = fscanf(finB, "%d", &size);        
+        if(scanResult == 0)
         {
-            //matrixA[indexOut][indexIn] = (indexIn + indexOut)%100;
-            //matrixB[indexOut][indexIn] = (indexIn + indexOut)%100;
-            
-            matrixA[indexOut][indexIn] = rand() %RANGE;
-            matrixB[indexOut][indexIn] = rand() %RANGE;
-            matrixC[indexOut][indexIn] = 0;
+            //issues with the scan
+            printf("read error\n");
+            fclose(finA);
+            fclose(finB);
+            //exits
+            return;
         }
+
+        tileLength = size/length;
+        //make matrix
+        matrixA = makeMatrix(size);
+        matrixB = makeMatrix(size);
+        matrixC = makeMatrix(size);
+
+        //make tiles
+        tileA = makeMatrix(tileLength);
+        tileB = makeMatrix(tileLength);
+        tileC = makeMatrix(tileLength);
+
+        //fill matrix from file
+        readMatrix(matrixA, matrixB, size, finA, finB);
+        
+        //close files
+        fclose(finA);
+        fclose(finB);
     }
     
     //gives everyone data
