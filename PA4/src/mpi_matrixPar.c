@@ -293,7 +293,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
             //slaves
 
             //sends the length of the matrix
-            MPI_Send(tileLength, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+            MPI_Send(&tileLength, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
 
             //calculates the coordinate            
             sendRow = indexOut/length;
