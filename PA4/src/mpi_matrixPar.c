@@ -208,6 +208,8 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
     int *sendBuffer, *recvBuffer;
     int indexIn, indexOut, indexSub;
     int tileLength;
+    FILE *finA, *finB;
+    int scanResult;
     srand(0);
 
 
