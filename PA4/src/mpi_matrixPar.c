@@ -24,7 +24,7 @@
 
 /*function declarations*******************************************************/
 void masterCode(int, int, int, char *, char *);
-void slaveCode(int,int, int);
+void slaveCode(int, int);
 void matrixMultipleSquare(int **, int**, int**, int);
 void matrixInitCannon(int ,int, int, int, 
         int *, int *, int **, int**);
@@ -163,7 +163,7 @@ int main (int argc, char *argv[])
     else
     {
         //slave code
-        slaveCode(atoi(argv[1]), taskid, length);
+        slaveCode( taskid, length);
     }
 
     MPI_Finalize();
@@ -237,7 +237,8 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
 
         //scans the size
         scanResult = fscanf(finA, "%d", &size);
-        scanResult = fscanf(finB, "%d", &size);        
+        scanResult = fscanf(finB, "%d", &size);
+
         if(scanResult == 0)
         {
             //issues with the scan
@@ -266,7 +267,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
         fclose(finA);
         fclose(finB);
     }
-    
+
     //make comm buffers
     sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
@@ -290,6 +291,10 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
         else
         {
             //slaves
+
+            //sends the length of the matrix
+            MPI_Send(tileLength, 1, MPI_INT, indexOut, TAG, MPI_COMM_WORLD);
+
             //calculates the coordinate            
             sendRow = indexOut/length;
             sendCol = indexOut%length;
@@ -428,7 +433,7 @@ void masterCode(int size, int rank, int length, char * fileA, char * fileB)
  *  Detail: 
  *  
  */
-void slaveCode(int size, int rank, int length)
+void slaveCode(int rank, int length)
 {
     int indexIn, indexOut;
     int **tileA, **tileB, **tileC;
@@ -437,7 +442,10 @@ void slaveCode(int size, int rank, int length)
     int up, down, left, right;
     int tileLength;
 
-    tileLength = size/length;
+    //receive matrix length
+    MPI_Recv(&tileLength, 1, MPI_INT, MASTER, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    //tileLength = size/length;
     //make tiles
 	
     tileA = makeMatrix(tileLength);
