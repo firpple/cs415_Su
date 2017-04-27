@@ -210,6 +210,7 @@ void masterCode(int size, int rank, int length)
     int tileLength = size/length;
 
     //make matrix
+	/*
     matrixA = (int **)malloc(sizeof(int*) * size);
     matrixB = (int **)malloc(sizeof(int*) * size);
     matrixC = (int **)malloc(sizeof(int*) * size);
@@ -219,9 +220,13 @@ void masterCode(int size, int rank, int length)
         matrixB[indexIn] = (int*)calloc(size ,sizeof(int));        
         matrixC[indexIn] = (int*)calloc(size ,sizeof(int));
     }
-    
+    */
+	matrixA = makeMatrix(size);
+	matrixB = makeMatrix(size);
+	matrixC = makeMatrix(size);
+
     //make tiles
-    tileA = (int **)malloc(sizeof(int*) * tileLength);
+/*    tileA = (int **)malloc(sizeof(int*) * tileLength);
     tileB = (int **)malloc(sizeof(int*) * tileLength);
     tileC = (int **)malloc(sizeof(int*) * tileLength);
     for (indexIn = 0; indexIn < tileLength; indexIn ++)
@@ -229,7 +234,12 @@ void masterCode(int size, int rank, int length)
         tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
         tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));        
         tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
-    }
+    }*/
+    tileA = makeMatrix(tileLength);
+    tileB = makeMatrix(tileLength);
+    tileC = makeMatrix(tileLength);
+
+
     //make comm buffers
     sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
@@ -264,9 +274,6 @@ void masterCode(int size, int rank, int length)
                     tileB[indexIn][indexSub] = matrixB[indexIn][indexSub];
                 }
             }
-
-
-
         }
         else
         {
@@ -274,6 +281,7 @@ void masterCode(int size, int rank, int length)
             //calculates the coordinate            
             sendRow = indexOut/length;
             sendCol = indexOut%length;
+
             //fills send buffer
             for(indexIn = 0; indexIn < tileLength; indexIn++)
             {
@@ -375,7 +383,17 @@ void masterCode(int size, int rank, int length)
     }
 
     //free memory
-    for(indexIn = 0; indexIn < size; indexIn++)
+	
+    freeMatrix(matrixA, tileLength);
+	matrixA = NULL;
+
+    freeMatrix(matrixB, tileLength);
+	matrixB = NULL;
+
+    freeMatrix(matrixC, tileLength);
+	matrixC = NULL;
+
+/*    for(indexIn = 0; indexIn < size; indexIn++)
     {
         free(matrixA[indexIn]);
         free(matrixB[indexIn]);
@@ -384,8 +402,17 @@ void masterCode(int size, int rank, int length)
     free(matrixA);
     free(matrixB);
     free(matrixC);
-    //printf("freed matrix\n");
+*/
 
+    freeMatrix(tileA, tileLength);
+	tileA = NULL;
+
+    freeMatrix(tileB, tileLength);
+	tileB = NULL;
+
+    freeMatrix(tileC, tileLength);
+	tileC = NULL;
+/*
     for(indexIn = 0; indexIn < tileLength; indexIn++)
     {
         free(tileA[indexIn]);
@@ -395,7 +422,8 @@ void masterCode(int size, int rank, int length)
     free(tileA);
     free(tileB);
     free(tileC);
-    //printf("freed tiles\n");
+*/
+    //free send buffers
     free(sendBuffer);
     free(recvBuffer);
 }
@@ -419,6 +447,7 @@ void slaveCode(int size, int rank, int length)
 
     tileLength = size/length;
     //make tiles
+	/*
     tileA = (int **)malloc(sizeof(int*) * tileLength);
     tileB = (int **)malloc(sizeof(int*) * tileLength);
     tileC = (int **)malloc(sizeof(int*) * tileLength);
@@ -427,7 +456,12 @@ void slaveCode(int size, int rank, int length)
         tileA[indexIn] = (int*)calloc(tileLength, sizeof(int));
         tileB[indexIn] = (int*)calloc(tileLength, sizeof(int));        
         tileC[indexIn] = (int*)calloc(tileLength, sizeof(int));
-    }
+    }*/
+	
+    tileA = makeMatrix(tileLength);
+    tileB = makeMatrix(tileLength);
+    tileC = makeMatrix(tileLength);
+
     sendBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
     recvBuffer = (int *)malloc(sizeof(int) * tileLength * tileLength);
 
@@ -505,7 +539,7 @@ void slaveCode(int size, int rank, int length)
     }
 
     //free memory
-    for(indexIn = 0; indexIn < tileLength; indexIn++)
+/*    for(indexIn = 0; indexIn < tileLength; indexIn++)
     {
         free(tileA[indexIn]);
         free(tileB[indexIn]);
@@ -514,6 +548,15 @@ void slaveCode(int size, int rank, int length)
     free(tileA);
     free(tileB);
     free(tileC);
+*/
+    freeMatrix(tileA, tileLength);
+	tileA = NULL;
+
+    freeMatrix(tileB, tileLength);
+	tileB = NULL;
+
+    freeMatrix(tileC, tileLength);
+	tileC = NULL;
     free(sendBuffer);
     free(recvBuffer);
 }
