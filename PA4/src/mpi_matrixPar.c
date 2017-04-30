@@ -14,7 +14,7 @@
 
 //define variables
 
-#define  PRINTMASTER   1 //1: prints matrix, 0: does not print matrix
+#define  PRINTMASTER   0 //1: prints matrix, 0: does not print matrix
 #define  PRINTTIME     1 //1: prints time, 0: does not print time
 #define  RANGE         100 //changes the max number that can be generated
 
