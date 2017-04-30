@@ -199,7 +199,7 @@ int main (int argc, char *argv[])
     //determines the square root of the number of processes
     length = (int) sqrt(numtasks);
 
-    else if (taskid == MASTER)
+    if (taskid == MASTER)
     {
         //calls master code
         masterCode(atoi(argv[1]), taskid, length, argv[2], argv[3]);
