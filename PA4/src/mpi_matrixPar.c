@@ -189,7 +189,6 @@ int main (int argc, char *argv[])
     int numtasks, taskid, len;
     char hostname[MPI_MAX_PROCESSOR_NAME];
     int length;
-    int validSize = TRUE;
     //parallel start
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numtasks);
