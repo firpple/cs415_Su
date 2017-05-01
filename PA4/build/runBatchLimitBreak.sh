@@ -25,7 +25,7 @@ do
         #echo "here"
         echo "submited this batch:"
         echo $batchfil
-        echo "."
+        echo $i
         echo "."
         sleep 1s
     done
