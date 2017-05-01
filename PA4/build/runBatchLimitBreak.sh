@@ -9,7 +9,7 @@ for i in 1 2 3 4 5
 do
     
     #for batchfil in ~/cs415Workspace/pull2/cs415_Su/PA4/build/scripts/SB*
-    for batchfil in ~/cs415_Su/PA4/build/scripts/*
+    for batchfil in ~/cs415_Su/PA4/build/experimentalScripts/*
     do
 
         #echo "try to batch $sbatchfil"
