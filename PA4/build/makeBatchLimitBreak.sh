@@ -2,7 +2,7 @@
 cd experimentalScripts
 
 #4 cores
-for ((k = 2641; k <= 4561; k += 240 ))
+for ((k = 2640; k <= 4561; k += 240 ))
 do
 
 #echo "hello"
@@ -24,7 +24,7 @@ done
 
 
 #9 cores
-for ((k = 2641; k <= 6120; k += 360 ))
+for ((k = 2640; k <= 6120; k += 360 ))
 do
 
 #echo "hello"
@@ -46,7 +46,7 @@ done
 
 
 #16 cores
-for ((k = 2641; k <= 7681; k += 480))
+for ((k = 2640; k <= 7681; k += 480))
 do
 
 #echo "hello"
@@ -68,7 +68,7 @@ done
 
 
 #25 cores
-for ((k = 2641; k <= 9001; k += 600))
+for ((k = 2640; k <= 9001; k += 600))
 do
 
 #echo "hello"
