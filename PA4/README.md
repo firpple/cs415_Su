@@ -37,17 +37,36 @@ mpicc -Wall -o mpi_MatrixSequential ../src/mpi_MatrixSeq.c -lpmi
 mpicc -Wall -o mpi_MatrixParallel ../src/mpi_MatrixPar.c -lpmi
 
 
-./makeBatch.sh
+#running the program
+#<>
+#format for manual run
+#srun -n<cores> mpi_MatrixSequential <size> <matrix 1> <matrix 2>
+#srun -n<cores> mpi_MatrixParallel <size> <matrix 1> <matrix 2>
+#size must be set to 0 in order for program to read from file
+#otherwise, the numbers will be automaticly generated.
+#<>
+srun -n1 mpi_MatrixSequential 1020 matrix/MatrixA matrix/MatrixB
+srun -n4 mpi_MatrixParallel 1020 matrix/MatrixA matrix/MatrixB
 
+
+#or
+#<>
+#Run batch scripts
+
+./makeBatch.sh
+#<>
 sbatch scripts/SBMatrixSeqS1020
+sbatch scripts/SBMatrixParN4S1020
+
 #or
 ./runBatch.sh
+#runBatch.sh must be modified so that it will check for your user name.
 ```
 
 
 To clean the files, run this command:
 ```bash
-rm mpi_MatrixSequential mpi_MatrixParallel mpi_bucketUtility.o
+rm mpi_MatrixSequential mpi_MatrixParallel
 ```
 
 
@@ -70,3 +89,6 @@ For best results run the scripts manually and separately.
 ```bash
 make clean
 ```
+
+## Note on *LimitBreak.sh
+These scripts are experiemental, use them at your own risk.
