@@ -1,6 +1,9 @@
 Evan Su
-#Name
+
+# Name
+
 Evan Su
+
 # Parallel Programming Programs
 ## This is for use at the University of Nevada, Reno CS 415/615 Parallel Computing Class
 Quoted from user cs415-615
@@ -9,17 +12,22 @@ Quoted from user cs415-615
 
 # Projects
 
-##PA0: Hello World
+## PA0: Hello World
+
 Simple MPI program that prints out hello world from each process
 
-##PA1: Ping Pong Timing
+## PA1: Ping Pong Timing
+
 MPI programs that measures the time for a message to travel from one process to another.
 
-##PA2: Mandelbrot
+## PA2: Mandelbrot
+
 MPI programs that measures the time for a parallel implementation of Mandelbrot calculation.
 
-##PA3: Bucket Sort
+## PA3: Bucket Sort
+
 MPI programs that measures the time for a parallel implementation of bucket sort.
 
-##PA4: Matrix Multiplication
+## PA4: Matrix Multiplication
+
 MPI programs that measures the time for a parallel implementation of matrix multiplication.
